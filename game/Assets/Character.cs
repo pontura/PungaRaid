@@ -14,6 +14,7 @@ public class Character : MonoBehaviour {
 
     public states state;
     private int posX;
+    public GameObject container;
 
     public enum states
     {
@@ -25,15 +26,15 @@ public class Character : MonoBehaviour {
     public void Init()
     {
         distance = 1;
-        timeToCrossLane = Data.Instance.gameData.timeToCrossLane / 4;
-
+        timeToCrossLane = Data.Instance.gameData.timeToCrossLane;
     }
     void Start()
     {
-        hero = Instantiate(heroAsset) as Hero;
-        hero.transform.SetParent(transform);
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
-        hero.transform.localScale = Vector3.one;
+        hero = Instantiate(heroAsset) as Hero;
+        hero.transform.SetParent(container.transform);
+
         hero.transform.localPosition = new Vector3(0, 0, 0);
 
         posX = Data.Instance.gameData.CharacterXPosition;
@@ -43,19 +44,19 @@ public class Character : MonoBehaviour {
     }
 	public void MoveUP()
     {
-        Move(1, true);
+        Move(2, true);
     }
     public void MoveDown()
     {
-        Move(-1, true);
+        Move(-2, true);
     }
     public void GotoCenterOfLane()
     {
         Vector3 pos = transform.localPosition;
         pos.y = 0;
         transform.localPosition = pos;
-        if (hero)
-            hero.transform.localPosition = Vector3.zero;
+       // if (hero)
+            container.transform.localPosition = Vector3.zero;
         state = states.IDLE;
     }
     private void Move(float _y, bool firstStep)
@@ -67,7 +68,7 @@ public class Character : MonoBehaviour {
         parms.Ease(EaseType.Linear);
 
         parms.OnComplete(OnChangeLaneComplete);
-        HOTween.To(hero.transform, timeToCrossLane, parms);
+        HOTween.To(container.transform, timeToCrossLane, parms);
     }
     void OnChangeLaneComplete()
     {

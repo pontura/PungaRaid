@@ -130,6 +130,7 @@ public class Hero : MonoBehaviour {
         if (Game.Instance.GetComponent<GameManager>().state == GameManager.states.GAMEOVER) return;
         collider2d.enabled = true;
         state = states.RUN;
+        animator.SetBool("RUN", true);
         animator.SetBool("JUMP", false);
         animator.SetBool("CRASH", false);
         animator.SetBool("SLIDE", false);
