@@ -56,6 +56,7 @@ public class CharacterManager : MonoBehaviour {
     {
         character.transform.parent = lanes.GetActivetLane().gameObject.transform;
         character.GotoCenterOfLane();
+        lanes.sortInLayersByLane(character.gameObject, lanes.GetActivetLane().id);
     }
     
 }
