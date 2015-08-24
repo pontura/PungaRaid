@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Lanes : MonoBehaviour {
 
     public GameObject background;
+    public List<GameObject> backgrounds;
     public Lane[] all;
     public int laneActiveID = 3;
     public GameObject enemy;
@@ -19,9 +21,15 @@ public class Lanes : MonoBehaviour {
     {
       //  print("AddBackground : " + name + " in " + _x);
         GameObject go = Instantiate(Resources.Load<GameObject>("backgrounds/" + name)) as GameObject;
-
+        backgrounds.Add(go);
         go.transform.SetParent(background.transform);
         go.transform.localPosition = new Vector3(_x, 0, 0);
+        if (backgrounds.Count > 2)
+        {
+            GameObject b = backgrounds[0];
+            Destroy(b);
+            backgrounds.RemoveAt(0);
+        }
     }
     public void AddObjectToLane(string name, int laneId, int _x, EnemySettings settings )
     {
@@ -30,7 +38,7 @@ public class Lanes : MonoBehaviour {
         {
             case "Enemy":
                 go = Instantiate(enemy) as GameObject;
-                go.GetComponent<Enemy>().Init(settings);
+                go.GetComponent<Enemy>().Init(settings, laneId);
                 sortInLayersByLane(go, laneId);
                 break;
         }
@@ -38,7 +46,7 @@ public class Lanes : MonoBehaviour {
         if(go == null)
             return;
 
-        go.transform.SetParent(all[laneId - 1].transform);
+        go.transform.SetParent(all[laneId].transform);
         go.transform.localPosition = new Vector3(_x, 0, 0);
 
     }

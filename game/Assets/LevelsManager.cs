@@ -21,7 +21,7 @@ public class LevelsManager : MonoBehaviour {
     {
         distance += offset;
         if (distance < nextLevelDistance) return;
-        print(distance + "  distancedistance");
+
         if(distance < 30)
              activeLevel = StartingLevel;
         else

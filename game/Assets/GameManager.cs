@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     public float realSpeed = 0;
 
     private float lastVolume;
-    private CharacterManager characterManager;
+    public CharacterManager characterManager;
     private LevelsManager levelsManager;
     public MainCamera camera;
 

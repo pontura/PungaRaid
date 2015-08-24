@@ -30,7 +30,7 @@ public class Character : MonoBehaviour {
     }
     void Start()
     {
-        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        transform.localScale = new Vector3(0.52f, 0.52f, 0.52f);
 
         hero = Instantiate(heroAsset) as Hero;
         hero.transform.SetParent(container.transform);
@@ -73,5 +73,16 @@ public class Character : MonoBehaviour {
     void OnChangeLaneComplete()
     {
         Events.OnChangeLaneComplete();        
+    }
+    void OnTriggerEnter2D(Collider2D other) 
+    {
+       Enemy enemy = other.GetComponent<Enemy>();
+       print(":::" + enemy.laneId + "   " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
+       if (enemy)
+       {
+           if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
+               print("choca" + enemy.laneId + "   " + Game.Instance.gameManager.characterManager.lanes.laneActiveID );
+
+       }
     }
 }
