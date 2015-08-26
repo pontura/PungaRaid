@@ -9,7 +9,6 @@ public class Character : MonoBehaviour {
 
     public Hero hero;
 
-    int distance;
     float timeToCrossLane;
 
     public states state;
@@ -25,7 +24,6 @@ public class Character : MonoBehaviour {
     }
     public void Init()
     {
-        distance = 1;
         timeToCrossLane = Data.Instance.gameData.timeToCrossLane;
     }
     void Start()
@@ -44,11 +42,11 @@ public class Character : MonoBehaviour {
     }
 	public void MoveUP()
     {
-        Move(2, true);
+        Move(2.5f, true);
     }
     public void MoveDown()
     {
-        Move(-2, true);
+        Move(-2.5f, true);
     }
     public void GotoCenterOfLane()
     {
