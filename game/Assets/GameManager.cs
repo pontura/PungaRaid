@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     public CharacterManager characterManager;
     private LevelsManager levelsManager;
     public MainCamera camera;
+    public BackgroundScrolleable[] backgroundsScrolleable;
 
     public void Init()
     {
@@ -111,10 +112,16 @@ public class GameManager : MonoBehaviour {
         if (state == states.ACTIVE)
         {
 			float _speed = (realSpeed*100)*Time.smoothDeltaTime;
+
             distance += _speed;
+
+            foreach (BackgroundScrolleable bgScrolleable in backgroundsScrolleable)
+                bgScrolleable.UpdatePosition(distance, _speed);
 		}
         camera.UpdatePosition(distance);
         characterManager.UpdatePosition(distance);
         levelsManager.CheckForNewLevel(distance);
+
+        
 	}
 }
