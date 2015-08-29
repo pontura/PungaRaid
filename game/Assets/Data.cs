@@ -26,6 +26,7 @@ public class Data : MonoBehaviour
     private Fade fade;
 
     static Data mInstance = null;
+    public ClothesSettings clothesSettings;
 
     public static Data Instance
     {
@@ -74,9 +75,12 @@ public class Data : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
+        clothesSettings = GetComponent<ClothesSettings>();
+
         gameData = GetComponent<GameData>();
         GetComponent<UserData>().Init();
         GetComponent<MusicManager>().Init();
+
 
         Events.OnMusicVolumeChanged += OnMusicVolumeChanged;
         Events.OnSoundsVolumeChanged += OnSoundsVolumeChanged;

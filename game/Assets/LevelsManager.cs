@@ -37,7 +37,7 @@ public class LevelsManager : MonoBehaviour {
     private void LoadLevelAssets(int nextLevelDistance)
     {
         Lanes laneData = activeLevel.GetComponent<Lanes>();
-        lanes.AddBackground(laneData.background.name, nextLevelDistance);
+      //  lanes.AddBackground(laneData.background.name, nextLevelDistance);
 
         foreach (Lane lane in laneData.all)
         {
