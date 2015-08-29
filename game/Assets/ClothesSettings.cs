@@ -21,6 +21,7 @@ public class ClothesSettings : MonoBehaviour {
         public string part;
         public string sex;
         public string style;
+        public string texture;
         public string subPart;
     }
 
@@ -38,7 +39,6 @@ public class ClothesSettings : MonoBehaviour {
         public string type;
         public string sex;
     }
-
 	void Start () {
         List<string> clothes = LoadArray(@"Assets\Resources\Victims\A\Clothes");
         List<string> faces = LoadArray(@"Assets\Resources\Victims\A\Face");
@@ -57,7 +57,8 @@ public class ClothesSettings : MonoBehaviour {
             ClothesPart part = new ClothesPart();
             part.part = textSplit[0];
             part.sex = textSplit[1];
-            part.style = textSplit[3];
+            part.style = textSplit[2];
+            part.texture = textSplit[3];
             part.subPart = textSplit[4];
 
             Arr.Add(part);
@@ -101,5 +102,26 @@ public class ClothesSettings : MonoBehaviour {
             newArr.Add(textSplit2[0]);
         }
         return newArr;
+    }
+    public List<string> GetRandomCustomization()
+    {
+        List<string> newParts = new List<string>();
+
+        ClothesPart clothesPart = new ClothesPart();
+        clothesPart = parts[0].Clothes[0];
+
+        HairsPart hairsPart = new HairsPart();
+        hairsPart = parts[0].Hairs[0];
+
+        FacesPart facesPart = new FacesPart();
+        facesPart = parts[0].Faces[0];
+        
+       // newParts.Add(clothesPart.part);
+
+        newParts.Add(clothesPart.part + "_" + clothesPart.sex + "_" + clothesPart.style+ "_" + clothesPart.texture + "_" + clothesPart.subPart);
+        newParts.Add("hair_" + hairsPart.sex + "_1_" +  hairsPart.type + "_A");
+        newParts.Add("face_" + facesPart.sex + "_" + facesPart.type + "_" + facesPart.expresion);
+
+        return newParts;
     }
 }
