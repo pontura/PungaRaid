@@ -80,6 +80,7 @@ public class Character : MonoBehaviour {
        {
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
                print("choca" + enemy.laneId + "   " + Game.Instance.gameManager.characterManager.lanes.laneActiveID );
+           enemy.Steal();
 
        }
     }

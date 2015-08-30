@@ -40,11 +40,10 @@ public class Enemy : MonoBehaviour {
         pos.x -= speed;
         transform.localPosition = pos;
     }
-    void Steal()
+    public void Steal()
     {
         if (state == states.STOLEN) return;
         state = states.STOLEN;
-        anim.SetBool("STEAL", true);
-
+        anim.Play("victimAPung_phone");
     }
 }
