@@ -66,16 +66,19 @@ public class ClothesSettings : MonoBehaviour {
     }
     private void GetFaces(List<string> arr, List<FacesPart> Arr)
     {
+        string lastType = ""; 
         foreach (string path in arr)
         {
             String[] textSplit = path.Split("_"[0]);
 
             FacesPart part = new FacesPart();
-            part.type = textSplit[1];
-            part.sex = textSplit[0];
-            part.expresion = textSplit[2];
+            part.type = textSplit[2];
+            part.sex = textSplit[1];
+            part.expresion = textSplit[3];
 
-            Arr.Add(part);
+            if (lastType != part.type)
+                Arr.Add(part);
+            lastType = part.type;
         }
     }
     private void GetHairs(List<string> arr, List<HairsPart> Arr)
@@ -107,20 +110,24 @@ public class ClothesSettings : MonoBehaviour {
         }
         return newArr;
     }
-    public string GetHair(string type, string sex)
+    public string GetFace(int type, string sex)
     {
-        int id = 0;
-        HairsPart hairsPart = GetRandomHair(id, sex);
-        return hairsPart.type;
-    }
-    HairsPart GetRandomHair(int _type, string sex)
-    {
-        List<HairsPart> newList = new  List<HairsPart>();
-        foreach (HairsPart part in parts[_type].Hairs)
+        List<FacesPart> newList = new List<FacesPart>();
+        foreach (FacesPart part in parts[type].Faces)
         {
             if (part.sex == sex)
                 newList.Add(part);
         }
-        return newList[UnityEngine.Random.Range(0,newList.Count)];
+        return newList[UnityEngine.Random.Range(0, newList.Count)].type;
+    }
+    public string GetHair(int type, string sex)
+    {
+        List<HairsPart> newList = new List<HairsPart>();
+        foreach (HairsPart part in parts[type].Hairs)
+        {
+            if (part.sex == sex)
+                newList.Add(part);
+        }
+        return newList[UnityEngine.Random.Range(0, newList.Count)].type;
     }
 }

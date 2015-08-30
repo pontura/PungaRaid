@@ -7,6 +7,8 @@ using System;
 
 public class Clothes : MonoBehaviour
 {
+    public string[] sex;
+
     public List<string> clothes;
 
     public SpriteRenderer headSkin;
@@ -50,12 +52,21 @@ public class Clothes : MonoBehaviour
     void Start()
     {
         clothSettings = Data.Instance.clothesSettings;
-        Dress("A", "M");
+        string randomSex = sex[UnityEngine.Random.Range(0, sex.Length)];
+        Dress("A", randomSex);
     }
     void Dress(string type, string sex)
     {
-        string hair = clothSettings.GetHair(type, sex);
-        hairA.sprite = Resources.Load<Sprite>("Victims/" + type + "/Hair/hair_" + sex + "_1_" + hair + "_A");
-        hairB.sprite = Resources.Load<Sprite>("Victims/" + type + "/Hair/hair_" + sex + "_1_" + hair + "_B");
+        string CanBeBisexual = sex;
+       if (UnityEngine.Random.Range(0, 100)<30)
+           CanBeBisexual = "B";
+
+       string face = clothSettings.GetFace(0, sex);
+       faceA.sprite = Resources.Load<Sprite>("Victims/" + type + "/Face/face_" + sex + "_" + face + "_a");
+       faceB.sprite = Resources.Load<Sprite>("Victims/" + type + "/Face/face_" + sex + "_" + face + "_b");
+
+        string hair = clothSettings.GetHair(0, sex);
+        hairA.sprite = Resources.Load<Sprite>("Victims/" + type + "/Hair/hair_" + CanBeBisexual + "_1_" + hair + "_A");
+        hairB.sprite = Resources.Load<Sprite>("Victims/" + type + "/Hair/hair_" + CanBeBisexual + "_1_" + hair + "_B");
     }
 }
