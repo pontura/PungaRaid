@@ -80,6 +80,7 @@ public class ClothesSettings : MonoBehaviour {
     }
     private void GetHairs(List<string> arr, List<HairsPart> Arr)
     {
+        string lastType = ""; 
         foreach (string path in arr)
         {
             String[] textSplit = path.Split("_"[0]);
@@ -88,7 +89,10 @@ public class ClothesSettings : MonoBehaviour {
             part.type = textSplit[3];
             part.sex = textSplit[1];
 
-            Arr.Add(part);
+            
+            if(lastType != part.type)
+                Arr.Add(part);
+            lastType = part.type;
         }
     }
     private List<string> LoadArray(string path)
@@ -103,25 +107,20 @@ public class ClothesSettings : MonoBehaviour {
         }
         return newArr;
     }
-    public List<string> GetRandomCustomization()
+    public string GetHair(string type, string sex)
     {
-        List<string> newParts = new List<string>();
-
-        ClothesPart clothesPart = new ClothesPart();
-        clothesPart = parts[0].Clothes[0];
-
-        HairsPart hairsPart = new HairsPart();
-        hairsPart = parts[0].Hairs[0];
-
-        FacesPart facesPart = new FacesPart();
-        facesPart = parts[0].Faces[0];
-        
-       // newParts.Add(clothesPart.part);
-
-        newParts.Add(clothesPart.part + "_" + clothesPart.sex + "_" + clothesPart.style+ "_" + clothesPart.texture + "_" + clothesPart.subPart);
-        newParts.Add("hair_" + hairsPart.sex + "_1_" +  hairsPart.type + "_A");
-        newParts.Add("face_" + facesPart.sex + "_" + facesPart.type + "_" + facesPart.expresion);
-
-        return newParts;
+        int id = 0;
+        HairsPart hairsPart = GetRandomHair(id, sex);
+        return hairsPart.type;
+    }
+    HairsPart GetRandomHair(int _type, string sex)
+    {
+        List<HairsPart> newList = new  List<HairsPart>();
+        foreach (HairsPart part in parts[_type].Hairs)
+        {
+            if (part.sex == sex)
+                newList.Add(part);
+        }
+        return newList[UnityEngine.Random.Range(0,newList.Count)];
     }
 }

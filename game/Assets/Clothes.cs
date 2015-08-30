@@ -9,40 +9,53 @@ public class Clothes : MonoBehaviour
 {
     public List<string> clothes;
 
-    public SpriteRenderer[] c_hair1;
-    public SpriteRenderer[] c_hair2;
+    public SpriteRenderer headSkin;
+    public SpriteRenderer bodySkin;
+    public SpriteRenderer hipsSkin;
 
-    GameObject[] gameObj;
-    Texture2D[] textList;
+    public SpriteRenderer arm1Skin1;
+    public SpriteRenderer arm1Skin2;
+    public SpriteRenderer arm2Skin1;
+    public SpriteRenderer arm2Skin2;
 
-   // private string pathPreFix;
+    public SpriteRenderer leg1Skin1;
+    public SpriteRenderer leg1Skin2;
+    public SpriteRenderer leg2Skin1;
+    public SpriteRenderer leg2Skin2;
+    
+
+    public SpriteRenderer faceA;
+    public SpriteRenderer faceB;
+
+    public SpriteRenderer hairA;
+    public SpriteRenderer hairB;
+
+    public SpriteRenderer bodyTop;
+
+    public SpriteRenderer arm1TopA;
+    public SpriteRenderer arm1TopB;
+    public SpriteRenderer arm2TopA;
+    public SpriteRenderer arm2TopB;
+
+    public SpriteRenderer leg1BottomA;
+    public SpriteRenderer leg1BottomB;
+    public SpriteRenderer leg2BottomA;
+    public SpriteRenderer leg2BottomB;
+
+    public SpriteRenderer objectsBag;
+    public SpriteRenderer objectsPhones;
+
     private ClothesSettings clothSettings;
-   // private SavedSettings savedSettings;
 
     void Start()
     {
         clothSettings = Data.Instance.clothesSettings;
-        clothes = clothSettings.GetRandomCustomization();
+        Dress("A", "M");
     }
-
-
-    //private IEnumerator LoadImages(SpriteRenderer spriteContainer)
-    //{
-    //    // print("loading: " + pathTemp);
-    //   // WWW www = new WWW(pathTemp);
-    //    //yield return www;
-
-    //    //if (www.error != null)
-    //    //{
-    //    //    spriteContainer.sprite = null;
-    //    //}
-    //    //else
-    //    //{
-    //    //    Sprite sprite = new Sprite();
-
-    //    //    sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0), 100.0f);
-
-    //    //    spriteContainer.sprite = sprite;
-    //    //}
-    //}
+    void Dress(string type, string sex)
+    {
+        string hair = clothSettings.GetHair(type, sex);
+        hairA.sprite = Resources.Load<Sprite>("Victims/" + type + "/Hair/hair_" + sex + "_1_" + hair + "_A");
+        hairB.sprite = Resources.Load<Sprite>("Victims/" + type + "/Hair/hair_" + sex + "_1_" + hair + "_B");
+    }
 }
