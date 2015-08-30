@@ -8,7 +8,7 @@ public class LevelsManager : MonoBehaviour {
 
     public Level[] randomLevels;
 
-    private Level activeLevel;
+    public Level activeLevel;
     private int nextLevelDistance;
     private int offset = 20;
    
