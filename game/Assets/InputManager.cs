@@ -5,12 +5,10 @@ public class InputManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            
-            Events.OnHeroJump();
-            Events.OnLevelComplete();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Events.OnLevelComplete();
+        //}
         if (Input.GetKeyDown(KeyCode.UpArrow))
             Events.OnSwipe(SwipeDetector.directions.UP);
         else if (Input.GetKeyDown(KeyCode.DownArrow))

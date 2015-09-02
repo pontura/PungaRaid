@@ -38,7 +38,7 @@ public class SwipeDetector : MonoBehaviour
                     float swipeDistVertical = (new Vector3(0, touch.position.y, 0) - new Vector3(0, startPos.y, 0)).magnitude;
                     if (timeSinceTouch < 0.06f && swipeDistVertical < minSwipeDistY)
                     {
-                        Events.OnHeroJump();
+                      //  Events.OnHeroJump();
                     } else {
                         Move(touch.position.y);
                     }

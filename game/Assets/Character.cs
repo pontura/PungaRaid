@@ -75,13 +75,11 @@ public class Character : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) 
     {
        Enemy enemy = other.GetComponent<Enemy>();
-       print(":::" + enemy.laneId + "   " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
        if (enemy)
        {
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
-               print("choca" + enemy.laneId + "   " + Game.Instance.gameManager.characterManager.lanes.laneActiveID );
+               Events.OnHeroCrash();
            enemy.Steal();
-
        }
     }
 }

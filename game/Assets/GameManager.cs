@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
     }
     void StartGame()
     {
-        speed = 0.08f;
+        speed = 0.09f;
         state = states.ACTIVE;        
     }
     void OnGameOver()
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
         if (state != states.GAMEOVER)
         {
             state = states.INACTIVE;
-            Invoke("goOn", 1.7f);
+            Invoke("goOn", 0.2f);
         }
     }
     void goOn()
@@ -105,9 +105,9 @@ public class GameManager : MonoBehaviour {
             return;
         }
         if (realSpeed < speed)
-            realSpeed += 0.0001f;
+            realSpeed += 0.001f;
         else if (realSpeed > speed)
-            realSpeed -= 0.0001f;
+            realSpeed = speed;
 
         if (state == states.ACTIVE)
         {
