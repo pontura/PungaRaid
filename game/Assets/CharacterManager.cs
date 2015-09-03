@@ -19,7 +19,7 @@ public class CharacterManager : MonoBehaviour {
     {
         Events.OnSwipe -= OnSwipe;
         Events.OnChangeingLane -= OnChangeingLane;
-        Events.OnChangeLaneComplete += OnChangeLaneComplete;
+        Events.OnChangeLaneComplete -= OnChangeLaneComplete;
     }
     public void UpdatePosition(float _x)
     {

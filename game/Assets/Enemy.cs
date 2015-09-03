@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour {
     public enum states
     {
         WALKING, 
-        STOLEN
+        STOLEN,
+        CRASHED
     }
 
     public void Init(EnemySettings settings, int laneId)
@@ -31,11 +32,13 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("WALK", true);
     }
     void Update()
-    {
+    {        
         if (transform.localPosition.x + 5 < Game.Instance.gameManager.distance)
             Destroy(gameObject);
 
+        if (state == states.CRASHED) return;
         if (state == states.STOLEN) return;
+
         Vector3 pos = transform.localPosition;
         pos.x -= speed;
         transform.localPosition = pos;
@@ -43,7 +46,15 @@ public class Enemy : MonoBehaviour {
     public void Steal()
     {
         if (state == states.STOLEN) return;
+        if (state == states.CRASHED) return;
         state = states.STOLEN;
         anim.Play("victimAPung_phone");
+    }
+    public void Creashed()
+    {
+        if (state == states.CRASHED) return;
+        state = states.CRASHED;
+        anim.Play("victimAPung_phone");
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 }

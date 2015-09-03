@@ -78,8 +78,14 @@ public class Character : MonoBehaviour {
        if (enemy)
        {
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
+           {
                Events.OnHeroCrash();
-           enemy.Steal();
+               enemy.Creashed();
+           }
+           else
+           {
+               enemy.Steal();
+           }
        }
     }
 }

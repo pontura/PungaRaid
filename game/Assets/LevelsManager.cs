@@ -1,35 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class LevelsManager : MonoBehaviour {
 
+    [Serializable]
+    public class Group
+    {
+        public int distance;
+        public Level[] levels;
+    }
+    public int activeGroupId = 0;
+    private float startingGroupDistance;
     public Lanes lanes;
     public Level StartingLevel;
 
-    public Level[] randomLevels;
+    public Group[] groups;
 
     public Level activeLevel;
     private int nextLevelDistance;
-    private int offset = 20;
+    private int offset = 60;
    
 
 	public void Init () {
         CheckForNewLevel(0);
-        CheckForNewLevel(offset);
 	}
     public void CheckForNewLevel(float distance)
     {
-        distance += offset;
+        distance += offset;        
+
         if (distance < nextLevelDistance) return;
 
-        if(distance < 30)
+        if (distance <= 70)
              activeLevel = StartingLevel;
         else
         {
-            int rand = Random.Range(0,randomLevels.Length);
-            activeLevel = randomLevels[rand];
+            int rand = UnityEngine.Random.Range(0, groups[activeGroupId].levels.Length);
+            activeLevel = groups[activeGroupId].levels[rand];
         }
 
+        if (distance - startingGroupDistance > groups[activeGroupId].distance)
+        {
+            startingGroupDistance += distance;
+            activeGroupId++;
+        }
+
+        print("CheckForNewLevel" + distance + " activeGroupId: " + activeGroupId);
         LoadLevelAssets(nextLevelDistance);
         nextLevelDistance += activeLevel.length;
         

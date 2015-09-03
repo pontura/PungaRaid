@@ -67,7 +67,7 @@ public class Summary : MonoBehaviour {
     }
     public void ResetLevel()
     {
-      
+        Data.Instance.LoadLevel("04_Game", 1, 1, Color.black);
         Data.Instance.errors = 0;
     }
     public void Next()
