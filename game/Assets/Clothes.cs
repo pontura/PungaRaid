@@ -9,6 +9,7 @@ public class Clothes : MonoBehaviour
 {
     public string[] sex;
     public string[] styles;
+    public List<SpriteRenderer> stolen;
     
     public SpriteRenderer headSkin;
     public SpriteRenderer bodySkin;
@@ -57,27 +58,43 @@ public class Clothes : MonoBehaviour
         string randomstyle = styles[UnityEngine.Random.Range(0, styles.Length)];
         Dress("A", randomSex, randomstyle);
     }
+    public void Restart()
+    {
+        foreach (SpriteRenderer sr in stolen)
+            sr.enabled = true;
+    }
+    public void Undress()
+    {
+        stolen.Add(bodyTop);
+        stolen.Add(arm1TopA);
+        stolen.Add(arm1TopB);
+        stolen.Add(arm2TopA);
+        stolen.Add(arm2TopB);
+        foreach (SpriteRenderer sr in stolen)
+            sr.enabled = false;
+    }
+
     void Dress(string type, string sex, string randomstyle)
     {
         //skins
 
         string skin = clothSettings.GetRandomSkin();
-        bodySkin.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/body" + sex + "_" + skin);
+        bodySkin.sprite = Resources.Load("Victims/" + type + "/Body/body" + sex + "_" + skin, typeof(Sprite)) as Sprite;
 
-        arm1Skin1.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/arm1" + "_" + skin);
-        arm1Skin2.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/arm1" + "_" + skin);
-        arm2Skin1.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/arm2" + "_" + skin);
-        arm2Skin2.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/arm2" + "_" + skin);
+        arm1Skin1.sprite = Resources.Load("Victims/" + type + "/Body/arm1" + "_" + skin, typeof(Sprite)) as Sprite;
+        arm1Skin2.sprite = Resources.Load("Victims/" + type + "/Body/arm1" + "_" + skin, typeof(Sprite)) as Sprite;
+        arm2Skin1.sprite = Resources.Load("Victims/" + type + "/Body/arm2" + "_" + skin, typeof(Sprite)) as Sprite;
+        arm2Skin2.sprite = Resources.Load("Victims/" + type + "/Body/arm2" + "_" + skin, typeof(Sprite)) as Sprite;
 
-        headSkin.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/head" + "_" + skin);
+        headSkin.sprite = Resources.Load("Victims/" + type + "/Body/head" + "_" + skin, typeof(Sprite)) as Sprite;
 
-        hipsSkin.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/hips" + sex + "_" + skin);
+        hipsSkin.sprite = Resources.Load("Victims/" + type + "/Body/hips" + sex + "_" + skin, typeof(Sprite)) as Sprite;
 
-        leg1Skin1.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/legA1" + "_" + skin);
-        leg1Skin2.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/legA2" + "_" + skin);
+        leg1Skin1.sprite = Resources.Load("Victims/" + type + "/Body/legA1" + "_" + skin, typeof(Sprite)) as Sprite;
+        leg1Skin2.sprite = Resources.Load("Victims/" + type + "/Body/legA2" + "_" + skin, typeof(Sprite)) as Sprite;
 
-        leg2Skin1.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/legB1" + "_" + skin);
-        leg2Skin2.sprite = Resources.Load<Sprite>("Victims/" + type + "/Body/legB2" + "_" + skin);
+        leg2Skin1.sprite = Resources.Load("Victims/" + type + "/Body/legB1" + "_" + skin, typeof(Sprite)) as Sprite;
+        leg2Skin2.sprite = Resources.Load("Victims/" + type + "/Body/legB2" + "_" + skin, typeof(Sprite)) as Sprite;
 
         //
        string CanBeBisexual = sex;

@@ -27,6 +27,7 @@ public class Data : MonoBehaviour
 
     static Data mInstance = null;
     public ClothesSettings clothesSettings;
+    public EnemiesManager enemiesManager;
 
     public static Data Instance
     {
@@ -76,7 +77,7 @@ public class Data : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         clothesSettings = GetComponent<ClothesSettings>();
-
+        enemiesManager = GetComponent<EnemiesManager>();
         gameData = GetComponent<GameData>();
         GetComponent<UserData>().Init();
         GetComponent<MusicManager>().Init();

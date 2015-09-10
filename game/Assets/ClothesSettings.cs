@@ -41,6 +41,9 @@ public class ClothesSettings : MonoBehaviour {
         public string sex;
     }
 	void Start () {
+
+        return;
+
         LoadSkins(@"Assets\Resources\Victims\A\Body");
         List<string> clothes = LoadArray(@"Assets\Resources\Victims\A\Clothes");
         List<string> faces = LoadArray(@"Assets\Resources\Victims\A\Face");

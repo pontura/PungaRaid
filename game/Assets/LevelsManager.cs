@@ -45,7 +45,7 @@ public class LevelsManager : MonoBehaviour {
             activeGroupId++;
         }
 
-        print("CheckForNewLevel" + distance + " activeGroupId: " + activeGroupId);
+       // print("CheckForNewLevel" + distance + " activeGroupId: " + activeGroupId);
         LoadLevelAssets(nextLevelDistance);
         nextLevelDistance += activeLevel.length;
         

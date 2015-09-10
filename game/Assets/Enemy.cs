@@ -8,16 +8,24 @@ public class Enemy : MonoBehaviour {
     private float speed;
     public states state;
     public float distance;
+    private Clothes clothes;
+    private string currentAnim;
 
+    void Start()
+    {
+        clothes = GetComponent<Clothes>();
+    }
     public enum states
     {
         WALKING, 
         STOLEN,
-        CRASHED
+        CRASHED,
+        POOLED
     }
-
     public void Init(EnemySettings settings, int laneId)
     {
+        clothes.Restart();
+        Walk();
         this.laneId = laneId;
         distance = Game.Instance.gameManager.distance;
         speed = settings.speed;
@@ -32,9 +40,14 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("WALK", true);
     }
     void Update()
-    {        
+    {
+        if (state == states.POOLED) return;
         if (transform.localPosition.x + 5 < Game.Instance.gameManager.distance)
-            Destroy(gameObject);
+        {
+            Data.Instance.enemiesManager.Pool(this);
+            state = states.POOLED;
+            return;
+        }
 
         if (state == states.CRASHED) return;
         if (state == states.STOLEN) return;
@@ -43,18 +56,33 @@ public class Enemy : MonoBehaviour {
         pos.x -= speed;
         transform.localPosition = pos;
     }
+    public void Walk()
+    {
+        state = states.WALKING;
+        if(Random.Range(0,100)<50)
+            currentAnim = "victimAWalk_phone";
+        else
+            currentAnim = "victimAWalk_bag";
+
+        anim.Play(currentAnim);
+    }
     public void Steal()
     {
         if (state == states.STOLEN) return;
         if (state == states.CRASHED) return;
         state = states.STOLEN;
-        anim.Play("victimAPung_phone");
+        if (currentAnim == "victimAWalk_phone")
+            anim.Play("victimAPung_phone");
+        else if (currentAnim == "victimAWalk_bag")
+            anim.Play("victimAPung_bag");
+        clothes.Undress();
     }
     public void Creashed()
     {
         if (state == states.CRASHED) return;
         state = states.CRASHED;
-        anim.Play("victimAPung_phone");
+      //  anim.Play("victimAPung_phone");
         GetComponent<BoxCollider2D>().enabled = false;
     }
+
 }

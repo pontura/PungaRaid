@@ -37,8 +37,9 @@ public class Lanes : MonoBehaviour {
         switch (name)
         {
             case "Enemy":
-                go = Instantiate(enemy) as GameObject;
-                go.GetComponent<Enemy>().Init(settings, laneId);
+                Enemy enemy = Data.Instance.enemiesManager.GetEnemy();
+                enemy.Init(settings, laneId);
+                go = enemy.gameObject;
                 sortInLayersByLane(go, laneId);
                 break;
         }
