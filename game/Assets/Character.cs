@@ -84,7 +84,10 @@ public class Character : MonoBehaviour {
            }
            else
            {
-               enemy.Steal();
+               if (enemy.GetComponent<Victim>())
+               {
+                   enemy.GetComponent<Victim>().Steal();
+               }
            }
        }
     }

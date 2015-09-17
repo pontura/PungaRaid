@@ -33,19 +33,26 @@ public class Lanes : MonoBehaviour {
     }
     public void AddObjectToLane(string name, int laneId, int _x, EnemySettings settings )
     {
-        GameObject go = null;
+        print("new : " + name);
+        Enemy enemy = null;
+
         switch (name)
         {
-            case "Enemy":
-                Enemy enemy = Data.Instance.enemiesManager.GetEnemy();
-                enemy.Init(settings, laneId);
-                go = enemy.gameObject;
-                sortInLayersByLane(go, laneId);
+            case "Victim":
+                enemy = Data.Instance.enemiesManager.GetEnemy("Victim");
+                break;
+            case "RatiEscudo":
+                enemy = Data.Instance.enemiesManager.GetEnemy("RatiEscudo");
                 break;
         }
-
-        if(go == null)
+        if (enemy == null)
             return;
+
+        enemy.Init(settings, laneId);
+        GameObject go = enemy.gameObject;
+        sortInLayersByLane(go, laneId);
+
+      
 
         go.transform.SetParent(all[laneId].transform);
         go.transform.localPosition = new Vector3(_x, 0, 0);
