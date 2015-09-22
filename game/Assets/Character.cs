@@ -79,6 +79,7 @@ public class Character : MonoBehaviour {
        {
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {
+               Events.OnSoundFX("Crash");
                Events.OnHeroCrash();
                enemy.Creashed();
            }
@@ -87,6 +88,7 @@ public class Character : MonoBehaviour {
                if (enemy.GetComponent<Victim>())
                {
                    enemy.GetComponent<Victim>().Steal();
+                   Events.OnSoundFX("Pung");
                }
            }
        }

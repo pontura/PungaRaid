@@ -3,10 +3,11 @@ using System.Collections;
 
 public class MusicManager : MonoBehaviour {
 
+    public AudioSource audioSource;
     public float volume;
        
 	public void Init () {
-        GetComponent<AudioSource>().loop = true;
+        audioSource.loop = true;
         OnMusicVolumeChanged(Data.Instance.musicVolume);
 
         Events.OnGamePaused += OnGamePaused;
@@ -22,15 +23,15 @@ public class MusicManager : MonoBehaviour {
 
     void OnMusicChange(string soundName)
     {
-        if (soundName == "") GetComponent<AudioSource>().Stop();
-        if (GetComponent<AudioSource>().clip && GetComponent<AudioSource>().clip.name == soundName) return;
-        GetComponent<AudioSource>().clip = Resources.Load("music/" + soundName) as AudioClip;
-        GetComponent<AudioSource>().Play();
+        if (soundName == "") audioSource.Stop();
+        if (audioSource.clip && audioSource.clip.name == soundName) return;
+        audioSource.clip = Resources.Load("music/" + soundName) as AudioClip;
+        audioSource.Play();
 
-        if (soundName == "victoryMusic" || soundName == "gameOverTemp") 
-            GetComponent<AudioSource>().loop = false;
+        if (soundName == "victoryMusic" || soundName == "gameOverTemp")
+            audioSource.loop = false;
         else
-            GetComponent<AudioSource>().loop = true;
+            audioSource.loop = true;
     }
     void OnSoundsFadeTo(float to)
     {
@@ -41,19 +42,19 @@ public class MusicManager : MonoBehaviour {
     }
     void OnMusicVolumeChanged(float value)
     {
-        GetComponent<AudioSource>().volume = value;
+        audioSource.volume = value;
         volume = value;
     }
     void OnGamePaused(bool paused)
     {
         if(paused)
-            GetComponent<AudioSource>().Stop();
+            audioSource.Stop();
         else
-            GetComponent<AudioSource>().Play();
+            audioSource.Play();
     }
     void stopAllSounds()
     {
-        GetComponent<AudioSource>().Stop();
+        audioSource.Stop();
     }
 }
 

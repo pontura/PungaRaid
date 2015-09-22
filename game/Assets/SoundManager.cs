@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SoundManager : MonoBehaviour
 {
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -18,13 +19,13 @@ public class SoundManager : MonoBehaviour
     {
         if (soundName == "")
         {
-            GetComponent<AudioSource>().Stop();
+            audioSource.Stop();
             return;
         }
 
         if (Data.Instance.soundsVolume == 0) return;
-
-        GetComponent<AudioSource>().PlayOneShot(Resources.Load("sound/" + soundName) as AudioClip);
+        print("_________________soundName: " + soundName);
+        audioSource.PlayOneShot(Resources.Load("sound/" + soundName) as AudioClip);
 
     }
 }
