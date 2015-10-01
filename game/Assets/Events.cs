@@ -35,6 +35,7 @@ public static class Events {
     public static System.Action OnChangeingLane = delegate { };
     public static System.Action OnChangeLaneComplete = delegate { };
 
+    public static System.Action OnHeroDie = delegate { };
     public static System.Action OnHeroCrash = delegate { };
     public static System.Action<int> OnHeroSlide = delegate { };
     public static System.Action OnHeroCelebrate = delegate { };

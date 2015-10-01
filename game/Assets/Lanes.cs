@@ -33,7 +33,7 @@ public class Lanes : MonoBehaviour {
     }
     public void AddObjectToLane(string name, int laneId, int _x, EnemySettings settings )
     {
-        print("new : " + name);
+      //  print("new : " + name);
         Enemy enemy = null;
 
         switch (name)

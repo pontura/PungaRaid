@@ -30,7 +30,7 @@ public class Menu : MonoBehaviour {
     public void Privacy()
     {
         Events.OnSoundFX("buttonPress");
-        Data.Instance.LoadLevel("07_PrivacyPolicy", 1, 1, Color.black);
+        Data.Instance.LoadLevel("07_PrivacyPolicy");
         Data.Instance.MainMenuPopupOn = true;
     }
 

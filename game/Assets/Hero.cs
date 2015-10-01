@@ -13,6 +13,7 @@ public class Hero : MonoBehaviour {
         CRASH,
         SLIDE,
         CELEBRATE,
+        DEAD,
         WIN
     }
     void Start()
@@ -23,6 +24,7 @@ public class Hero : MonoBehaviour {
         Events.OnHeroCelebrate += OnHeroCelebrate;
         Events.OnLevelComplete += OnLevelComplete;
         Events.OnGamePaused += OnGamePaused;
+        Events.OnHeroDie += OnHeroDie;
 
         animator = GetComponent<Animator>();
     }
@@ -30,6 +32,7 @@ public class Hero : MonoBehaviour {
     {
         Events.StartGame -= StartGame;
         Events.OnHeroCrash -= OnHeroCrash;
+        Events.OnHeroDie -= OnHeroDie;
         Events.OnHeroSlide -= OnHeroSlide;
         Events.OnHeroCelebrate -= OnHeroCelebrate;
         Events.OnLevelComplete -= OnLevelComplete;
@@ -57,6 +60,14 @@ public class Hero : MonoBehaviour {
     {
         Celebrate();
     }
+    void OnHeroDie()
+    {
+        if (state == states.DEAD) return;
+        state = states.DEAD;
+        animator.SetBool(state.ToString(), true);
+        print("OnHeroDie");
+        animator.Play("pungaDeath", 0, 0);
+    }
     void Slide()
     {
         if (Game.Instance.state != Game.states.PLAYING) return;
@@ -82,6 +93,10 @@ public class Hero : MonoBehaviour {
         if (state == states.WIN) return;
         state = states.WIN;
         animator.SetBool(state.ToString(), true);
+    }
+    public void Die()
+    {
+
     }
     public void ResetAnimation()
     {

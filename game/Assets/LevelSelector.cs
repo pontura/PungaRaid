@@ -75,12 +75,12 @@ public class LevelSelector : MonoBehaviour {
         }
         Events.OnSoundFX("buttonPress");
        // Data.Instance.GetComponent<WordsData>().LevelID = button.id;
-        Data.Instance.LoadLevel("04_Game", 1, 1, Color.black);   
+        Data.Instance.LoadLevel("04_Game");   
     }
     public void MainMenu()
     {
         Events.OnSoundFX("backPress");
-        Data.Instance.LoadLevel("02_MainMenu", 1, 1, Color.black);     
+        Data.Instance.LoadLevel("02_MainMenu");     
     }
     public void nextClicked()
     {

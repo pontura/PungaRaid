@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
         }
 
         if (Data.Instance.soundsVolume == 0) return;
-        print("_________________soundName: " + soundName);
+       // print("_________________soundName: " + soundName);
         audioSource.PlayOneShot(Resources.Load("sound/" + soundName) as AudioClip);
 
     }

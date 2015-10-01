@@ -9,10 +9,8 @@ public class GameManager : MonoBehaviour {
     public states state;
     public enum states
     {
-        IDLE,
         ACTIVE,
-        INACTIVE,
-        GAMEOVER
+        INACTIVE
     }
 
     private float speed;
@@ -29,11 +27,10 @@ public class GameManager : MonoBehaviour {
         lastVolume = Data.Instance.musicVolume;
         Data.Instance.errors = 0;
 
+        Events.OnHeroDie += OnHeroDie;
         Events.OnHeroCrash += OnHeroCrash;
         Events.OnHeroSlide += OnHeroSlide;
-        Events.OnLevelComplete += OnLevelComplete;
         Events.StartGame += StartGame;
-        Events.OnGameOver += OnGameOver;
 
         characterManager = GetComponent<CharacterManager>();
         characterManager.Init();
@@ -46,11 +43,10 @@ public class GameManager : MonoBehaviour {
     }
     void OnDestroy()
     {
+        Events.OnHeroDie -= OnHeroDie;
         Events.OnHeroCrash -= OnHeroCrash;
         Events.OnHeroSlide -= OnHeroSlide;
-        Events.OnLevelComplete -= OnLevelComplete;
         Events.StartGame -= StartGame;
-        Events.OnGameOver -= OnGameOver;
 
         Events.OnMusicVolumeChanged(lastVolume);
     }
@@ -59,38 +55,25 @@ public class GameManager : MonoBehaviour {
         speed = 0.09f;
         state = states.ACTIVE;        
     }
-    void OnGameOver()
+    void OnHeroDie()
     {
-        state = states.GAMEOVER;
+        Game.Instance.state = Game.states.ENDED;
         Events.OnSoundFX("warningPopUp");
         Events.OnMusicChange("gameOverTemp");
-        Invoke("voice", 2);
+        Invoke("gameOverReady", 2);
     }
-    void voice()
+    void gameOverReady()
     {
-        Events.OnSoundFX("23_Try Again");
-    }
-    void OnLevelComplete()
-    {
-        state = states.INACTIVE;
-        lastVolume = Data.Instance.musicVolume;
-        Events.OnMusicVolumeChanged(0.2f);
-        Events.OnSoundFX("victoryMusic");
+        Application.LoadLevel("04_Game");
     }
     void OnHeroCrash()
     {
-        Data.Instance.errors++;
-        realSpeed = 0;
         Events.OnSoundFX("trip");
-        if (state != states.GAMEOVER)
-        {
-            state = states.INACTIVE;
-            Invoke("goOn", 0.2f);
-        }
+        state = states.INACTIVE;
+        Invoke("goOn", 0.2f);
     }
     void goOn()
     {
-        if (state == states.GAMEOVER) return;
         state = states.ACTIVE;
     }
     void OnHeroSlide(int id)
@@ -100,24 +83,25 @@ public class GameManager : MonoBehaviour {
     }
     void Update()
     {
-        if (state == states.INACTIVE || state == states.GAMEOVER)
-        {
+        if (state == states.INACTIVE)
             return;
-        }
-        if (realSpeed < speed)
+
+        if (Game.Instance.state == Game.states.ENDED)
+            realSpeed -= 0.001f;
+        else
             realSpeed += 0.001f;
-        else if (realSpeed > speed)
+
+        if (realSpeed > speed)
             realSpeed = speed;
+        else if (realSpeed < 0)
+            realSpeed = 0;
 
-        if (state == states.ACTIVE)
-        {
-			float _speed = (realSpeed*100)*Time.smoothDeltaTime;
+        float _speed = (realSpeed*100)*Time.smoothDeltaTime;
+        distance += _speed;
 
-            distance += _speed;
+        foreach (BackgroundScrolleable bgScrolleable in backgroundsScrolleable)
+            bgScrolleable.UpdatePosition(distance, _speed);
 
-            foreach (BackgroundScrolleable bgScrolleable in backgroundsScrolleable)
-                bgScrolleable.UpdatePosition(distance, _speed);
-		}
         camera.UpdatePosition(distance);
         characterManager.UpdatePosition(distance);
         levelsManager.CheckForNewLevel(distance);

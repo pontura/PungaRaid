@@ -7,6 +7,8 @@ public class Character : MonoBehaviour {
     [SerializeField]
     Hero heroAsset;
 
+    public int TOTAL_LIVES = 3;
+    public int lives;
     public Hero hero;
 
     float timeToCrossLane;
@@ -28,6 +30,7 @@ public class Character : MonoBehaviour {
     }
     void Start()
     {
+        lives = TOTAL_LIVES;
         transform.localScale = new Vector3(0.52f, 0.52f, 0.52f);
 
         hero = Instantiate(heroAsset) as Hero;
@@ -79,8 +82,7 @@ public class Character : MonoBehaviour {
        {
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {
-               Events.OnSoundFX("Crash");
-               Events.OnHeroCrash();
+               OnHeroCrash();
                enemy.Creashed();
            }
            else
@@ -92,5 +94,16 @@ public class Character : MonoBehaviour {
                }
            }
        }
+    }
+    void OnHeroCrash()
+    {
+        Events.OnSoundFX("Crash");
+
+        lives--;
+        if(lives <1)
+            Events.OnHeroDie();
+        else
+            Events.OnHeroCrash();
+
     }
 }

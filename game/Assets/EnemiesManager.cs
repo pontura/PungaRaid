@@ -17,7 +17,15 @@ public class EnemiesManager : MonoBehaviour {
     public List<Enemy> enemies;
     public List<Enemy> pool;
 
+    public GameObject poolObjects;
+
 	void Start () {
+        poolObjects = new GameObject();
+        poolObjects.name = "POOL";
+
+        DontDestroyOnLoad(poolObjects);
+
+        Instantiate(poolObjects);
         foreach (EnemyPool enemyPool in enemiesToPool)
         {
             for (int a = 0; a < enemyPool.qty; a++)
@@ -25,6 +33,7 @@ public class EnemiesManager : MonoBehaviour {
                 Enemy newEnemy = Instantiate(enemyPool.enemy) as Enemy;
                 pool.Add(newEnemy);
                 newEnemy.isPooled = true;
+                newEnemy.transform.SetParent(poolObjects.transform);
             }
         }
 	}

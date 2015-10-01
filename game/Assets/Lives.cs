@@ -32,8 +32,9 @@ public class Lives : MonoBehaviour {
                 live3.SetActive(false);
                 break;
             default:                
-                GameOver.SetActive(true);
-                Events.OnGameOver();
+                //GameOver.SetActive(true);
+              //  Events.OnHeroDie();
+             //   Events.OnGameOver();
                 break;
         }
     }

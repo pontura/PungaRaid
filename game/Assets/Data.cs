@@ -46,10 +46,10 @@ public class Data : MonoBehaviour
             return mInstance;
         }
     }
-    public void LoadLevel(string aLevelName, float aFadeOutTime, float aFadeInTime, Color aColor)
+    public void LoadLevel(string aLevelName)
     {
         Time.timeScale = 1;
-        fade.LoadLevel(aLevelName, aFadeOutTime, aFadeInTime, aColor);
+        fade.LoadLevel(aLevelName, 0.5f, 0.5f, Color.black);
     }
     void Awake()
     {
@@ -94,7 +94,7 @@ public class Data : MonoBehaviour
     }
     void Start()
     {
-       // Data.Instance.LoadLevel("02_MainMenu", 1, 1, Color.black);
+        Data.Instance.LoadLevel("01_Splash");
     }
     void OnMusicVolumeChanged(float value)
     {
