@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour {
     public enum states
     {
         ACTIVE,
-        INACTIVE
+        INACTIVE,
+        ENDING
     }
 
     private float speed;
@@ -57,10 +58,13 @@ public class GameManager : MonoBehaviour {
     }
     void OnHeroDie()
     {
+        state = states.ENDING;
+        Events.OnPoolAllItemsInScene();
+
         Game.Instance.state = Game.states.ENDED;
         Events.OnSoundFX("warningPopUp");
         Events.OnMusicChange("gameOverTemp");
-        Invoke("gameOverReady", 2);
+        Invoke("gameOverReady", 2);        
     }
     void gameOverReady()
     {
@@ -104,6 +108,10 @@ public class GameManager : MonoBehaviour {
 
         camera.UpdatePosition(distance);
         characterManager.UpdatePosition(distance);
+
+        if (state == states.ENDING)
+            return;
+
         levelsManager.CheckForNewLevel(distance);
 
         

@@ -70,7 +70,6 @@ public class LevelsManager : MonoBehaviour {
             }
         }
     }
-    
 	public void LoadNext () {
 	    
 	}

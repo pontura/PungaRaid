@@ -26,6 +26,7 @@ public class EnemiesManager : MonoBehaviour {
         DontDestroyOnLoad(poolObjects);
 
         Instantiate(poolObjects);
+        poolObjects.transform.localPosition = new Vector3(-1000, 0, 0);
         foreach (EnemyPool enemyPool in enemiesToPool)
         {
             for (int a = 0; a < enemyPool.qty; a++)
@@ -71,7 +72,9 @@ public class EnemiesManager : MonoBehaviour {
     }
     public void Pool(Enemy enemy)
     {
+        enemy.isPooled = true;
         enemies.Remove(enemy);
         pool.Add(enemy);
+        enemy.transform.SetParent(poolObjects.transform);
     }
 }

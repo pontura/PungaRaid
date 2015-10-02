@@ -11,8 +11,32 @@ public class Lanes : MonoBehaviour {
     public GameObject enemy;
 
 	void Start () {
-	    
+        Events.OnPoolAllItemsInScene += OnPoolAllItemsInScene;
 	}
+    void OnDestroy()
+    {
+        Events.OnPoolAllItemsInScene -= OnPoolAllItemsInScene;
+    }
+    void OnPoolAllItemsInScene()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        foreach (Lane lane in all)
+        {
+            foreach (Transform child in lane.transform)
+            {
+                if (child.GetComponent<Enemy>())
+                {
+                    Enemy enemy = child.GetComponent<Enemy>();
+                    if (enemy)
+                        enemies.Add(enemy);
+                }
+            }
+        }
+        foreach (Enemy enemy in enemies)
+        {
+            Data.Instance.enemiesManager.Pool(enemy);
+        }
+    }
     public Lane GetActivetLane()
     {
         return all[laneActiveID];
