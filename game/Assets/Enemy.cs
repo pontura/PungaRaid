@@ -39,9 +39,13 @@ public class Enemy : MonoBehaviour {
             Enemy_Update(pos);
         }
     }
+    public void Crashed()
+    {
+        OnCrashed();
+    }
     public virtual void Enemy_Pooled() { }
     public virtual void Enemy_Init(EnemySettings settings, int laneId) { }
     public virtual void Enemy_Activate() { }
     public virtual void Enemy_Update(Vector3 pos)  {  }
-    public virtual void Creashed() { }
+    public virtual void OnCrashed() { }
 }

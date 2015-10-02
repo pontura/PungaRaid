@@ -77,13 +77,15 @@ public class Character : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D other) 
     {
+        print("other " + other.name);
        Enemy enemy = other.GetComponent<Enemy>();
+       print("enemy " + enemy + " _ " + enemy.laneId + " " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
        if (enemy)
        {
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {
                OnHeroCrash();
-               enemy.Creashed();
+               enemy.Crashed();
            }
            else
            {

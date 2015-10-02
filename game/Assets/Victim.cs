@@ -76,7 +76,7 @@ public class Victim : Enemy {
             anim.Play("victimAPung_bag");
         clothes.Undress();
     }
-    public void Creashed()
+    override public void OnCrashed()
     {
         if (state == states.CRASHED) return;
         state = states.CRASHED;

@@ -39,7 +39,9 @@ public class EnemiesManager : MonoBehaviour {
 	}
     public Enemy GetEnemy(string type)
     {
+        print("t: " + type);
         Enemy enemy = GetPooled(type);
+        print("enemy" + enemy);
         pool.Remove(enemy);
         enemies.Add(enemy);
         return enemy;
