@@ -20,7 +20,7 @@ public class Lanes : MonoBehaviour {
     void OnPoolAllItemsInScene()
     {
         List<Enemy> enemies = new List<Enemy>();
-        foreach (Lane lane in all)
+        foreach (Lane lane in all)  
         {
             foreach (Transform child in lane.transform)
             {
