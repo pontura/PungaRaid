@@ -68,6 +68,9 @@ public class Lanes : MonoBehaviour {
             case "RatiEscudo":
                 enemy = Data.Instance.enemiesManager.GetEnemy("RatiEscudo");
                 break;
+            case "PowerUp":
+                enemy = Data.Instance.enemiesManager.GetEnemy("PowerUp");
+                break;
         }
         if (enemy == null)
             return;

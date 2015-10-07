@@ -13,6 +13,7 @@ public static class Events {
     public static System.Action OnTransition = delegate { };
     public static System.Action OnTransitionReady = delegate { };
     public static System.Action OnPoolAllItemsInScene = delegate { };
+    public static System.Action<int> OnPowerUp = delegate { };
     
 
     //The game:

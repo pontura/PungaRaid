@@ -94,7 +94,7 @@ public class Data : MonoBehaviour
     }
     void Start()
     {
-        Data.Instance.LoadLevel("01_Splash");
+       // Data.Instance.LoadLevel("01_Splash");
     }
     void OnMusicVolumeChanged(float value)
     {

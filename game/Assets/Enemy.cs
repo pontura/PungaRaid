@@ -24,9 +24,7 @@ public class Enemy : MonoBehaviour {
 
         if (pos.x + 5 < Game.Instance.gameManager.distance)
         {
-            Data.Instance.enemiesManager.Pool(this);
-            isPooled = true;
-            Enemy_Pooled();
+            Pool();
         }
         else if (pos.x < Game.Instance.gameManager.distance + 20)
         {
@@ -38,6 +36,12 @@ public class Enemy : MonoBehaviour {
             }
             Enemy_Update(pos);
         }
+    }
+    public void Pool()
+    {
+        Data.Instance.enemiesManager.Pool(this);
+        isPooled = true;
+        Enemy_Pooled();
     }
     public void Crashed()
     {

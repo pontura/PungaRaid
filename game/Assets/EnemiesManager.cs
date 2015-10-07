@@ -40,9 +40,9 @@ public class EnemiesManager : MonoBehaviour {
 	}
     public Enemy GetEnemy(string type)
     {
-        print("t: " + type);
+       // print("t: " + type);
         Enemy enemy = GetPooled(type);
-        print("enemy" + enemy);
+      //  print("enemy" + enemy);
         pool.Remove(enemy);
         enemies.Add(enemy);
         return enemy;
@@ -61,6 +61,10 @@ public class EnemiesManager : MonoBehaviour {
                         break;
                     case "RatiEscudo":
                         if (enemy.GetComponent<Rati>())
+                            return enemy;
+                        break;
+                    case "PowerUp":
+                        if (enemy.GetComponent<PowerUp>())
                             return enemy;
                         break;
                 }                
