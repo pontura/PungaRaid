@@ -7,7 +7,7 @@ public class Character : MonoBehaviour {
     [SerializeField]
     Hero heroAsset;
 
-    public int TOTAL_LIVES = 3;
+    public int TOTAL_LIVES = 1;
     public int lives;
     public Hero hero;
 
@@ -25,7 +25,6 @@ public class Character : MonoBehaviour {
     public enum states
     {
         IDLE,
-        CHANGE,
         CRASH,
         INDESTRUCTIBLE
     }
@@ -47,33 +46,17 @@ public class Character : MonoBehaviour {
         Vector3 pos = transform.localPosition;
         pos.x = posX;
         transform.localPosition = pos;
-
-        Events.OnPowerUp += OnPowerUp;
     }
     void OnDestroy()
     {
-        Events.OnPowerUp -= OnPowerUp;
-    }
-    void OnPowerUp(int id)
-    {
-        if (state == states.INDESTRUCTIBLE) return;
-        heroContainer.transform.localPosition = new Vector3(-1000, 0, 0);
-        print("OnPowerUp " + id);
-        state = states.INDESTRUCTIBLE;
-        powerUp = Instantiate(powerUp1) as PowerUpOn;
-        powerUp.transform.SetParent(powerUpsContainer.transform);
-        powerUp.transform.localScale = Vector3.one;
-        powerUp.transform.localPosition = Vector3.zero;
 
-        Vector3 pos = hero.transform.localPosition;
-        pos.x = -100;
-        hero.transform.localPosition = pos;
-        Invoke("PowerupOff", 5);
     }
-    void PowerupOff()
+    public void OnSetHeroState( bool show)
     {
-        heroContainer.transform.localPosition = Vector3.zero;
-        Destroy(powerUp.gameObject);
+        if (!show)
+            heroContainer.transform.localPosition = new Vector3(-1000, 0, 0);
+        else
+            heroContainer.transform.localPosition = Vector3.zero;
     }
 	public void MoveUP()
     {
@@ -99,7 +82,6 @@ public class Character : MonoBehaviour {
     private void Move(float _y, bool firstStep)
     {
         Events.OnSoundFX("changeLane");
-        state = states.CHANGE;
         TweenParms parms = new TweenParms();
         parms.Prop("localPosition", new Vector3(0,_y,0));
         parms.Ease(EaseType.Linear);
@@ -117,7 +99,7 @@ public class Character : MonoBehaviour {
        if (enemy && !enemy.isPooled)
        {
            print("other " + other.name);
-           print("enemy " + enemy + " _ " + enemy.laneId + " " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
+         //  print("enemy " + enemy + " _ " + enemy.laneId + " " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
            if (enemy.GetComponent<PowerUp>())
            {
                enemy.GetComponent<PowerUp>().Activate();
