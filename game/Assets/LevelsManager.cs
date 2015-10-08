@@ -7,6 +7,7 @@ public class LevelsManager : MonoBehaviour {
     [Serializable]
     public class Group
     {
+        public string name;
         public int distance;
         public Level[] levels;
     }
@@ -19,7 +20,7 @@ public class LevelsManager : MonoBehaviour {
 
     public Level activeLevel;
     private int nextLevelDistance;
-    private int offset = 60;
+    private int offset = 50;
    
 
 	public void Init () {
@@ -31,7 +32,7 @@ public class LevelsManager : MonoBehaviour {
 
         if (distance < nextLevelDistance) return;
 
-        if (distance <= 70)
+        if (distance < offset+10)
              activeLevel = StartingLevel;
         else
         {
@@ -62,9 +63,9 @@ public class LevelsManager : MonoBehaviour {
             {
                  EnemySettings settings = new EnemySettings();
                 
-                settings.speed = 0.03f;
+                settings.speed = 0.04f;
                 if(t.transform.localScale.x < 0)
-                    settings.speed = -0.02f;
+                    settings.speed = -0.04f;
 
                 lanes.AddObjectToLane(t.gameObject.name, lane.id, (int)(nextLevelDistance + t.transform.localPosition.x), settings);
             }

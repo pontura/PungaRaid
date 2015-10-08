@@ -33,6 +33,8 @@ public static class Events {
     public static System.Action OnGameComplete = delegate { };
     public static System.Action<bool> OnGamePaused = delegate { };
     public static System.Action OnGameRestart = delegate { };
+    public static System.Action<float> OnChangeSpeed = delegate { };
+    public static System.Action OnResetSpeed = delegate { };    
 
     public static System.Action OnChangeingLane = delegate { };
     public static System.Action OnChangeLaneComplete = delegate { };
@@ -41,6 +43,9 @@ public static class Events {
     public static System.Action OnHeroCrash = delegate { };
     public static System.Action<int> OnHeroSlide = delegate { };
     public static System.Action OnHeroCelebrate = delegate { };
+    public static System.Action OnHeroPowerUpOff = delegate { };
+    public static System.Action OnExplotion = delegate { };
+    
 
     public static System.Action<int> OnScoreRefresh = delegate { };
 

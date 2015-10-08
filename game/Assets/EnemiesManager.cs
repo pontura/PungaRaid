@@ -35,6 +35,7 @@ public class EnemiesManager : MonoBehaviour {
                 pool.Add(newEnemy);
                 newEnemy.isPooled = true;
                 newEnemy.transform.SetParent(poolObjects.transform);
+                newEnemy.gameObject.SetActive(false);
             }
         }
 	}
@@ -42,6 +43,7 @@ public class EnemiesManager : MonoBehaviour {
     {
        // print("t: " + type);
         Enemy enemy = GetPooled(type);
+        enemy.gameObject.SetActive(true);
       //  print("enemy" + enemy);
         pool.Remove(enemy);
         enemies.Add(enemy);
@@ -80,5 +82,6 @@ public class EnemiesManager : MonoBehaviour {
         enemies.Remove(enemy);
         pool.Add(enemy);
         enemy.transform.SetParent(poolObjects.transform);
+        enemy.gameObject.SetActive(false);
     }
 }

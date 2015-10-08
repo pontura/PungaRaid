@@ -8,48 +8,36 @@ public class Character : MonoBehaviour {
     Hero heroAsset;
 
     public int TOTAL_LIVES = 1;
-    public int lives;
+  //  public int lives;
     public Hero hero;
 
     float timeToCrossLane;
 
-    public states state;
-    private int posX;
+  //  public states state;
     public GameObject container;
     public GameObject heroContainer;
     public GameObject powerUpsContainer;
+    private PowerupManager powerupManager;
 
-    public PowerUpOn powerUp1;
-    private PowerUpOn powerUp;
-
-    public enum states
-    {
-        IDLE,
-        CRASH,
-        INDESTRUCTIBLE
-    }
+    //public enum states
+    //{
+    //    IDLE,
+    //    CRASH,
+    //    INDESTRUCTIBLE
+    //}
     public void Init()
     {
         timeToCrossLane = Data.Instance.gameData.timeToCrossLane;
     }
     void Start()
     {
-        lives = TOTAL_LIVES;
+        powerupManager = GetComponent<PowerupManager>();
         transform.localScale = new Vector3(0.52f, 0.52f, 0.52f);
 
         hero = Instantiate(heroAsset) as Hero;
         hero.transform.SetParent(heroContainer.transform);
 
-        hero.transform.localPosition = new Vector3(0, 0, 0);
-
-        posX = Data.Instance.gameData.CharacterXPosition;
-        Vector3 pos = transform.localPosition;
-        pos.x = posX;
-        transform.localPosition = pos;
-    }
-    void OnDestroy()
-    {
-
+        hero.transform.localPosition = Vector3.zero;
     }
     public void OnSetHeroState( bool show)
     {
@@ -68,7 +56,7 @@ public class Character : MonoBehaviour {
     }
     void Idle()
     {
-        state = states.IDLE;
+      //  state = states.IDLE;
     }
     public void GotoCenterOfLane()
     {
@@ -77,7 +65,7 @@ public class Character : MonoBehaviour {
         transform.localPosition = pos;
        // if (hero)
             container.transform.localPosition = Vector3.zero;
-        state = states.IDLE;
+       // state = states.IDLE;
     }
     private void Move(float _y, bool firstStep)
     {
@@ -98,7 +86,7 @@ public class Character : MonoBehaviour {
        Enemy enemy = other.GetComponent<Enemy>();       
        if (enemy && !enemy.isPooled)
        {
-           print("other " + other.name);
+          // print("other " + other.name);
          //  print("enemy " + enemy + " _ " + enemy.laneId + " " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
            if (enemy.GetComponent<PowerUp>())
            {
@@ -106,8 +94,19 @@ public class Character : MonoBehaviour {
            } else 
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {
-               OnHeroCrash();
-               enemy.Crashed();
+
+
+               if (powerupManager.type != PowerupManager.types.NONE)
+               {
+                   Events.OnHeroCrash();
+                   enemy.Explote();
+               }
+               else
+               {
+                   enemy.Crashed();
+                   Events.OnHeroDie();
+               }
+
            }
            else
            {
@@ -118,16 +117,5 @@ public class Character : MonoBehaviour {
                }
            }
        }
-    }
-    void OnHeroCrash()
-    {
-        Events.OnSoundFX("Crash");
-
-        lives--;
-        if(lives <1)
-            Events.OnHeroDie();
-        else
-            Events.OnHeroCrash();
-
     }
 }

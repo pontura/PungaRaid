@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour {
     private LevelsManager levelsManager;
     public MainCamera camera;
     public BackgroundScrolleable[] backgroundsScrolleable;
+    public ParticleSystem explotion;
+
+    private float DEFAULT_SPEED = 0.09f;
 
     public void Init()
     {
@@ -32,6 +35,9 @@ public class GameManager : MonoBehaviour {
         Events.OnHeroCrash += OnHeroCrash;
         Events.OnHeroSlide += OnHeroSlide;
         Events.StartGame += StartGame;
+        Events.OnExplotion += OnExplotion;
+        Events.OnChangeSpeed += OnChangeSpeed;
+        Events.OnResetSpeed += OnResetSpeed;
 
         characterManager = GetComponent<CharacterManager>();
         characterManager.Init();
@@ -48,12 +54,15 @@ public class GameManager : MonoBehaviour {
         Events.OnHeroCrash -= OnHeroCrash;
         Events.OnHeroSlide -= OnHeroSlide;
         Events.StartGame -= StartGame;
+        Events.OnExplotion -= OnExplotion;
+        Events.OnChangeSpeed -= OnChangeSpeed;
+        Events.OnResetSpeed -= OnResetSpeed;
 
         Events.OnMusicVolumeChanged(lastVolume);
     }
     void StartGame()
     {
-        speed = 0.09f;
+        speed = DEFAULT_SPEED;
         state = states.ACTIVE;        
     }
     void OnHeroDie()
@@ -70,11 +79,21 @@ public class GameManager : MonoBehaviour {
     {
         Application.LoadLevel("04_Game");
     }
+    void OnChangeSpeed(float _speed)
+    {
+        print("OnChangeSpeed");
+        speed *= 1.8f;
+        //realSpeed *= 1.2f;
+    }
+    void OnResetSpeed()
+    {
+        speed = DEFAULT_SPEED;
+    }
     void OnHeroCrash()
     {
-        Events.OnSoundFX("trip");
-        state = states.INACTIVE;
-        Invoke("goOn", 0.2f);
+      //  Events.OnSoundFX("trip");
+       // state = states.INACTIVE;
+       // Invoke("goOn", 0.2f);
     }
     void goOn()
     {
@@ -116,4 +135,15 @@ public class GameManager : MonoBehaviour {
 
         
 	}
+    void OnExplotion()
+    {
+        Character character = characterManager.character;
+        ParticleSystem ps = Instantiate(explotion) as ParticleSystem;
+        ps.transform.SetParent(character.transform.parent.transform);
+        ps.transform.localScale = Vector3.one;
+        Vector3 newPos = character.transform.localPosition;
+        newPos.y += 3;
+        ps.transform.localPosition = newPos;
+        ps.Play();
+    }
 }

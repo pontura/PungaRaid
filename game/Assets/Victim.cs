@@ -15,19 +15,20 @@ public class Victim : Enemy {
     }
     private Clothes clothes;
     private string currentAnim;
+    private BoxCollider2D collider;
 
-    void Start()
-    {
-        clothes = GetComponent<Clothes>();
-    }
+
     override public void Enemy_Activate()
     {
         Walk();
         anim.GetComponentInChildren<Animator>();
         anim.SetBool("WALK", true);
+        collider.enabled = true;
     }
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
+        collider = GetComponent<BoxCollider2D>();
+        clothes = GetComponent<Clothes>();
         clothes.Restart();
         
         this.laneId = laneId;
@@ -58,10 +59,12 @@ public class Victim : Enemy {
     public void Walk()
     {
         state = states.WALKING;
-        if (Random.Range(0, 100) < 50)
+        if (Random.Range(0, 100) < 33)
             currentAnim = "victimAWalk_phone";
-        else
+        else if (Random.Range(0, 100) < 66)
             currentAnim = "victimAWalk_bag";
+        else
+            currentAnim = "victimAWalk_normal";
 
         anim.Play(currentAnim);
     }
@@ -74,13 +77,20 @@ public class Victim : Enemy {
             anim.Play("victimAPung_phone");
         else if (currentAnim == "victimAWalk_bag")
             anim.Play("victimAPung_bag");
+        else if (currentAnim == "victimAWalk_normal")
+            anim.Play("victimAPung_normal");
         clothes.Undress();
     }
     override public void OnCrashed()
     {
         if (state == states.CRASHED) return;
-        state = states.CRASHED;
-        //  anim.Play("victimAPung_phone");
-        GetComponent<BoxCollider2D>().enabled = false;
     }
+    override public void OnExplote()
+    {
+        if (state == states.CRASHED) return;
+        state = states.CRASHED;
+        anim.Play("crashed");
+       collider.enabled = false;
+    }
+    
 }
