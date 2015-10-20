@@ -41,7 +41,6 @@ public class EnemiesManager : MonoBehaviour {
 	}
     public Enemy GetEnemy(string type)
     {
-       // print("t: " + type);
         Enemy enemy = GetPooled(type);
         enemy.gameObject.SetActive(true);
       //  print("enemy" + enemy);
@@ -57,8 +56,16 @@ public class EnemiesManager : MonoBehaviour {
             {
                 switch (type)
                 {
+                    case "ObstacleGeneric":
+                        if (enemy.GetComponent<Obstacle>())
+                            return enemy;
+                        break;
                     case "Victim":
                         if (enemy.GetComponent<Victim>())
+                            return enemy;
+                        break;
+                    case "RatiJump":
+                        if (enemy.GetComponent<RatiJump>())
                             return enemy;
                         break;
                     case "RatiEscudo":

@@ -68,14 +68,17 @@ public class GameManager : MonoBehaviour {
     void OnHeroDie()
     {
         state = states.ENDING;
-        Events.OnPoolAllItemsInScene();
-
         Game.Instance.state = Game.states.ENDED;
         Events.OnSoundFX("warningPopUp");
         Events.OnMusicChange("gameOverTemp");
         Invoke("gameOverReady", 2);        
     }
     void gameOverReady()
+    {
+        Events.OnPoolAllItemsInScene();
+        Invoke("Restart", 0.05f);    
+    }
+    void Restart()
     {
         Application.LoadLevel("04_Game");
     }

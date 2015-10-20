@@ -18,6 +18,7 @@ public class Character : MonoBehaviour {
     public GameObject heroContainer;
     public GameObject powerUpsContainer;
     private PowerupManager powerupManager;
+    private BoxCollider2D collider;
 
     //public enum states
     //{
@@ -25,12 +26,16 @@ public class Character : MonoBehaviour {
     //    CRASH,
     //    INDESTRUCTIBLE
     //}
+    void Awake()
+    {
+        collider = GetComponent<BoxCollider2D>();
+    }
     public void Init()
     {
         timeToCrossLane = Data.Instance.gameData.timeToCrossLane;
     }
     void Start()
-    {
+    {        
         powerupManager = GetComponent<PowerupManager>();
         transform.localScale = new Vector3(0.52f, 0.52f, 0.52f);
 
@@ -60,6 +65,8 @@ public class Character : MonoBehaviour {
     }
     public void GotoCenterOfLane()
     {
+        collider.enabled = false;
+        collider.enabled = true;
         Vector3 pos = transform.localPosition;
         pos.y = 0;
         transform.localPosition = pos;
@@ -86,16 +93,13 @@ public class Character : MonoBehaviour {
        Enemy enemy = other.GetComponent<Enemy>();       
        if (enemy && !enemy.isPooled)
        {
-          // print("other " + other.name);
-         //  print("enemy " + enemy + " _ " + enemy.laneId + " " + Game.Instance.gameManager.characterManager.lanes.laneActiveID);
-           if (enemy.GetComponent<PowerUp>())
-           {
-               enemy.GetComponent<PowerUp>().Activate();
-           } else 
+
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {
-
-
+               if (enemy.GetComponent<PowerUp>())
+               {
+                   enemy.GetComponent<PowerUp>().Activate();
+               } else
                if (powerupManager.type != PowerupManager.types.NONE)
                {
                    Events.OnHeroCrash();
@@ -106,7 +110,6 @@ public class Character : MonoBehaviour {
                    enemy.Crashed();
                    Events.OnHeroDie();
                }
-
            }
            else
            {

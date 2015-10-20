@@ -40,13 +40,14 @@ public class LevelsManager : MonoBehaviour {
             activeLevel = groups[activeGroupId].levels[rand];
         }
 
-        if (distance - startingGroupDistance > groups[activeGroupId].distance)
+        if ((int)distance > (int)groups[activeGroupId].distance)
         {
             startingGroupDistance += distance;
             activeGroupId++;
+           // print("_ cambia grupo " + activeGroupId + " startingGroupDistance: " + startingGroupDistance + " distanc: " + distance);
         }
 
-       // print("CheckForNewLevel" + distance + " activeGroupId: " + activeGroupId);
+      //  print("nextLevelDistance " + nextLevelDistance + " distance " + distance + " activeGroupId: " + activeGroupId + "  GROUP: " + groups[activeGroupId].name + " activeLevel.length " + activeLevel.length + "  activeLevel.NAME " + activeLevel.name);
         LoadLevelAssets(nextLevelDistance);
         nextLevelDistance += activeLevel.length;
         

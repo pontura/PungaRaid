@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     {
         isPooled = false;
         isActivated = false;
+        this.laneId = laneId;
         Enemy_Init(settings, laneId);
     }
     void Update()
@@ -51,6 +52,7 @@ public class Enemy : MonoBehaviour {
     {
         OnExplote();
     }
+    public virtual void OnSecondaryCollision(Collider2D other) { }
     public virtual void Enemy_Pooled() { }
     public virtual void Enemy_Init(EnemySettings settings, int laneId) { }
     public virtual void Enemy_Activate() { }

@@ -62,8 +62,14 @@ public class Lanes : MonoBehaviour {
 
         switch (name)
         {
+            case "ObstacleGeneric":
+                enemy = Data.Instance.enemiesManager.GetEnemy("ObstacleGeneric");
+                break;
             case "Victim":
                 enemy = Data.Instance.enemiesManager.GetEnemy("Victim");
+                break;
+            case "RatiJump":
+                enemy = Data.Instance.enemiesManager.GetEnemy("RatiJump");
                 break;
             case "RatiEscudo":
                 enemy = Data.Instance.enemiesManager.GetEnemy("RatiEscudo");
@@ -90,6 +96,17 @@ public class Lanes : MonoBehaviour {
          SpriteRenderer[] renderers = go.GetComponentsInChildren<SpriteRenderer>(true);
          foreach (SpriteRenderer sr in renderers)
              sr.sortingLayerName = "lane" + laneId;
+    }
+    public void changeEnemyLane(Enemy enemy, Lane lane)
+    {
+        enemy.transform.SetParent(lane.transform);
+        sortInLayersByLane(enemy.gameObject, lane.id);
+
+        Vector2 pos = enemy.transform.localPosition;  
+        pos.y = 0;
+        enemy.transform.localPosition = pos;
+
+        enemy.laneId = lane.id;
     }
     public bool TryToChangeLane(bool up)
     {

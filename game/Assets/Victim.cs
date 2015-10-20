@@ -30,8 +30,7 @@ public class Victim : Enemy {
         collider = GetComponent<BoxCollider2D>();
         clothes = GetComponent<Clothes>();
         clothes.Restart();
-        
-        this.laneId = laneId;
+
         distance = Game.Instance.gameManager.distance;
         speed = settings.speed;
         Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
@@ -54,8 +53,6 @@ public class Victim : Enemy {
         anim.SetBool("WALK", false);
         state = states.IDLE;
     }
-
-
     public void Walk()
     {
         state = states.WALKING;
@@ -90,7 +87,7 @@ public class Victim : Enemy {
         if (state == states.CRASHED) return;
         state = states.CRASHED;
         anim.Play("crashed");
-       collider.enabled = false;
+        collider.enabled = false;
     }
     
 }
