@@ -42,6 +42,9 @@ public class CharacterManager : MonoBehaviour {
                 if (lanes.TryToChangeLane(false))
                     character.MoveDown(); 
                break;
+            case SwipeDetector.directions.RIGHT:
+               character.Dash();
+               break;
         }
     }
     void OnChangeingLane()

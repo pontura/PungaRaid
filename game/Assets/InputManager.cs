@@ -13,6 +13,8 @@ public class InputManager : MonoBehaviour {
             Events.OnSwipe(SwipeDetector.directions.UP);
         else if (Input.GetKeyDown(KeyCode.DownArrow))
             Events.OnSwipe(SwipeDetector.directions.DOWN);
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+            Events.OnSwipe(SwipeDetector.directions.RIGHT);
 
         //RaycastHit hit;
         //Ray ray;

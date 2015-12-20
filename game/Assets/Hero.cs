@@ -10,17 +10,17 @@ public class Hero : MonoBehaviour {
     {
         IDLE,
         RUN,
-        CRASH,
-        SLIDE,
+        CRASH, 
+        DASH,
         CELEBRATE,
-        DEAD,
+        DEAD,        
         WIN
     }
     void Start()
     {
         Events.StartGame += StartGame;
         Events.OnHeroCrash += OnHeroCrash;
-        Events.OnHeroSlide += OnHeroSlide;
+        Events.OnHeroDash += OnHeroDash;
         Events.OnHeroCelebrate += OnHeroCelebrate;
         Events.OnLevelComplete += OnLevelComplete;
         Events.OnGamePaused += OnGamePaused;
@@ -33,7 +33,7 @@ public class Hero : MonoBehaviour {
         Events.StartGame -= StartGame;
         Events.OnHeroCrash -= OnHeroCrash;
         Events.OnHeroDie -= OnHeroDie;
-        Events.OnHeroSlide -= OnHeroSlide;
+        Events.OnHeroDash -= OnHeroDash;
         Events.OnHeroCelebrate -= OnHeroCelebrate;
         Events.OnLevelComplete -= OnLevelComplete;
         Events.OnGamePaused -= OnGamePaused;
@@ -46,10 +46,6 @@ public class Hero : MonoBehaviour {
     void StartGame()
     {
         ResetAnimation();
-    }
-    void OnHeroSlide(int id)
-    {
-        Slide();
     }
     void OnHeroCrash()
     {
@@ -68,12 +64,12 @@ public class Hero : MonoBehaviour {
         print("OnHeroDie");
         animator.Play("pungaDeath", 0, 0);
     }
-    void Slide()
+    void OnHeroDash()
     {
         if (Game.Instance.state != Game.states.PLAYING) return;
-        if (state == states.SLIDE) return;
+        if (state == states.DASH) return;
         if (state == states.CRASH) return;
-        state = states.SLIDE;
+        state = states.DASH;
         animator.SetBool(state.ToString(), true);
     }    
     void Crash()
@@ -93,6 +89,10 @@ public class Hero : MonoBehaviour {
         if (state == states.WIN) return;
         state = states.WIN;
         animator.SetBool(state.ToString(), true);
+    }
+    public void Dash()
+    {
+
     }
     public void Die()
     {

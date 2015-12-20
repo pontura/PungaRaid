@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour {
 
         Events.OnHeroDie += OnHeroDie;
         Events.OnHeroCrash += OnHeroCrash;
-        Events.OnHeroSlide += OnHeroSlide;
         Events.StartGame += StartGame;
         Events.OnExplotion += OnExplotion;
         Events.OnChangeSpeed += OnChangeSpeed;
@@ -52,7 +51,6 @@ public class GameManager : MonoBehaviour {
     {
         Events.OnHeroDie -= OnHeroDie;
         Events.OnHeroCrash -= OnHeroCrash;
-        Events.OnHeroSlide -= OnHeroSlide;
         Events.StartGame -= StartGame;
         Events.OnExplotion -= OnExplotion;
         Events.OnChangeSpeed -= OnChangeSpeed;
@@ -82,11 +80,12 @@ public class GameManager : MonoBehaviour {
     {
         Application.LoadLevel("04_Game");
     }
-    void OnChangeSpeed(float _speed)
+    void OnChangeSpeed(float _speed, bool accelerating)
     {
         print("OnChangeSpeed");
         speed *= 1.8f;
-        //realSpeed *= 1.2f;
+        if (!accelerating)
+           realSpeed = speed;
     }
     void OnResetSpeed()
     {
@@ -101,11 +100,6 @@ public class GameManager : MonoBehaviour {
     void goOn()
     {
         state = states.ACTIVE;
-    }
-    void OnHeroSlide(int id)
-    {
-        realSpeed = speed*2;
-        Events.OnSoundFX("stepPond");
     }
     void Update()
     {

@@ -20,12 +20,6 @@ public class Character : MonoBehaviour {
     private PowerupManager powerupManager;
     private BoxCollider2D collider;
 
-    //public enum states
-    //{
-    //    IDLE,
-    //    CRASH,
-    //    INDESTRUCTIBLE
-    //}
     void Awake()
     {
         collider = GetComponent<BoxCollider2D>();
@@ -50,6 +44,20 @@ public class Character : MonoBehaviour {
             heroContainer.transform.localPosition = new Vector3(-1000, 0, 0);
         else
             heroContainer.transform.localPosition = Vector3.zero;
+    }
+    public void Dash()
+    {
+        if (hero.state != Hero.states.DASH && powerupManager.type == PowerupManager.types.NONE)
+        {
+            Events.OnChangeSpeed(6, false);
+            Events.OnHeroDash();
+            Invoke("ResetDash", 0.5f);
+        }
+    }
+    void ResetDash()
+    {
+        hero.ResetAnimation();
+        Events.OnResetSpeed();
     }
 	public void MoveUP()
     {
@@ -99,8 +107,11 @@ public class Character : MonoBehaviour {
                if (enemy.GetComponent<PowerUp>())
                {
                    enemy.GetComponent<PowerUp>().Activate();
-               } else
-               if (powerupManager.type != PowerupManager.types.NONE)
+               } 
+               else if (hero.state == Hero.states.DASH && enemy.GetComponent<Victim>())
+               {
+                   enemy.Explote();
+               } else if (powerupManager.type != PowerupManager.types.NONE)
                {
                    Events.OnHeroCrash();
                    enemy.Explote();

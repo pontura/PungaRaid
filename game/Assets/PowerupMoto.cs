@@ -11,6 +11,7 @@ public class PowerupMoto : PowerUpOn {
     public override void OnInit()
     {
         rot = 0;
+        Events.OnSoundFXLoop("Motor");
     }
     void Update()
     {

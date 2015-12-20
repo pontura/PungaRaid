@@ -37,7 +37,7 @@ public class SwipeDetector : MonoBehaviour
                     newTime = 0;
                     touched = false;
                     if (!movedByTime)
-                        Move(touch.position.y);
+                        Move(touch.position.x, touch.position.y);
                     break;
             }
 
@@ -48,7 +48,7 @@ public class SwipeDetector : MonoBehaviour
 
             if (newTime > 0.06f && touched)
             {
-                Move(touch.position.y);
+                Move(touch.position.x, touch.position.y);
                 startPosY = touch.position.y;
                 movedByTime = true;                
                 newTime = -0.12f;
@@ -57,16 +57,23 @@ public class SwipeDetector : MonoBehaviour
 
         }
     }
-    void Move(float touchFinalPositionY)
+    void Move(float touchFinalPositionX, float touchFinalPositionY)
     {
-        float swipeDistVertical = (new Vector3(0, touchFinalPositionY, 0) - new Vector3(0, startPosY, 0)).magnitude;
-        if (swipeDistVertical > minSwipeDistY / 2)
+        if (Mathf.Abs(touchFinalPositionX) < Mathf.Abs(touchFinalPositionY))
         {
-            float swipeValue = Mathf.Sign(touchFinalPositionY - startPosY);
-            if (swipeValue > 0)
-                Swipe(directions.UP);
-            else if (swipeValue < 0)
-                Swipe(directions.DOWN);
+            float swipeDistVertical = (new Vector3(0, touchFinalPositionY, 0) - new Vector3(0, startPosY, 0)).magnitude;
+            if (swipeDistVertical > minSwipeDistY / 2)
+            {
+                float swipeValue = Mathf.Sign(touchFinalPositionY - startPosY);
+                if (swipeValue > 0)
+                    Swipe(directions.UP);
+                else if (swipeValue < 0)
+                    Swipe(directions.DOWN);
+            }
+        }
+        else
+        {
+            Swipe(directions.RIGHT);
         }
     }
     void Swipe(directions direction)
@@ -79,6 +86,8 @@ public class SwipeDetector : MonoBehaviour
                 Events.OnSwipe(directions.UP); break;
             case directions.DOWN:
                 Events.OnSwipe(directions.DOWN); break;
+            case directions.RIGHT:
+                Events.OnSwipe(directions.RIGHT); break;
         }
     }
 }

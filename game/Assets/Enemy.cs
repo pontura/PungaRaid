@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour {
     }
     public void Explote()
     {
+        Events.OnSoundFX("Explosion");
         OnExplote();
     }
     public virtual void OnSecondaryCollision(Collider2D other) { }
