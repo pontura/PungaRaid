@@ -71,6 +71,7 @@ public class Hero : MonoBehaviour {
         if (state == states.CRASH) return;
         state = states.DASH;
         animator.SetBool(state.ToString(), true);
+        animator.Play("pungaDash", 0, 0);
     }    
     void Crash()
     {
@@ -101,8 +102,11 @@ public class Hero : MonoBehaviour {
     public void ResetAnimation()
     {
         state = states.RUN;
+        animator.Play("pungaRun", 0, 0);
+
         animator.SetBool("RUN", true);
         animator.SetBool("CRASH", false);
+        animator.SetBool("DASH", false);
         animator.SetBool("SLIDE", false);
         animator.SetBool("LAVA", false);
         animator.SetBool("CELEBRATE", false);
