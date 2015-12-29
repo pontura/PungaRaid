@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour
     void OnDestroy()
     {
         Events.OnSoundFX -= OnSoundFX;
-        Events.OnSoundFXLoop += OnSoundFXLoop;
+        Events.OnSoundFXLoop -= OnSoundFXLoop;
         if (loopAudioSource)
         {
             loopAudioSource = null;

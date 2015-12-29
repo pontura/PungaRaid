@@ -43,7 +43,7 @@ public class EnemiesManager : MonoBehaviour {
     {
         Enemy enemy = GetPooled(type);
         enemy.gameObject.SetActive(true);
-      //  print("enemy" + enemy);
+        enemy.Init(new EnemySettings(), 0);
         pool.Remove(enemy);
         enemies.Add(enemy);
         return enemy;
@@ -76,11 +76,27 @@ public class EnemiesManager : MonoBehaviour {
                         if (enemy.GetComponent<PowerUp>())
                             return enemy;
                         break;
+                    case "Blocker":
+                        if (enemy.name == "Blocker" || enemy.name == "Blocker(Clone)")  
+                            return enemy;
+                        break;
+                    case "vereda_5_lanes":
+                        if (enemy.name == "vereda_5_lanes" || enemy.name == "vereda_5_lanes(Clone)")
+                            return enemy;
+                        break;
+                    case "veredaIntro":
+                        if (enemy.name == "veredaIntro" || enemy.name == "veredaIntro(Clone)")
+                            return enemy;
+                        break;
+                    case "vereda_10mts_5lanes":
+                        if (enemy.name == "vereda_10mts_5lanes" || enemy.name == "vereda_10mts_5lanes(Clone)")
+                            return enemy;
+                        break;
                 }                
             }
         }
 
-        print("te quedaste sin enemys. Hay en pool: " + pool.Count + " type: " + type);
+        print("FALTAN:  " + type + " -  pool.Count : " +  pool.Count);
         return pool[0];
     }
     public void Pool(Enemy enemy)

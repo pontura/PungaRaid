@@ -20,42 +20,51 @@ public class LevelsManager : MonoBehaviour {
 
     public Level activeLevel;
     private int nextLevelDistance;
-    private int offset = 50;
+    private int offset = 40;
    
 
 	public void Init () {
+      //  activeLevel = StartingLevel;
+       // nextLevelDistance = StartingLevel.length;
+       // activeGroupId = -1;
         CheckForNewLevel(0);
 	}
     public void CheckForNewLevel(float distance)
     {
-        distance += offset;        
+        distance += offset;    
 
         if (distance < nextLevelDistance) return;
 
-        if (distance < offset+10)
-             activeLevel = StartingLevel;
-        else
-        {
-            int rand = UnityEngine.Random.Range(0, groups[activeGroupId].levels.Length);
-            activeLevel = groups[activeGroupId].levels[rand];
-        }
+        
+
+      //  if (distance < offset+10)
+      //  if (distance < offset + 10)
+         //    activeLevel = StartingLevel;
+       // else
+       // {
+            
+       // }
 
         if ((int)distance > (int)groups[activeGroupId].distance)
         {
             startingGroupDistance += distance;
             activeGroupId++;
-           // print("_ cambia grupo " + activeGroupId + " startingGroupDistance: " + startingGroupDistance + " distanc: " + distance);
+            print("_ cambia grupo " + activeGroupId + " startingGroupDistance: " + startingGroupDistance + " distanc: " + distance);
         }
 
-      //  print("nextLevelDistance " + nextLevelDistance + " distance " + distance + " activeGroupId: " + activeGroupId + "  GROUP: " + groups[activeGroupId].name + " activeLevel.length " + activeLevel.length + "  activeLevel.NAME " + activeLevel.name);
+        int rand = UnityEngine.Random.Range(0, groups[activeGroupId].levels.Length);
+        activeLevel = groups[activeGroupId].levels[rand];
+
+        print("nextLevelDistance " + nextLevelDistance + " distance " + distance + " activeGroupId: " + activeGroupId + "  GROUP: " + groups[activeGroupId].name + " activeLevel.length " + activeLevel.length + "  activeLevel.NAME " + activeLevel.name);
         LoadLevelAssets(nextLevelDistance);
+        
         nextLevelDistance += activeLevel.length;
         
     }
     private void LoadLevelAssets(int nextLevelDistance)
     {
         Lanes laneData = activeLevel.GetComponent<Lanes>();
-      //  lanes.AddBackground(laneData.background.name, nextLevelDistance);
+        lanes.AddBackground(laneData.vereda, nextLevelDistance, activeLevel.length);
 
         foreach (Lane lane in laneData.all)
         {
@@ -71,6 +80,8 @@ public class LevelsManager : MonoBehaviour {
                 lanes.AddObjectToLane(t.gameObject.name, lane.id, (int)(nextLevelDistance + t.transform.localPosition.x), settings);
             }
         }
+
+        
     }
 	public void LoadNext () {
 	    

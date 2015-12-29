@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour {
     public bool isPooled;
     private bool isActivated;
 
+    public int offsetToBeOff = 5;
+
     public void Init(EnemySettings settings, int laneId)
     {
         isPooled = false;
@@ -23,7 +25,7 @@ public class Enemy : MonoBehaviour {
 
         Vector3 pos = transform.localPosition;
 
-        if (pos.x + 5 < Game.Instance.gameManager.distance)
+        if (pos.x + offsetToBeOff  < Game.Instance.gameManager.distance)
         {
             Pool();
         }

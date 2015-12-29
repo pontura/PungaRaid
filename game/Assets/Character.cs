@@ -20,6 +20,9 @@ public class Character : MonoBehaviour {
     private PowerupManager powerupManager;
     private BoxCollider2D collider;
 
+    public bool CantMoveUp;
+    public bool CantMoveDown;
+
     void Awake()
     {
         collider = GetComponent<BoxCollider2D>();
@@ -98,10 +101,17 @@ public class Character : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D other) 
     {
-       Enemy enemy = other.GetComponent<Enemy>();       
+       Enemy enemy = other.GetComponent<Enemy>();
        if (enemy && !enemy.isPooled)
-       {
-
+       {          
+           if ( enemy.GetComponent<Blocker>())
+           {
+               Blocker blocker = enemy.GetComponent<Blocker>();
+               CantMoveUp = false;
+               CantMoveDown = false;
+               if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = true;
+               if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = true;
+           } else
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {
                if (enemy.GetComponent<PowerUp>())

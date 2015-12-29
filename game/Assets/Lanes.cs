@@ -9,6 +9,7 @@ public class Lanes : MonoBehaviour {
     public Lane[] all;
     public int laneActiveID = 3;
     public GameObject enemy;
+    public Vereda vereda;
 
 	void Start () {
         Events.OnPoolAllItemsInScene += OnPoolAllItemsInScene;
@@ -20,7 +21,19 @@ public class Lanes : MonoBehaviour {
     void OnPoolAllItemsInScene()
     {
         List<Enemy> enemies = new List<Enemy>();
-        foreach (Lane lane in all)  
+
+        //busca veredas en el ROOT
+        foreach (Transform child in transform)
+        {
+            if (child.GetComponent<Enemy>())
+            {
+                Enemy enemy = child.GetComponent<Enemy>();
+                if (enemy)
+                    enemies.Add(enemy);
+            }
+        }
+        //busca enemigos en cada lane:
+        foreach (Lane lane in all)
         {
             foreach (Transform child in lane.transform)
             {
@@ -41,9 +54,22 @@ public class Lanes : MonoBehaviour {
     {
         return all[laneActiveID];
     }
-    public void AddBackground(string name, int _x)
+    public void AddBackground(Vereda _vereda, int _x, int _sceneWidth)
     {
-        //print("AddBackground : " + name + " in " + _x);
+        print(_vereda.name + "    : AddBackground  in " + _x);
+        Vereda vereda = Data.Instance.enemiesManager.GetEnemy(_vereda.name) as Vereda;
+        GameObject go = vereda.gameObject;
+        go.transform.SetParent(transform);
+        go.transform.localPosition = new Vector3(_x, 0, 0);
+
+        if (vereda.blockLane0) AddBlocker(0, _x, _sceneWidth);
+        if (vereda.blockLane1) AddBlocker(1, _x, _sceneWidth);
+        if (vereda.blockLane2) AddBlocker(2, _x, _sceneWidth);
+        if (vereda.blockLane3) AddBlocker(3, _x, _sceneWidth);
+        if (vereda.blockLane4) AddBlocker(4, _x, _sceneWidth);
+       
+
+
         //GameObject go = Instantiate(Resources.Load<GameObject>("backgrounds/" + name)) as GameObject;
         //backgrounds.Add(go);
         //go.transform.SetParent(background.transform);
@@ -55,10 +81,26 @@ public class Lanes : MonoBehaviour {
         //    backgrounds.RemoveAt(0);
         //}
     }
+    void AddBlocker(int laneID, int _x, int _width)
+    {
+        Enemy enemy = Data.Instance.enemiesManager.GetEnemy("Blocker");
+
+        enemy.Init(new EnemySettings(), laneID);
+        GameObject go = enemy.gameObject;
+        sortInLayersByLane(go, laneID);
+
+        if (enemy == null)
+            return;
+
+        go.transform.SetParent(all[laneID].transform);
+        go.transform.localPosition = new Vector3(_x + _width/2, 0, 0);
+        go.transform.localScale = new Vector3(_width, 1,1 );
+    }
     public void AddObjectToLane(string name, int laneId, int _x, EnemySettings settings )
     {
       //  print("new : " + name);
         Enemy enemy = null;
+
 
         switch (name)
         {
