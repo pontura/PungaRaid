@@ -64,10 +64,14 @@ public class Character : MonoBehaviour {
     }
 	public void MoveUP()
     {
+        CantMoveUp = false;
+        CantMoveDown = false;
         Move(2.5f, true);
     }
     public void MoveDown()
     {
+        CantMoveUp = false;
+        CantMoveDown = false;
         Move(-2.5f, true);
     }
     void Idle()
@@ -76,8 +80,6 @@ public class Character : MonoBehaviour {
     }
     public void GotoCenterOfLane()
     {
-        collider.enabled = false;
-        collider.enabled = true;
         Vector3 pos = transform.localPosition;
         pos.y = 0;
         transform.localPosition = pos;
@@ -99,6 +101,23 @@ public class Character : MonoBehaviour {
     {
         Events.OnChangeLaneComplete();        
     }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+       
+
+       Enemy enemy = other.GetComponent<Enemy>();
+       if (enemy)
+       {
+           if (enemy.GetComponent<Blocker>())
+           {
+               Blocker blocker = enemy.GetComponent<Blocker>();
+               print("____________________" + blocker.name + " - lasne: " + blocker.laneId);
+               if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = false;
+               if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = false;
+           }
+       }
+    }
     void OnTriggerEnter2D(Collider2D other) 
     {
        Enemy enemy = other.GetComponent<Enemy>();
@@ -107,10 +126,17 @@ public class Character : MonoBehaviour {
            if ( enemy.GetComponent<Blocker>())
            {
                Blocker blocker = enemy.GetComponent<Blocker>();
-               CantMoveUp = false;
-               CantMoveDown = false;
-               if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = true;
-               if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = true;
+               if (blocker.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
+               {
+                   Events.OnHeroDie();
+                   return;
+               }
+               else
+               {
+                   if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = true;
+                   if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = true;
+               }
+               
            } else
            if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
            {

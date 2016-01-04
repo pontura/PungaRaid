@@ -13,4 +13,10 @@ public class Vereda : Enemy {
     {
         offsetToBeOff = 30;
     }
+    override public void Enemy_Init(EnemySettings settings, int laneId) 
+    {
+       SpriteRenderer[] sps = GetComponentsInChildren<SpriteRenderer>();
+       foreach (SpriteRenderer sp in sps)
+           sp.sortingOrder = -1;
+    }
 }

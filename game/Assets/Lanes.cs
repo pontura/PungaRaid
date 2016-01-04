@@ -56,7 +56,7 @@ public class Lanes : MonoBehaviour {
     }
     public void AddBackground(Vereda _vereda, int _x, int _sceneWidth)
     {
-        print(_vereda.name + "    : AddBackground  in " + _x);
+       // print(_vereda.name + "    : AddBackground  in " + _x);
         Vereda vereda = Data.Instance.enemiesManager.GetEnemy(_vereda.name) as Vereda;
         GameObject go = vereda.gameObject;
         go.transform.SetParent(transform);

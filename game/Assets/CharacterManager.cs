@@ -30,16 +30,15 @@ public class CharacterManager : MonoBehaviour {
     void OnSwipe(SwipeDetector.directions direction)
     {
         if ( Game.Instance.state != Game.states.PLAYING ) return;
-       // if (character.state == Character.states.CHANGE) return;
 
         switch (direction)
         {
             case SwipeDetector.directions.UP:
-                if (lanes.TryToChangeLane(true))
+                if (!character.CantMoveUp && lanes.TryToChangeLane(true))
                     character.MoveUP(); 
                 break;
             case SwipeDetector.directions.DOWN:
-                if (lanes.TryToChangeLane(false))
+                if (!character.CantMoveDown && lanes.TryToChangeLane(false))
                     character.MoveDown(); 
                break;
             case SwipeDetector.directions.RIGHT:

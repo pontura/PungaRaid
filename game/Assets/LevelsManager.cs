@@ -49,13 +49,13 @@ public class LevelsManager : MonoBehaviour {
         {
             startingGroupDistance += distance;
             activeGroupId++;
-            print("_ cambia grupo " + activeGroupId + " startingGroupDistance: " + startingGroupDistance + " distanc: " + distance);
+           // print("_ cambia grupo " + activeGroupId + " startingGroupDistance: " + startingGroupDistance + " distanc: " + distance);
         }
 
         int rand = UnityEngine.Random.Range(0, groups[activeGroupId].levels.Length);
         activeLevel = groups[activeGroupId].levels[rand];
 
-        print("nextLevelDistance " + nextLevelDistance + " distance " + distance + " activeGroupId: " + activeGroupId + "  GROUP: " + groups[activeGroupId].name + " activeLevel.length " + activeLevel.length + "  activeLevel.NAME " + activeLevel.name);
+       // print("nextLevelDistance " + nextLevelDistance + " distance " + distance + " activeGroupId: " + activeGroupId + "  GROUP: " + groups[activeGroupId].name + " activeLevel.length " + activeLevel.length + "  activeLevel.NAME " + activeLevel.name);
         LoadLevelAssets(nextLevelDistance);
         
         nextLevelDistance += activeLevel.length;
