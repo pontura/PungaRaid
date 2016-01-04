@@ -6,6 +6,7 @@ using System;
 public class EnemiesManager : MonoBehaviour {
 
     public EnemyPool[] enemiesToPool;
+    public EnemyPool[] veredasToPool;
 
     [Serializable]
     public class EnemyPool
@@ -30,15 +31,22 @@ public class EnemiesManager : MonoBehaviour {
         foreach (EnemyPool enemyPool in enemiesToPool)
         {
             for (int a = 0; a < enemyPool.qty; a++)
-            {
-                Enemy newEnemy = Instantiate(enemyPool.enemy) as Enemy;
-                pool.Add(newEnemy);
-                newEnemy.isPooled = true;
-                newEnemy.transform.SetParent(poolObjects.transform);
-                newEnemy.gameObject.SetActive(false);
-            }
+                AddToPool(enemyPool);
+        }
+        foreach (EnemyPool enemyPool in veredasToPool)
+        {
+            for (int a = 0; a < enemyPool.qty; a++)
+                AddToPool(enemyPool);
         }
 	}
+    void AddToPool(EnemyPool enemyPool)
+    {
+        Enemy newEnemy = Instantiate(enemyPool.enemy) as Enemy;
+        pool.Add(newEnemy);
+        newEnemy.isPooled = true;
+        newEnemy.transform.SetParent(poolObjects.transform);
+        newEnemy.gameObject.SetActive(false);
+    }
     public Enemy GetEnemy(string type)
     {
         Enemy enemy = GetPooled(type);
@@ -90,6 +98,14 @@ public class EnemiesManager : MonoBehaviour {
                         break;
                     case "vereda_10mts_5lanes":
                         if (enemy.name == "vereda_10mts_5lanes" || enemy.name == "vereda_10mts_5lanes(Clone)")
+                            return enemy;
+                        break;
+                    case "vereda_2_lanes":
+                        if (enemy.name == "vereda_2_lanes" || enemy.name == "vereda_2_lanes(Clone)")
+                            return enemy;
+                        break;
+                    case "vereda_3_lanes":
+                        if (enemy.name == "vereda_3_lanes" || enemy.name == "vereda_3_lanes(Clone)")
                             return enemy;
                         break;
                 }                
