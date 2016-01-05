@@ -59,6 +59,7 @@ public class Character : MonoBehaviour {
     }
     void ResetDash()
     {
+        if (powerupManager.type == PowerupManager.types.MOTO) return;
         hero.ResetAnimation();
         Events.OnResetSpeed();
     }
@@ -104,8 +105,6 @@ public class Character : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other)
     {
-       
-
        Enemy enemy = other.GetComponent<Enemy>();
        if (enemy)
        {
@@ -163,6 +162,7 @@ public class Character : MonoBehaviour {
                {
                    enemy.GetComponent<Victim>().Steal();
                    Events.OnSoundFX("Pung");
+                   Events.OnScoreAdd(Random.Range(5, 10) * 10);
                }
            }
        }

@@ -47,9 +47,9 @@ public static class Events {
     public static System.Action OnHeroCelebrate = delegate { };
     public static System.Action OnHeroPowerUpOff = delegate { };
     public static System.Action OnExplotion = delegate { };
-    
 
-    public static System.Action<int> OnScoreRefresh = delegate { };
+
+    public static System.Action<int> OnScoreAdd = delegate { };
 
     public static System.Action OnStartCountDown = delegate { };
 

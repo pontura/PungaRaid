@@ -108,6 +108,11 @@ public class EnemiesManager : MonoBehaviour {
                         if (enemy.name == "vereda_3_lanes" || enemy.name == "vereda_3_lanes(Clone)")
                             return enemy;
                         break;
+                    case "vereda_10mts_3lanes":
+                        if (enemy.name == "vereda_10mts_3lanes" || enemy.name == "vereda_10mts_3lanes(Clone)")
+                            return enemy;
+                        break;
+                        
                 }                
             }
         }
