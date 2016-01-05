@@ -17,6 +17,9 @@ public class Vereda : Enemy {
     {
        SpriteRenderer[] sps = GetComponentsInChildren<SpriteRenderer>();
        foreach (SpriteRenderer sp in sps)
+       {
            sp.sortingOrder = -1;
+           sp.sortingLayerName = "Default"; 
+       }
     }
 }

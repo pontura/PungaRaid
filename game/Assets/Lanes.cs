@@ -87,7 +87,7 @@ public class Lanes : MonoBehaviour {
 
         enemy.Init(new EnemySettings(), laneID);
         GameObject go = enemy.gameObject;
-        sortInLayersByLane(go, laneID);
+       // sortInLayersByLane(go, laneID);
 
         if (enemy == null)
             return;
@@ -135,6 +135,8 @@ public class Lanes : MonoBehaviour {
     }
     public void sortInLayersByLane(GameObject go, int laneId)
     {
+            print("___________________________________VERREDA" + go.name);
+
          SpriteRenderer[] renderers = go.GetComponentsInChildren<SpriteRenderer>(true);
          foreach (SpriteRenderer sr in renderers)
              sr.sortingLayerName = "lane" + laneId;

@@ -112,7 +112,6 @@ public class Character : MonoBehaviour {
            if (enemy.GetComponent<Blocker>())
            {
                Blocker blocker = enemy.GetComponent<Blocker>();
-               print("____________________" + blocker.name + " - lasne: " + blocker.laneId);
                if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = false;
                if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = false;
            }
