@@ -52,6 +52,10 @@ public static class Events {
     public static System.Action<int> OnScoreRefresh = delegate { };
 
     public static System.Action OnStartCountDown = delegate { };
+
+    public static System.Action OnBarInit = delegate { };
+    public static System.Action<float> OnSetBar = delegate { };
+    public static System.Action OnBarReady = delegate { };
     
     
     

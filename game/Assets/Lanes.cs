@@ -135,8 +135,6 @@ public class Lanes : MonoBehaviour {
     }
     public void sortInLayersByLane(GameObject go, int laneId)
     {
-            print("___________________________________VERREDA" + go.name);
-
          SpriteRenderer[] renderers = go.GetComponentsInChildren<SpriteRenderer>(true);
          foreach (SpriteRenderer sr in renderers)
              sr.sortingLayerName = "lane" + laneId;

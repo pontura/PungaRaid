@@ -34,6 +34,7 @@ public class PowerupManager : MonoBehaviour {
     }
     void OnPowerUp(int id)
     {
+        Events.OnBarInit();
         Events.OnSoundFX("PowerUpItem");
         if (type == types.MOTO) return;
 
@@ -42,7 +43,7 @@ public class PowerupManager : MonoBehaviour {
         powerUp.transform.SetParent(powerUpsContainer.transform);
         powerUp.transform.localScale = Vector3.one;
         powerUp.transform.localPosition = Vector3.zero;
-        powerUp.Init(3);
+        powerUp.Init(10);
         collider2d.size = new Vector2(8, collider2d.size.y);
 
         character.OnSetHeroState(false);
@@ -56,6 +57,7 @@ public class PowerupManager : MonoBehaviour {
     {
         Events.OnSoundFX("PowerUpOff");
         Events.OnSoundFXLoop("");
+        Events.OnBarReady();
 
         collider2d.size = new Vector2(1, collider2d.size.y);
         type = types.NONE;

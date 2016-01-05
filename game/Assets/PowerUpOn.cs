@@ -6,6 +6,8 @@ public class PowerUpOn : MonoBehaviour {
     public string clip_init;
     public string clip_loop;
     public int lives;
+    private int totalLives;
+
 
     void Start()
     {
@@ -19,12 +21,15 @@ public class PowerUpOn : MonoBehaviour {
     {
         Events.OnExplotion();
         lives--;
-        print("CRASH");
+        float percent = (float)lives / (float)totalLives;
+        print(percent + " ::::: " + lives + " _____________ " + totalLives);
+        Events.OnSetBar( percent );
         if (lives <= 0)
             Events.OnHeroPowerUpOff();
     }
     public void Init(int lives)
     {
+        this.totalLives = lives;
         this.lives = lives;
         OnInit();
     }
