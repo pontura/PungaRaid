@@ -8,7 +8,6 @@ public class PowerUpOn : MonoBehaviour {
     public int lives;
     private int totalLives;
 
-
     void Start()
     {
         Events.OnHeroCrash += OnHeroCrash;
@@ -22,7 +21,6 @@ public class PowerUpOn : MonoBehaviour {
         Events.OnExplotion();
         lives--;
         float percent = (float)lives / (float)totalLives;
-        print(percent + " ::::: " + lives + " _____________ " + totalLives);
         Events.OnSetBar( percent );
         if (lives <= 0)
             Events.OnHeroPowerUpOff();
@@ -35,8 +33,4 @@ public class PowerUpOn : MonoBehaviour {
     }
     public virtual void OnInit() { }
 
-    public void Loop()
-    {
-      //  GetComponent<Animator>().Play("clip_loop");
-    }
 }

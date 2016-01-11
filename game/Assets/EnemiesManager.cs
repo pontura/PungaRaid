@@ -82,7 +82,10 @@ public class EnemiesManager : MonoBehaviour {
                         break;
                     case "PowerUp":
                         if (enemy.GetComponent<PowerUp>())
+                        {
+                            enemy.GetComponent<PowerUp>().InitPowerUp(2);
                             return enemy;
+                        }                            
                         break;
                     case "Blocker":
                         if (enemy.name == "Blocker" || enemy.name == "Blocker(Clone)")  

@@ -18,7 +18,9 @@ public class PowerupManager : MonoBehaviour {
     public enum types
     {
         NONE,
-        MOTO
+        MOTO,
+        CHUMBO,
+        GIL
     }
     void Start()
     {
@@ -32,12 +34,17 @@ public class PowerupManager : MonoBehaviour {
         Events.OnPowerUp -= OnPowerUp;
         Events.OnHeroPowerUpOff -= OnHeroPowerUpOff;
     }
-    void OnPowerUp(int id)
+    void OnPowerUp(types newType)
     {
+        if (type == newType) return;
+
         Events.OnBarInit();
         Events.OnSoundFX("PowerUpItem");
-        if (type == types.MOTO) return;
 
+        Moto();
+    }
+    void Moto()
+    {
         type = types.MOTO;
         powerUp = Instantiate(powerUp1) as PowerUpOn;
         powerUp.transform.SetParent(powerUpsContainer.transform);
@@ -49,8 +56,6 @@ public class PowerupManager : MonoBehaviour {
         character.OnSetHeroState(false);
 
         Events.OnChangeSpeed(2, true);
-
-       // Invoke("PowerupOff", 5);
     }
 
     void OnHeroPowerUpOff()
