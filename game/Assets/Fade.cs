@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Fade : MonoBehaviour
 {
-    private Image masker;
+    public Image masker;
     private string m_LevelName = "";
     private int m_LevelIndex = 0;
     private bool m_Fading = false;
@@ -12,14 +12,12 @@ public class Fade : MonoBehaviour
 
     private void Awake()
     {
+        masker.gameObject.SetActive(true);
         graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
-        DontDestroyOnLoad(this);
-		masker = GetComponentInChildren<Image>();
         masker.enabled = true;
 		masker.color = new Color(0,0,0,0);
         graphicRaycaster.enabled = false;
 	}
-
     private IEnumerator FadeStart(float aFadeOutTime, float aFadeInTime, Color aColor)
     {
         graphicRaycaster.enabled = true;

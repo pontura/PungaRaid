@@ -23,6 +23,13 @@ public class Character : MonoBehaviour {
     public bool CantMoveUp;
     public bool CantMoveDown;
 
+    public actions action;
+    public enum actions
+    {
+        PLAYING,
+        CHANGING_LANE
+    }
+
     void Awake()
     {
         collider = GetComponent<BoxCollider2D>();
@@ -65,15 +72,11 @@ public class Character : MonoBehaviour {
     }
 	public void MoveUP()
     {
-        CantMoveUp = false;
-        CantMoveDown = false;
-        Move(2.5f, true);
+        Move(2f, true);
     }
     public void MoveDown()
-    {
-        CantMoveUp = false;
-        CantMoveDown = false;
-        Move(-2.5f, true);
+    {       
+        Move(-2f, true);
     }
     void Idle()
     {
@@ -90,6 +93,12 @@ public class Character : MonoBehaviour {
     }
     private void Move(float _y, bool firstStep)
     {
+        if (action == actions.CHANGING_LANE) return;
+        CantMoveUp = false;
+        CantMoveDown = false;
+
+        Events.OnChangeLane();
+        action = actions.CHANGING_LANE;
         Events.OnSoundFX("changeLane");
         TweenParms parms = new TweenParms();
         parms.Prop("localPosition", new Vector3(0,_y,0));
@@ -100,7 +109,8 @@ public class Character : MonoBehaviour {
     }
     void OnChangeLaneComplete()
     {
-        Events.OnChangeLaneComplete();        
+        Events.OnChangeLaneComplete();
+        action = actions.PLAYING;
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -116,55 +126,50 @@ public class Character : MonoBehaviour {
            }
        }
     }
-    void OnTriggerEnter2D(Collider2D other) 
+    public void OnCollisionCenter(Enemy enemy) 
     {
-       Enemy enemy = other.GetComponent<Enemy>();
-       if (enemy && !enemy.isPooled)
-       {          
-           if ( enemy.GetComponent<Blocker>())
-           {
-               Blocker blocker = enemy.GetComponent<Blocker>();
-               if (blocker.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
-               {
-                   Events.OnHeroDie();
-                   return;
-               }
-               else
-               {
-                   if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = true;
-                   if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = true;
-               }
-               
-           } else
-           if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
-           {
-               if (enemy.GetComponent<PowerUp>())
-               {
-                   enemy.GetComponent<PowerUp>().Activate();
-               } 
-               else if (hero.state == Hero.states.DASH && enemy.GetComponent<Victim>())
-               {
-                   enemy.Explote();
-               } else if (powerupManager.type != PowerupManager.types.NONE)
-               {
-                   Events.OnHeroCrash();
-                   enemy.Explote();
-               }
-               else
-               {
-                   enemy.Crashed();
-                   Events.OnHeroDie();
-               }
-           }
-           else
-           {
-               if (enemy.GetComponent<Victim>())
-               {
-                   enemy.GetComponent<Victim>().Steal();
-                   Events.OnSoundFX("Pung");
-                   Events.OnScoreAdd(Random.Range(5, 10) * 10);
-               }
-           }
-       }
+        if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
+        {
+            if (enemy.GetComponent<PowerUp>())
+            {
+                enemy.GetComponent<PowerUp>().Activate();
+            }
+            else if (hero.state == Hero.states.DASH && enemy.GetComponent<Victim>())
+            {
+                enemy.Explote();
+            }
+            else if (powerupManager.type != PowerupManager.types.NONE)
+            {
+                Events.OnHeroCrash();
+                enemy.Explote();
+            }
+            else
+            {
+                enemy.Crashed();
+                Events.OnHeroDie();
+            }
+        }
+        else
+        {
+            if (enemy.GetComponent<Victim>())
+            {
+                enemy.GetComponent<Victim>().Steal();
+                Events.OnSoundFX("Pung");
+                Events.OnScoreAdd(Random.Range(5, 10) * 10);
+            }
+        }
+    }
+    public void OnCollisionWithBlocker(Blocker blocker, CharacterCollider.types type)
+    {
+        if (blocker.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
+        {
+            Events.OnHeroDie();
+            return;
+        }
+        else
+        {
+            if (type == CharacterCollider.types.TOP) CantMoveUp = true;
+            if (type == CharacterCollider.types.BOTTOM) CantMoveDown = true;
+        }
     }
 }

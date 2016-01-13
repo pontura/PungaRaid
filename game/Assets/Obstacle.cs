@@ -61,7 +61,7 @@ public class Obstacle : Enemy
         if (state == states.CRASHED) return;
         state = states.CRASHED;
         anim.Play("crashed");
-        collider.enabled = false;
+        if(collider) collider.enabled = false;
     }
 
 }

@@ -29,7 +29,7 @@ public class CharacterBar : MonoBehaviour {
     }
     void OnSetBar(float qty)
     {
-        print("___SET BAR: " + qty);
+       // print("___SET BAR: " + qty);
         container.transform.localScale = new Vector3(qty, 1, 1);
     }
 }

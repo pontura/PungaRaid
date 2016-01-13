@@ -9,7 +9,7 @@ public class CharacterManager : MonoBehaviour {
     public void Init()
     {
         Events.OnSwipe += OnSwipe;
-        Events.OnChangeingLane += OnChangeingLane;
+       // Events.OnChangeLane += OnChangeLane;
         Events.OnChangeLaneComplete += OnChangeLaneComplete;
 
         OnChangeLaneComplete();
@@ -18,7 +18,7 @@ public class CharacterManager : MonoBehaviour {
     public void OnDestroy()
     {
         Events.OnSwipe -= OnSwipe;
-        Events.OnChangeingLane -= OnChangeingLane;
+       // Events.OnChangeLane -= OnChangeLane;
         Events.OnChangeLaneComplete -= OnChangeLaneComplete;
     }
     public void UpdatePosition(float _x)
@@ -46,14 +46,14 @@ public class CharacterManager : MonoBehaviour {
                break;
         }
     }
-    void OnChangeingLane()
-    {
-        if (lanes.GetActivetLane())
-        {
-            //character.transform.parent = lanes.GetActivetLane().gameObject.transform;
-            //character.GotoCenterOfLane();
-        }
-    }
+    //void OnChangeingLane()
+    //{
+    //    if (lanes.GetActivetLane())
+    //    {
+    //        //character.transform.parent = lanes.GetActivetLane().gameObject.transform;
+    //        //character.GotoCenterOfLane();
+    //    }
+    //}
     void OnChangeLaneComplete()
     {
         character.transform.parent = lanes.GetActivetLane().gameObject.transform;

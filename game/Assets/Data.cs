@@ -26,8 +26,16 @@ public class Data : MonoBehaviour
     private Fade fade;
 
     static Data mInstance = null;
+    [HideInInspector]
     public ClothesSettings clothesSettings;
+    [HideInInspector]
     public EnemiesManager enemiesManager;
+    [HideInInspector]
+    public GameSettings gameSettings;
+    [HideInInspector]
+    public LoginManager loginManager;
+    [HideInInspector]
+    public UserData userData;
 
     public static Data Instance
     {
@@ -79,9 +87,12 @@ public class Data : MonoBehaviour
         clothesSettings = GetComponent<ClothesSettings>();
         enemiesManager = GetComponent<EnemiesManager>();
         gameData = GetComponent<GameData>();
-        GetComponent<UserData>().Init();
-        GetComponent<MusicManager>().Init();
+        loginManager = GetComponent<LoginManager>();
+        userData = GetComponent<UserData>();
+        gameSettings = GetComponent<GameSettings>();
 
+        userData.Init();
+        GetComponent<MusicManager>().Init();
 
         Events.OnMusicVolumeChanged += OnMusicVolumeChanged;
         Events.OnSoundsVolumeChanged += OnSoundsVolumeChanged;

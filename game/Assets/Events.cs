@@ -3,6 +3,18 @@ using System.Collections;
 
 public static class Events {
 
+    public static System.Action OnSettings = delegate { };
+
+    public static System.Action OnFacebookFriends = delegate { };
+    public static System.Action OnFacebookNotConnected = delegate { };
+    public static System.Action OnFacebookInviteFriends = delegate { };
+    public static System.Action OnFacebookLogin = delegate { };
+    public static System.Action OnParseLogin = delegate { };
+    public static System.Action<string, float, int> OnParseLoadedScore = delegate { };
+    public static System.Action OnLoadLocalData = delegate { };
+    public static System.Action<int, float> OnNewHiscore = delegate { };
+    public static System.Action<string, string> AddFacebookFriend = delegate { }; 
+
     public static System.Action<GameObject> OnUIClicked = delegate { };
     
 
@@ -36,9 +48,9 @@ public static class Events {
     public static System.Action<bool> OnGamePaused = delegate { };
     public static System.Action OnGameRestart = delegate { };
     public static System.Action<float, bool> OnChangeSpeed = delegate { };
-    public static System.Action OnResetSpeed = delegate { };    
+    public static System.Action OnResetSpeed = delegate { };
 
-    public static System.Action OnChangeingLane = delegate { };
+    public static System.Action OnChangeLane = delegate { };
     public static System.Action OnChangeLaneComplete = delegate { };
 
     public static System.Action OnHeroDie = delegate { };

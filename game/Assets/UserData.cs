@@ -1,82 +1,63 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using Soomla.Store;
 
-public class UserData : MonoBehaviour {
 
-    public bool DEBUG_UnlockAllLevels;
-    public List<int> starsZone1;
+public class UserData : MonoBehaviour
+{
+    public bool logged;
+    public string facebookID;
+    public string username;
+    public int score;
 
-    private Data data;
+    [Serializable]
+    public class FacebookUserData
+    {
+        public string facebookID;
+        public string username;
+    }
 
-	public void Init () {
-        Events.OnLevelComplete += OnLevelComplete;
-        data = GetComponent<Data>();
-        LoadData();
-        //diplomaId = PlayerPrefs.GetInt("diplomaId");
-	}
+    public void Init()
+    {
+        //RegisterUser("", "", "");
+
+        if (PlayerPrefs.GetString("username") != "" && PlayerPrefs.GetString("facebookID") != "")
+            SetUser(PlayerPrefs.GetString("username"), PlayerPrefs.GetString("facebookID"), PlayerPrefs.GetInt("score"));
+
+#if UNITY_EDITOR
+        SetUser("", "", 0);
+#endif
+
+    }
+    void SetUser(string username, string facebookID, int score)
+    {
+        this.facebookID = facebookID;
+        this.username = username;
+        this.score = score;
+        if (username != "")
+            logged = true;
+    }
+    public void RegisterUser(string username, string facebookID, string score)
+    {
+        print("RegisterUser username: " + username + " + facebookID + " + facebookID + " + score + " + score);
+        PlayerPrefs.SetString("username", username);
+        PlayerPrefs.SetString("facebookID", facebookID);
+        PlayerPrefs.SetInt("email", int.Parse(score));
+        SetUser(username, facebookID, int.Parse(score));
+    }
     public void Reset()
     {
-
-        for (int a=0; a<31; a++)
-            PlayerPrefs.SetInt("level_1_" + a, 0);
-
-        starsZone1.Clear();
-
-        LoadData();
-
-        PlayerPrefs.SetInt("hats", 0);
-        PlayerPrefs.SetInt("chairs", 0);
-        PlayerPrefs.SetInt("legs", 0);
+        logged = false;
+        facebookID = "";
+        username = "";
+        score = 0;
     }
-    public void UnblockAllLevels()
+    public void ResetFacebookFriends()
     {
-        DEBUG_UnlockAllLevels = true;
+        print("ResetFacebookFriends");
+       // FacebookFriends.Clear();
     }
-    void OnLevelComplete()
-    {
-
-    }
-    public int ErorsToStars(int errors)
-    {
-        int stars;
-
-        if (errors < 2) stars = 3;
-        else if (errors < 4) stars = 2;
-        else stars = 1;
-
-        return stars;
-    }
-    void SaveStars(int levelID, int newStars)
-    {
-        int stars = PlayerPrefs.GetInt("level_1_" + levelID); 
-        if(stars<newStars)
-        {
-            PlayerPrefs.SetInt("level_1_" + levelID, newStars);
-            if (starsZone1.Count < levelID)
-                starsZone1.Add(newStars);
-            else
-                starsZone1[levelID - 1] = newStars;
-        }
-    }
-    void LoadData()
-    {
-       // int levelID = 0;
-    }
-    public int GetStarsIn(int LevelID)
-    {
-        if (DEBUG_UnlockAllLevels)
-            return 3;
-
-       // if (starsZone1.Count < LevelID) 
-         //   return 0;
-        int stars;
-
-        if (starsZone1.Count < LevelID) 
-            return 0;
-
-        stars = starsZone1[LevelID - 1];
-
-        return stars;
-    }
+    
 }

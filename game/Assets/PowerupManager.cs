@@ -13,8 +13,6 @@ public class PowerupManager : MonoBehaviour {
     private PowerUpOn powerUp;
     private Character character;
 
-    private BoxCollider2D collider2d;
-
     public enum types
     {
         NONE,
@@ -27,7 +25,6 @@ public class PowerupManager : MonoBehaviour {
         character = GetComponent<Character>();
         Events.OnPowerUp += OnPowerUp;
         Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
-        collider2d = GetComponent<BoxCollider2D>();
     }
     void OnDestroy()
     {
@@ -51,10 +48,8 @@ public class PowerupManager : MonoBehaviour {
         powerUp.transform.localScale = Vector3.one;
         powerUp.transform.localPosition = Vector3.zero;
         powerUp.Init(10);
-        collider2d.size = new Vector2(8, collider2d.size.y);
 
         character.OnSetHeroState(false);
-
         Events.OnChangeSpeed(2, true);
     }
 
@@ -64,7 +59,7 @@ public class PowerupManager : MonoBehaviour {
         Events.OnSoundFXLoop("");
         Events.OnBarReady();
 
-        collider2d.size = new Vector2(1, collider2d.size.y);
+        
         type = types.NONE;
         character.OnSetHeroState(true);
         Destroy(powerUp.gameObject);

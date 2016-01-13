@@ -47,8 +47,8 @@ public class LevelSelector : MonoBehaviour {
         
         foreach (LevelSelectorButton button in buttons)
         {
-            
-            int starsQty = userData.GetStarsIn( id);
+
+            int starsQty = 0;
 
             button.Init(zoneID, id, starsQty);
 
