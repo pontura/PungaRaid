@@ -26,6 +26,7 @@ public static class Events {
     public static System.Action OnTransitionReady = delegate { };
     public static System.Action OnPoolAllItemsInScene = delegate { };
     public static System.Action<PowerupManager.types> OnPowerUp = delegate { };
+    public static System.Action<PowerupManager.types> OnPowerUpShoot = delegate { };
     
 
     //The game:

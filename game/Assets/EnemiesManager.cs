@@ -83,7 +83,7 @@ public class EnemiesManager : MonoBehaviour {
                     case "PowerUp":
                         if (enemy.GetComponent<PowerUp>())
                         {
-                            enemy.GetComponent<PowerUp>().InitPowerUp(2);
+                            enemy.GetComponent<PowerUp>().InitPowerUp();
                             return enemy;
                         }                            
                         break;

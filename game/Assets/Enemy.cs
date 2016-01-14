@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
+    public GameObject shadowAsset;
+    private GameObject shadow;
     public int laneId;
     public Animator anim;
     
@@ -12,8 +14,19 @@ public class Enemy : MonoBehaviour {
 
     public int offsetToBeOff = 5;
 
+    void Start()
+    {
+        if (shadowAsset != null)
+        {
+            shadow = Instantiate(shadowAsset);            
+            shadow.transform.SetParent(transform);
+            shadow.transform.localScale = Vector3.one;
+            shadow.transform.localPosition = Vector3.zero;
+        }
+    }
     public void Init(EnemySettings settings, int laneId)
     {
+        if (shadow != null) shadow.SetActive(true);
         isPooled = false;
         isActivated = false;
         this.laneId = laneId;
@@ -48,12 +61,13 @@ public class Enemy : MonoBehaviour {
     }
     public void Crashed()
     {
-        OnCrashed();
+        OnCrashed();        
     }
     public void Explote()
     {
         Events.OnSoundFX("Explosion");
         OnExplote();
+        if (shadow != null) shadow.SetActive(false);
     }
     public virtual void OnSecondaryCollision(Collider2D other) { }
     public virtual void Enemy_Pooled() { }

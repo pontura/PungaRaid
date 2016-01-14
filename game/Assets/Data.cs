@@ -22,9 +22,7 @@ public class Data : MonoBehaviour
     public bool TutorialReady;
 
     const string PREFAB_PATH = "Data";
-
-    private Fade fade;
-
+    
     static Data mInstance = null;
     [HideInInspector]
     public ClothesSettings clothesSettings;
@@ -57,14 +55,13 @@ public class Data : MonoBehaviour
     public void LoadLevel(string aLevelName)
     {
         Time.timeScale = 1;
-        fade.LoadLevel(aLevelName, 0.5f, 0.5f, Color.black);
+        Application.LoadLevel(aLevelName);
+       // fade.LoadLevel(aLevelName, 0.5f, 0.5f, Color.black);
     }
     void Awake()
     {
 		//Application.targetFrameRate = 30;
 		QualitySettings.vSyncCount = 1;
-        fade = GetComponentInChildren<Fade>();
-        fade.gameObject.SetActive(true);
        //PlayerPrefs.SetInt("level_1_1", 0);
         //PlayerPrefs.SetInt("level_1_2", 0);
         //PlayerPrefs.SetInt("level_1_3", 0);

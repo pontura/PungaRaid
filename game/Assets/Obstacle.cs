@@ -14,13 +14,13 @@ public class Obstacle : Enemy
     public GameObject[] obstacles;
 
     private string currentAnim;
-    private BoxCollider2D collider;
+    private BoxCollider2D collider2d;
     public GameObject container;
 
     override public void Enemy_Activate()
     {
-        collider = GetComponent<BoxCollider2D>();
-        collider.enabled = true;
+        collider2d = GetComponent<BoxCollider2D>();
+        collider2d.enabled = true;
     }
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
@@ -31,16 +31,15 @@ public class Obstacle : Enemy
         ResetContainer();
 
         GameObject go = Instantiate(obstacles[randObstacleID]) as GameObject;
-        anim = go.GetComponent<Animator>();
-       
         go.transform.SetParent(container.transform);
+        anim = go.GetComponent<Animator>();
        // distance = Game.Instance.gameManager.distance;
         float scaleNum = 1;
         Vector3 scale = new Vector3(scaleNum, scaleNum, scaleNum);
         transform.localScale = scale;
         transform.localPosition = Vector3.zero;
         go.transform.localPosition = Vector3.zero;
-        anim.Play("idle");
+        anim.Play("idle",0,0);
     }
     void ResetContainer()
     {
@@ -60,8 +59,11 @@ public class Obstacle : Enemy
     {
         if (state == states.CRASHED) return;
         state = states.CRASHED;
-        anim.Play("crashed");
-        if(collider) collider.enabled = false;
+        //anim.Play("crashed", 0, 0);
+       // if (collider2d) collider2d.enabled = false;
+        print("Pool!!!!!!" + name);
+        Pool();
+        //Destroy(gameObject);
     }
 
 }

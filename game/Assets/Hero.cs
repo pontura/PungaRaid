@@ -14,7 +14,10 @@ public class Hero : MonoBehaviour {
         DASH,
         CELEBRATE,
         DEAD,        
-        WIN
+        WIN,
+        CHUMBO_RUN,
+        CHUMBO_FIRE
+
     }
     void Start()
     {
@@ -45,12 +48,11 @@ public class Hero : MonoBehaviour {
     }
     void StartGame()
     {
-        ResetAnimation();
+        Run();
     }
     void OnHeroCrash()
     {
         Crash();
-       // collider.enabled = false;
     }
     void OnHeroCelebrate()
     {
@@ -72,24 +74,46 @@ public class Hero : MonoBehaviour {
         state = states.DASH;
         animator.SetBool(state.ToString(), true);
         animator.Play("pungaDash", 0, 0);
-    }    
+        Invoke("EndAnimation", 0.6f);
+    }
+    void EndAnimation()
+    {
+        switch (state)
+        {
+            case states.DASH:           Run();          break;
+            case states.CHUMBO_FIRE:    ChumboRun();    break;
+        }
+    }
     void Crash()
     {
         if (state == states.CRASH) return;
         state = states.CRASH;
        // animator.SetBool(state.ToString(), true);
         animator.Play("pungaCrash",0,0);
-    }   
+    }
+    public void Run()
+    {
+        state = states.RUN;
+        animator.Play("pungaRun", 0, 0);
+    }
+    public void ChumboRun()
+    {
+        state = states.CHUMBO_RUN;
+        animator.Play("pungaRunMegachumbo", 0, 0);
+    }
+    public void ChumboFire()
+    {
+        state = states.CHUMBO_FIRE;
+        animator.Play("pungaFireMegachumbo", 0, 0);
+        Invoke("EndAnimation", 0.5f);
+    }
     void Celebrate()
     {
-        state = states.CELEBRATE;
-        animator.SetBool(state.ToString(), true);
+
     }
     void OnLevelComplete()
     {
-        if (state == states.WIN) return;
-        state = states.WIN;
-        animator.SetBool(state.ToString(), true);
+
     }
     public void Dash()
     {
@@ -101,15 +125,6 @@ public class Hero : MonoBehaviour {
     }
     public void ResetAnimation()
     {
-        state = states.RUN;
-        animator.Play("pungaRun", 0, 0);
 
-        animator.SetBool("RUN", true);
-        animator.SetBool("CRASH", false);
-        animator.SetBool("DASH", false);
-        animator.SetBool("SLIDE", false);
-        animator.SetBool("LAVA", false);
-        animator.SetBool("CELEBRATE", false);
-        animator.SetBool("IDLE", false);
     }
 }

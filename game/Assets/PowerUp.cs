@@ -14,14 +14,16 @@ public class PowerUp : Enemy {
     {
 
     }
-    public void InitPowerUp(int _id)
+    public void InitPowerUp()
     {
-        print("InitPowerUp " + _id);
+        int id = Random.Range(1, 4);
+
+        print("InitPowerUp " + id);
         moto.SetActive(false);
         chumbo.SetActive(false);
         gil.SetActive(false);
         
-        switch (_id)
+        switch (id)
         {
             case 1: moto.SetActive(true);   type = PowerupManager.types.MOTO;  break;
             case 2: chumbo.SetActive(true); type = PowerupManager.types.CHUMBO; break;

@@ -55,8 +55,22 @@ public class Character : MonoBehaviour {
         else
             heroContainer.transform.localPosition = Vector3.zero;
     }
+    public void PowerupActivated(PowerupManager.types type)
+    {
+        switch (type)
+        {
+            case PowerupManager.types.CHUMBO:                
+                hero.ChumboRun();  
+                break;
+        }
+    }
     public void Dash()
     {
+        if (powerupManager.type == PowerupManager.types.CHUMBO)
+        {
+            hero.ChumboFire();
+            Events.OnPowerUpShoot(PowerupManager.types.CHUMBO);
+        } else
         if (hero.state != Hero.states.DASH && powerupManager.type == PowerupManager.types.NONE)
         {
             Events.OnChangeSpeed(6, false);
@@ -87,9 +101,7 @@ public class Character : MonoBehaviour {
         Vector3 pos = transform.localPosition;
         pos.y = 0;
         transform.localPosition = pos;
-       // if (hero)
-            container.transform.localPosition = Vector3.zero;
-       // state = states.IDLE;
+        container.transform.localPosition = Vector3.zero;
     }
     private void Move(float _y, bool firstStep)
     {
@@ -113,19 +125,6 @@ public class Character : MonoBehaviour {
         action = actions.PLAYING;
     }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-       Enemy enemy = other.GetComponent<Enemy>();
-       if (enemy)
-       {
-           if (enemy.GetComponent<Blocker>())
-           {
-               Blocker blocker = enemy.GetComponent<Blocker>();
-               if (blocker.laneId > Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveUp = false;
-               if (blocker.laneId < Game.Instance.gameManager.characterManager.lanes.laneActiveID) CantMoveDown = false;
-           }
-       }
-    }
     public void OnCollisionCenter(Enemy enemy) 
     {
         if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
@@ -138,7 +137,7 @@ public class Character : MonoBehaviour {
             {
                 enemy.Explote();
             }
-            else if (powerupManager.type != PowerupManager.types.NONE)
+            else if (powerupManager.type == PowerupManager.types.MOTO)
             {
                 Events.OnHeroCrash();
                 enemy.Explote();

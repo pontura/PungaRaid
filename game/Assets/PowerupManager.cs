@@ -7,6 +7,7 @@ public class PowerupManager : MonoBehaviour {
     public types type;
 
     public GameObject powerUpsContainer;
+    public GameObject powerUpGil;
 
     public PowerUpOn powerUp1;
 
@@ -22,6 +23,7 @@ public class PowerupManager : MonoBehaviour {
     }
     void Start()
     {
+        powerUpGil.SetActive(false);
         character = GetComponent<Character>();
         Events.OnPowerUp += OnPowerUp;
         Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
@@ -37,8 +39,25 @@ public class PowerupManager : MonoBehaviour {
 
         Events.OnBarInit();
         Events.OnSoundFX("PowerUpItem");
-
-        Moto();
+        
+        switch (newType)
+        {
+            case types.MOTO: Moto(); break;
+            case types.CHUMBO: Chumbo(); break;
+            case types.GIL: Gil(); break;
+        }
+        
+    }
+    void Chumbo()
+    {
+        type = types.CHUMBO;
+        character.PowerupActivated(type);
+    }
+    void Gil()
+    {
+        powerUpGil.SetActive(true);
+        type = types.GIL;
+        character.PowerupActivated(type);
     }
     void Moto()
     {
@@ -55,6 +74,7 @@ public class PowerupManager : MonoBehaviour {
 
     void OnHeroPowerUpOff()
     {
+        powerUpGil.SetActive(false);
         Events.OnSoundFX("PowerUpOff");
         Events.OnSoundFXLoop("");
         Events.OnBarReady();
@@ -62,7 +82,10 @@ public class PowerupManager : MonoBehaviour {
         
         type = types.NONE;
         character.OnSetHeroState(true);
-        Destroy(powerUp.gameObject);
+
+        if (powerUp != null)
+            Destroy(powerUp.gameObject);
+
         Events.OnResetSpeed();
     }
 }

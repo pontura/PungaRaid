@@ -12,46 +12,76 @@ public class CharacterCollider : MonoBehaviour {
     {
         CENTER,
         TOP,
-        BOTTOM
+        BOTTOM,
+        GUN
     }
     void Start()
     {
         collider2d = GetComponent<BoxCollider2D>();
+        OnChangeLaneComplete();
+
         Events.OnChangeLaneComplete += OnChangeLaneComplete;
         Events.OnChangeLane += OnChangeLane;
         Events.OnPowerUp += OnPowerUp;
+        Events.OnPowerUpShoot += OnPowerUpShoot;
         Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
+        
     }
     void OnDestroy()
     {
         Events.OnChangeLaneComplete -= OnChangeLaneComplete;
         Events.OnChangeLane -= OnChangeLane;
         Events.OnPowerUp -= OnPowerUp;
+        Events.OnPowerUpShoot -= OnPowerUpShoot;
         Events.OnHeroPowerUpOff -= OnHeroPowerUpOff;
     }
     void OnChangeLaneComplete()
     {
-        collider2d.enabled = true;
+        if (type != types.GUN)
+            collider2d.enabled = true;
     }
     void OnChangeLane()
+    {
+        if (type != types.GUN)
+            collider2d.enabled = false;
+    }
+    void OnPowerUpShoot(PowerupManager.types newType)
+    {
+        if (type == types.GUN && newType == PowerupManager.types.CHUMBO)
+        {
+            collider2d.enabled = true;
+            Invoke("PowerUpReady", 0.2f);
+        }
+    }
+    void PowerUpReady()
     {
         collider2d.enabled = false;
     }
     void OnPowerUp(PowerupManager.types newType)
     {
-        if (type == types.CENTER)
-            collider2d.size = new Vector2(10, collider2d.size.y);
+       // if (type == types.CENTER && newType == PowerupManager.types.MOTO)
+           // collider2d.size = new Vector2(5, collider2d.size.y);
     }
     void OnHeroPowerUpOff()
     {
-        collider2d.size = new Vector2(4, collider2d.size.y);
+       // collider2d.size = new Vector2(4, collider2d.size.y);
+        if (type == types.GUN)
+            collider2d.enabled = false;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
-        if(!enemy) return;
+        if(!enemy) return;        
+
         Blocker blocker = enemy.GetComponent<Blocker>();
- 
+
+        if (type == types.GUN)
+        {
+          //  if(blocker == null)
+                enemy.Explote();
+
+            return;
+        } else
         if (type == types.CENTER)
         {
             if (blocker)
@@ -72,6 +102,8 @@ public class CharacterCollider : MonoBehaviour {
     void OnTriggerExit2D(Collider2D other)
     {
         if (type == types.CENTER) return;
+        if (type == types.GUN) return;
+
         if (lastBlocker == other.GetComponent<Blocker>())
         {
             if (type == types.TOP)
