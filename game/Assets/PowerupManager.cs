@@ -35,7 +35,7 @@ public class PowerupManager : MonoBehaviour {
     }
     void OnPowerUp(types newType)
     {
-        if (type == newType) return;
+        if (type != types.NONE) return;
 
         Events.OnBarInit();
         Events.OnSoundFX("PowerUpItem");
@@ -73,19 +73,22 @@ public class PowerupManager : MonoBehaviour {
     }
 
     void OnHeroPowerUpOff()
-    {
-        powerUpGil.SetActive(false);
-        Events.OnSoundFX("PowerUpOff");
-        Events.OnSoundFXLoop("");
-        Events.OnBarReady();
+    {        
+        character.Idle();
 
-        
+        if (type == types.MOTO)
+        {
+            Events.OnSoundFX("PowerUpOff");
+            Events.OnSoundFXLoop("");
+            character.OnSetHeroState(true);
+            if (powerUp != null)
+                Destroy(powerUp.gameObject);
+            Events.OnResetSpeed();
+        }
+        else if (type == types.GIL)
+        {
+            powerUpGil.SetActive(false);           
+        }
         type = types.NONE;
-        character.OnSetHeroState(true);
-
-        if (powerUp != null)
-            Destroy(powerUp.gameObject);
-
-        Events.OnResetSpeed();
     }
 }

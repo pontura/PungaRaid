@@ -27,6 +27,7 @@ public static class Events {
     public static System.Action OnPoolAllItemsInScene = delegate { };
     public static System.Action<PowerupManager.types> OnPowerUp = delegate { };
     public static System.Action<PowerupManager.types> OnPowerUpShoot = delegate { };
+    public static System.Action OnHeroPowerUpOff = delegate { };
     
 
     //The game:
@@ -58,7 +59,7 @@ public static class Events {
     public static System.Action OnHeroCrash = delegate { };
     public static System.Action OnHeroDash = delegate { };
     public static System.Action OnHeroCelebrate = delegate { };
-    public static System.Action OnHeroPowerUpOff = delegate { };
+    
     public static System.Action OnExplotion = delegate { };
 
 
@@ -67,7 +68,6 @@ public static class Events {
     public static System.Action OnStartCountDown = delegate { };
 
     public static System.Action OnBarInit = delegate { };
-    public static System.Action<float> OnSetBar = delegate { };
     public static System.Action OnBarReady = delegate { };
     
     

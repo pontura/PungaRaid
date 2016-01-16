@@ -17,7 +17,7 @@ public class Character : MonoBehaviour {
     public GameObject container;
     public GameObject heroContainer;
     public GameObject powerUpsContainer;
-    private PowerupManager powerupManager;
+    public PowerupManager powerupManager;
     private BoxCollider2D collider;
 
     public bool CantMoveUp;
@@ -92,9 +92,9 @@ public class Character : MonoBehaviour {
     {       
         Move(-2f, true);
     }
-    void Idle()
+    public void Idle()
     {
-      //  state = states.IDLE;
+        hero.Run();
     }
     public void GotoCenterOfLane()
     {
@@ -145,7 +145,7 @@ public class Character : MonoBehaviour {
             else
             {
                 enemy.Crashed();
-                Events.OnHeroDie();
+                Die();
             }
         }
         else
@@ -162,7 +162,7 @@ public class Character : MonoBehaviour {
     {
         if (blocker.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
         {
-            Events.OnHeroDie();
+            Die();
             return;
         }
         else
@@ -170,5 +170,10 @@ public class Character : MonoBehaviour {
             if (type == CharacterCollider.types.TOP) CantMoveUp = true;
             if (type == CharacterCollider.types.BOTTOM) CantMoveDown = true;
         }
+    }
+    void Die()
+    {
+        if (action == actions.CHANGING_LANE) return;
+            Events.OnHeroDie();
     }
 }

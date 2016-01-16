@@ -18,7 +18,6 @@ public class PowerUp : Enemy {
     {
         int id = Random.Range(1, 4);
 
-        print("InitPowerUp " + id);
         moto.SetActive(false);
         chumbo.SetActive(false);
         gil.SetActive(false);

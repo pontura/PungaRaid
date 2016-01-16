@@ -15,7 +15,7 @@ public class Rati : Enemy {
 
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
-
+        anim.Play("copShieldIdle");
     }
 
     public override void OnCrashed()

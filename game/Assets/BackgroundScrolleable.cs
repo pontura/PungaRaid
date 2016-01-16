@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BackgroundScrolleable : MonoBehaviour {
 
+    public bool followAvatar;
     public float _width;
     public float speed;
     private float _x;
@@ -14,12 +15,17 @@ public class BackgroundScrolleable : MonoBehaviour {
 	public void UpdatePosition (float distance, float _speed) {
         _x -= _speed/speed;
         Vector3 pos = transform.localPosition;
-        pos.x = distance + _x;
-
-        if (distance - pos.x > _width)
-        {
-            _x = 0;
+      
+        if (followAvatar) 
             pos.x = distance;
+        else 
+        {
+              pos.x = distance + _x;
+              if (distance - pos.x > _width)
+              {
+                  _x = 0;
+                  pos.x = distance;
+              }
         }
         
         transform.localPosition = pos;

@@ -56,23 +56,12 @@ public class Data : MonoBehaviour
     {
         Time.timeScale = 1;
         Application.LoadLevel(aLevelName);
-       // fade.LoadLevel(aLevelName, 0.5f, 0.5f, Color.black);
     }
     void Awake()
     {
-		//Application.targetFrameRate = 30;
 		QualitySettings.vSyncCount = 1;
-       //PlayerPrefs.SetInt("level_1_1", 0);
-        //PlayerPrefs.SetInt("level_1_2", 0);
-        //PlayerPrefs.SetInt("level_1_3", 0);
-        //PlayerPrefs.SetInt("level_1_4", 0);   
-        //PlayerPrefs.SetInt("hats", 0);
-        //PlayerPrefs.SetInt("legs", 0);
-
-        //if we don't have an [_instance] set yet
         if (!mInstance)
             mInstance = this;
-        //otherwise, if we do, kill this thing
         else
         {
             Destroy(this.gameObject);
@@ -93,10 +82,9 @@ public class Data : MonoBehaviour
 
         Events.OnMusicVolumeChanged += OnMusicVolumeChanged;
         Events.OnSoundsVolumeChanged += OnSoundsVolumeChanged;
-        Events.OnCapsChanged += OnCapsChanged;
 
 //#if UNITY_ANDROID || UNITY_IPHONE
-        Handheld.PlayFullScreenMovie(movPath, Color.black, FullScreenMovieControlMode.Hidden, FullScreenMovieScalingMode.AspectFill);
+       // Handheld.PlayFullScreenMovie(movPath, Color.black, FullScreenMovieControlMode.Hidden, FullScreenMovieScalingMode.AspectFill);
 //#endif
 
     }
@@ -107,10 +95,6 @@ public class Data : MonoBehaviour
     void OnMusicVolumeChanged(float value)
     {
         musicVolume = value;
-    }
-    void OnCapsChanged(bool _caps)
-    {
-        caps = _caps;
     }
     void OnSoundsVolumeChanged(float value)
     {

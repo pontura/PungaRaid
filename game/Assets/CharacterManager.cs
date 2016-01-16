@@ -14,6 +14,13 @@ public class CharacterManager : MonoBehaviour {
 
         OnChangeLaneComplete();
         character.Init();
+
+        Invoke("Delay", 0.1f);
+        
+    }
+    void Delay()
+    {
+        lanes.sortInLayersByLane(character.gameObject, lanes.GetActivetLane().id);
     }
     public void OnDestroy()
     {
