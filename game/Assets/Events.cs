@@ -5,18 +5,8 @@ public static class Events {
 
     public static System.Action OnSettings = delegate { };
 
-    public static System.Action OnFacebookFriends = delegate { };
-    public static System.Action OnFacebookNotConnected = delegate { };
-    public static System.Action OnFacebookInviteFriends = delegate { };
-    public static System.Action OnFacebookLogin = delegate { };
-    public static System.Action OnParseLogin = delegate { };
-    public static System.Action<string, float, int> OnParseLoadedScore = delegate { };
-    public static System.Action OnLoadLocalData = delegate { };
     public static System.Action<int, float> OnNewHiscore = delegate { };
-    public static System.Action<string, string> AddFacebookFriend = delegate { }; 
-
-    public static System.Action<GameObject> OnUIClicked = delegate { };
-    
+    public static System.Action<GameObject> OnUIClicked = delegate { };    
 
     public static System.Action<string> OnPreloadScene = delegate { };
     public static System.Action<string> OnSceneLoad = delegate { };
@@ -62,11 +52,8 @@ public static class Events {
     
     public static System.Action OnExplotion = delegate { };
 
-
     public static System.Action<int> OnScoreAdd = delegate { };
-
     public static System.Action OnStartCountDown = delegate { };
-
     public static System.Action OnBarInit = delegate { };
     public static System.Action OnBarReady = delegate { };
     

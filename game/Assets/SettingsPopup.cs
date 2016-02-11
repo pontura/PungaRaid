@@ -12,17 +12,17 @@ public class SettingsPopup : MonoBehaviour {
      //   panel.transform.localScale = Data.Instance.screenManager.scale;
         panel.SetActive(false);
         Events.OnSettings += OnSettings;
-        Events.OnFacebookNotConnected += OnFacebookNotConnected;
+        SocialEvents.OnFacebookNotConnected += OnFacebookNotConnected;
         
 	}
     void OnDestroy()
     {
         Events.OnSettings -= OnSettings;
-        Events.OnFacebookNotConnected -= OnFacebookNotConnected;
+        SocialEvents.OnFacebookNotConnected -= OnFacebookNotConnected;
     }
     void OnSettings()
     {
-        SetLoginField(FB.IsLoggedIn);
+       // SetLoginField(FB.IsLoggedIn);
 
         graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
         graphicRaycaster.enabled = true;
@@ -32,16 +32,16 @@ public class SettingsPopup : MonoBehaviour {
     }
     public void FBLoginInOut()
     {
-        if (!FB.IsLoggedIn)
-        {
+        //if (!FB.IsLoggedIn)
+        //{
             OnFacebookNotConnected();
             SetLoginField(false);
-        }
-        else
-        {
-            Data.Instance.loginManager.ParseFBLogout();
-            SetLoginField(true);
-        }
+        //}
+        //else
+        //{
+        //    Data.Instance.loginManager.ParseFBLogout();
+        //    SetLoginField(true);
+        //}
     }
     void SetLoginField(bool conected)
     {
@@ -54,7 +54,7 @@ public class SettingsPopup : MonoBehaviour {
     {
         print("FB: OnFacebookNotConnected");
         Close();
-        Data.Instance.loginManager.FBLogin();
+        SocialManager.Instance.loginManager.FBLogin();
     }
     public void Close()
     {

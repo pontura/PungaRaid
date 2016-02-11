@@ -16,6 +16,8 @@ public class Rati : Enemy {
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
         anim.Play("copShieldIdle");
+        state = states.IDLE;
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public override void OnCrashed()

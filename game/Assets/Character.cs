@@ -161,8 +161,9 @@ public class Character : MonoBehaviour {
     public void OnCollisionWithBlocker(Blocker blocker, CharacterCollider.types type)
     {
         if (blocker.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
-        {
+        {            
             Die();
+            Game.Instance.gameManager.realSpeed = 0;
             return;
         }
         else

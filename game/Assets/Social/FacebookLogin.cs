@@ -10,29 +10,26 @@ using System.Linq;
 
 public class FacebookLogin : MonoBehaviour
 {
-    public GameObject loggedInUIElements;
-    public GameObject loggedOutUIElements;
-    
-    public Text DebugText;
+   
 
     void Start()
     {
-        Events.OnFacebookLogin += OnFacebookLogin;
+       // SocialEvents.OnFacebookLogin += OnFacebookLogin;
     }
     void OnDestroy()
     {
-        Events.OnFacebookLogin -= OnFacebookLogin;
+      //  SocialEvents.OnFacebookLogin -= OnFacebookLogin;
     }
     void OnFacebookLogin()
     {
-        Data.Instance.LoadLevel("LevelSelector");
+       // Data.Instance.Load("LevelSelector");
     }
     public void FBLogin()
     {
-        Data.Instance.loginManager.FBLogin();
+       // SocialManager.Instance.loginManager.FBLogin();
     }
     public void Back()
     {
-       // Data.Instance.Back();
+      //  Data.Instance.Back();
     }
 }

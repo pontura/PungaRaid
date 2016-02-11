@@ -9,6 +9,7 @@ public class FacebookFriends : MonoBehaviour {
     public class Friend
     {
         public string id;
+        public string username;
         public Texture2D picture;
     }
     public IList<string> ids;
@@ -16,8 +17,8 @@ public class FacebookFriends : MonoBehaviour {
 
 	void Start () {
         ids = new List<string>();
-        Events.AddFacebookFriend += AddFacebookFriend;
-        Events.OnFacebookInviteFriends += OnFacebookInviteFriends;
+        SocialEvents.AddFacebookFriend += AddFacebookFriend;
+        SocialEvents.OnFacebookInviteFriends += OnFacebookInviteFriends;
 	}
     public string GetUsernameByFacebookID(string _facebookID)
     {
@@ -40,6 +41,7 @@ public class FacebookFriends : MonoBehaviour {
         ids.Add(id);
         Friend friend = new Friend();
         friend.id = id;
+        friend.username = username;
         all.Add(friend);
         StartCoroutine(GetPicture(id));
     }
