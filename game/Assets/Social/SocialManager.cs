@@ -9,7 +9,9 @@ public class SocialManager : MonoBehaviour
     [HideInInspector]
     public UserData userData;
     [HideInInspector]
-    public LoginManager loginManager;    
+    public LoginManager loginManager;
+    [HideInInspector]
+    public FacebookFriends facebookFriends;    
 
     public static SocialManager Instance
     {
@@ -36,6 +38,7 @@ public class SocialManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         loginManager = GetComponent<LoginManager>();
+        facebookFriends = GetComponent<FacebookFriends>();
         userData = GetComponent<UserData>();
 
         userData.Init();

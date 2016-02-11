@@ -15,15 +15,14 @@ public class ProfilePicture : MonoBehaviour
     public void setPicture(string facebookID)
     {
        // if (!this.gameObject.activeInHierarchy) return;
-        Texture2D texture = Data.Instance.facebookFriends.GetProfilePicture(facebookID);
+        Texture2D texture = SocialManager.Instance.facebookFriends.GetProfilePicture(facebookID);
         if (texture != null)
         {
             SetPicture(texture);
         }
         else
         {
-            if (Data.Instance.userData.mode == UserData.modes.SINGLEPLAYER)
-                StartCoroutine(GetPicture(facebookID));
+            StartCoroutine(GetPicture(facebookID));
         }
     }
     IEnumerator GetPicture(string facebookID)
