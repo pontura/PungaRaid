@@ -76,9 +76,12 @@ public class Victim : Enemy {
             anim.Play("victimAPung_bag");
         else if (currentAnim == "victimAWalk_normal")
             anim.Play("victimAPung_normal");
-        clothes.Undress();
 
-        Events.OnAddCoins(laneId, transform.localPosition.x);
+        int mnultiplayerStolen = clothes.Undress();
+
+        Events.OnScoreAdd((Random.Range(5, 10) * 10) * mnultiplayerStolen);
+
+        Events.OnAddCoins(laneId, transform.localPosition.x, mnultiplayerStolen);
     }
     override public void OnCrashed()
     {
@@ -88,7 +91,7 @@ public class Victim : Enemy {
     {
         if (state == states.CRASHED) return;
         state = states.CRASHED;
-        anim.Play("crashed");
+        anim.Play("victimADashed");
         collider.enabled = false;
     }
     

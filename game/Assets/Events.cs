@@ -27,8 +27,8 @@ public static class Events {
     public static System.Action OnLevelComplete = delegate { };
     public static System.Action<SwipeDetector.directions> OnSwipe = delegate { };
 
-    //laneID, distance
-    public static System.Action<int, float> OnAddCoins = delegate { };
+    //laneID, distance, mnultiplayerStolen
+    public static System.Action<int, float, int> OnAddCoins = delegate { };
 
     public static System.Action<float, float> OnSaveVolumes = delegate { };
     public static System.Action<float> OnMusicVolumeChanged = delegate { };
@@ -57,7 +57,7 @@ public static class Events {
 
     public static System.Action<int> OnScoreAdd = delegate { };
     public static System.Action OnStartCountDown = delegate { };
-    public static System.Action OnBarInit = delegate { };
+    public static System.Action<PowerupManager.types> OnBarInit = delegate { };
     public static System.Action OnBarReady = delegate { };
     
     

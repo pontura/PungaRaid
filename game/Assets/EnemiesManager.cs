@@ -129,7 +129,6 @@ public class EnemiesManager : MonoBehaviour {
     }
     public void Pool(Enemy enemy)
     {  
-        print("Pool   " + enemy);
         enemy.isPooled = true;
         enemies.Remove(enemy);
         pool.Add(enemy);

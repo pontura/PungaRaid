@@ -37,7 +37,7 @@ public class PowerupManager : MonoBehaviour {
     {
         if (type != types.NONE) return;
 
-        Events.OnBarInit();
+        Events.OnBarInit(newType);
         Events.OnSoundFX("PowerUpItem");
         
         switch (newType)

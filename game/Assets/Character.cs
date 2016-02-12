@@ -70,8 +70,8 @@ public class Character : MonoBehaviour {
         {
             hero.ChumboFire();
             Events.OnPowerUpShoot(PowerupManager.types.CHUMBO);
-        } else
-        if (hero.state != Hero.states.DASH && powerupManager.type == PowerupManager.types.NONE)
+        } else 
+            if (hero.state != Hero.states.DASH && powerupManager.type != PowerupManager.types.MOTO)
         {
             Events.OnChangeSpeed(6, false);
             Events.OnHeroDash();
@@ -154,7 +154,6 @@ public class Character : MonoBehaviour {
             {
                 enemy.GetComponent<Victim>().Steal();
                 Events.OnSoundFX("Pung");
-                Events.OnScoreAdd(Random.Range(5, 10) * 10);
             }
         }
     }

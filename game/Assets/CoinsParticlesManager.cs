@@ -9,7 +9,7 @@ public class CoinsParticlesManager : MonoBehaviour {
        levelsManager = GetComponent<LevelsManager>();
        Events.OnAddCoins += OnAddCoins;
 	}
-    void OnAddCoins(int laneID, float distance)
+    void OnAddCoins(int laneID, float distance, int mnultiplayerStolen)
     {
         print("OnAddCoins  lane: " + laneID + " distance: " + distance);
         EnemySettings settings = new EnemySettings();

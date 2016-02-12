@@ -63,17 +63,54 @@ public class Clothes : MonoBehaviour
         foreach (SpriteRenderer sr in stolen)
             sr.enabled = true;
     }
-    public void Undress()
+    public int Undress()
+    {
+        int mnultiplayerStolen = 0;
+        int rand = UnityEngine.Random.Range(0, 100);
+
+        //FORZAR  arobar todo:
+        if (Game.Instance.gameManager.characterManager.character.powerupManager.type == PowerupManager.types.GIL) 
+            rand = 1;
+
+        stolen.Clear();
+        if (rand < 10)
+        {
+            SteatUp();
+            SteatDown();
+            mnultiplayerStolen = 2;
+        }
+        if (rand < 55) 
+        {
+            SteatUp();
+            mnultiplayerStolen = 1;
+        }
+        else
+        {
+            SteatDown();
+            mnultiplayerStolen = 1;
+        }
+        
+        foreach (SpriteRenderer sr in stolen)
+            sr.enabled = false;
+
+        return mnultiplayerStolen;
+    }
+    void SteatUp()
     {
         stolen.Add(bodyTop);
         stolen.Add(arm1TopA);
         stolen.Add(arm1TopB);
         stolen.Add(arm2TopA);
         stolen.Add(arm2TopB);
-        foreach (SpriteRenderer sr in stolen)
-            sr.enabled = false;
     }
-
+    void SteatDown()
+    {
+        stolen.Add(hips);
+        stolen.Add(leg1BottomA);
+        stolen.Add(leg2BottomA);
+        stolen.Add(leg1BottomB);
+        stolen.Add(leg2BottomB);
+    }
     void Dress(string type, string sex, string randomstyle)
     {
         //skins
