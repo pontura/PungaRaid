@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
         ENDING
     }
 
-    private float speed;
+    public float speed;
     public float realSpeed = 0;
 
     private float lastVolume;
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour {
     }
     void OnChangeSpeed(float _speed, bool accelerating)
     {
-        speed *= 1.8f;
+        speed *= 1.4f;
         if (!accelerating)
            realSpeed = speed;
     }

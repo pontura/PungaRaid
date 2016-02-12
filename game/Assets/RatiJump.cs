@@ -36,7 +36,7 @@ public class RatiJump : Enemy
         {
             int characterLane = Game.Instance.gameManager.characterManager.lanes.laneActiveID;
 
-            print("characterLane " + characterLane);
+           // print("characterLane " + characterLane);
             if (this.laneId == characterLane) return;
 
             Lane newLane = Game.Instance.gameManager.characterManager.lanes.all[characterLane];
