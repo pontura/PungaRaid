@@ -174,7 +174,7 @@ public class Character : MonoBehaviour {
     }
     void Die()
     {
-        if (action == actions.CHANGING_LANE) return;
+        if (action == actions.CHANGING_LANE || hero.state == Hero.states.DEAD) return;
             Events.OnHeroDie();
     }
 }

@@ -86,7 +86,8 @@ public class CharacterCollider : MonoBehaviour {
         {
             if (blocker)
             {
-                Events.OnHeroDie();
+                if (character.hero.state != Hero.states.DEAD)
+                    Events.OnHeroDie();
                 return;
             }
             character.OnCollisionCenter(enemy);

@@ -64,7 +64,7 @@ public class LoginManager : MonoBehaviour
         if (FB.IsLoggedIn)
         {
             // Logging in with Parse
-           // print("______________________" + FB.UserId + " " + FB.AccessToken + " " + DateTime.Now);
+            print("______________________");
 
             System.Threading.CancellationToken s = new System.Threading.CancellationToken();
 
@@ -173,9 +173,11 @@ public class LoginManager : MonoBehaviour
 
     private IEnumerator saveUserProfile(Dictionary<string, string> profile)
     {
+        print("SocialManager.Instance.userData.email    " + SocialManager.Instance.userData.email + " : " + SocialManager.Instance.userData.facebookID + " :username:  " + SocialManager.Instance.userData.username);
         var user = ParseUser.CurrentUser;
         // user["profile"] = profile;
-        user["email"] = SocialManager.Instance.userData.email;
+      //  user["email"] = SocialManager.Instance.userData.email;
+        user["email"] = "hola";
         user["facebookID"] = SocialManager.Instance.userData.facebookID;
         user["playerName"] = SocialManager.Instance.userData.username;
         // Save if there have been any updates
@@ -205,7 +207,6 @@ public class LoginManager : MonoBehaviour
     {
         if (profileLoaded) return;
         print("UpdateProfile");
-        var user = ParseUser.CurrentUser;
         SocialEvents.OnParseLogin();
         profileLoaded = true;
     }

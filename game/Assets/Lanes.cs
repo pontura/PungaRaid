@@ -104,6 +104,10 @@ public class Lanes : MonoBehaviour {
 
         switch (name)
         {
+            case "CoinParticles":
+                print("!________!");
+                enemy = Data.Instance.enemiesManager.GetEnemy("CoinParticles");
+                break;
             case "ObstacleGeneric":
                 enemy = Data.Instance.enemiesManager.GetEnemy("ObstacleGeneric");
                 break;
@@ -124,7 +128,7 @@ public class Lanes : MonoBehaviour {
         if (enemy == null)
             return;
 
-        enemy.Init(settings, laneId);
+       
         GameObject go = enemy.gameObject;
         sortInLayersByLane(go, laneId);
 
@@ -132,6 +136,9 @@ public class Lanes : MonoBehaviour {
 
         go.transform.SetParent(all[laneId].transform);
         go.transform.localPosition = new Vector3(_x, 0, 0);
+        enemy.Init(settings, laneId);
+
+        print(name + "!________!" + _x);
 
     }
     public void sortInLayersByLane(GameObject go, int laneId)

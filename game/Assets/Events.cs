@@ -4,6 +4,7 @@ using System.Collections;
 public static class Events {
 
     public static System.Action OnSettings = delegate { };
+    public static System.Action OnLoginAdvisor = delegate { };
 
     public static System.Action<int, float> OnNewHiscore = delegate { };
     public static System.Action<GameObject> OnUIClicked = delegate { };    
@@ -26,6 +27,9 @@ public static class Events {
     public static System.Action OnLevelComplete = delegate { };
     public static System.Action<SwipeDetector.directions> OnSwipe = delegate { };
 
+    //laneID, distance
+    public static System.Action<int, float> OnAddCoins = delegate { };
+
     public static System.Action<float, float> OnSaveVolumes = delegate { };
     public static System.Action<float> OnMusicVolumeChanged = delegate { };
     public static System.Action<float> OnSoundsVolumeChanged = delegate { };
@@ -36,7 +40,6 @@ public static class Events {
     
     public static System.Action<string> OnMusicChange = delegate { };
 
-    public static System.Action OnGameComplete = delegate { };
     public static System.Action<bool> OnGamePaused = delegate { };
     public static System.Action OnGameRestart = delegate { };
     public static System.Action<float, bool> OnChangeSpeed = delegate { };

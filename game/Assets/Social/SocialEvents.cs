@@ -12,5 +12,7 @@ public static class SocialEvents {
     public static System.Action OnParseLogin = delegate { };
     public static System.Action<string, float, int> OnParseLoadedScore = delegate { };
     public static System.Action OnLoadLocalData = delegate { };
-    
+
+    //Hiscores:
+    public static System.Action<int> OnNewHiscore = delegate { };
 }

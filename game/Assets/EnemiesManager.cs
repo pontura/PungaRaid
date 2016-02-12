@@ -91,6 +91,10 @@ public class EnemiesManager : MonoBehaviour {
                         if (enemy.name == "Blocker" || enemy.name == "Blocker(Clone)")  
                             return enemy;
                         break;
+                    case "CoinParticles":
+                        if (enemy.name == "CoinParticles" || enemy.name == "CoinParticles(Clone)")
+                            return enemy;
+                        break;
                     case "vereda_5_lanes":
                         if (enemy.name == "vereda_5_lanes" || enemy.name == "vereda_5_lanes(Clone)")
                             return enemy;
@@ -124,7 +128,8 @@ public class EnemiesManager : MonoBehaviour {
         return pool[0];
     }
     public void Pool(Enemy enemy)
-    {
+    {  
+        print("Pool   " + enemy);
         enemy.isPooled = true;
         enemies.Remove(enemy);
         pool.Add(enemy);

@@ -10,6 +10,7 @@ public class EnemyCollisionCheck : MonoBehaviour {
 	}
     void OnTriggerEnter2D(Collider2D other)
     {
-        enemy.OnSecondaryCollision(other);
+        if(other.tag == "Player")
+            enemy.OnSecondaryCollision(other);
     }
 }

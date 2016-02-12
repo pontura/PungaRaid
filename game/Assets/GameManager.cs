@@ -73,10 +73,9 @@ public class GameManager : MonoBehaviour {
     }
     void gameOverReady()
     {
-        Events.OnPoolAllItemsInScene();
-        Invoke("Restart", 0.05f);    
+        Events.OnPoolAllItemsInScene();  
     }
-    void Restart()
+    public void Restart()
     {
         Application.LoadLevel("04_Game");
     }

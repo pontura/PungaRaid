@@ -11,7 +11,9 @@ public class SocialManager : MonoBehaviour
     [HideInInspector]
     public LoginManager loginManager;
     [HideInInspector]
-    public FacebookFriends facebookFriends;    
+    public FacebookFriends facebookFriends;
+    [HideInInspector]
+    public UserHiscore userHiscore;  
 
     public static SocialManager Instance
     {
@@ -40,6 +42,7 @@ public class SocialManager : MonoBehaviour
         loginManager = GetComponent<LoginManager>();
         facebookFriends = GetComponent<FacebookFriends>();
         userData = GetComponent<UserData>();
+        userHiscore = GetComponent<UserHiscore>();
 
         userData.Init();
 

@@ -53,8 +53,8 @@ public class SettingsPopup : MonoBehaviour {
     public void OnFacebookNotConnected()
     {
         print("FB: OnFacebookNotConnected");
-        Close();
-        SocialManager.Instance.loginManager.FBLogin();
+        CloseOff();
+        Events.OnLoginAdvisor();
     }
     public void Close()
     {

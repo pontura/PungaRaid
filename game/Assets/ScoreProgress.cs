@@ -20,6 +20,6 @@ public class ScoreProgress : MonoBehaviour {
     public void OnScoreAdd(int _score)
     {
         score += _score;
-        label.text = "$ " + score.ToString();
+        label.text = "$" + score.ToString();
     }
 }

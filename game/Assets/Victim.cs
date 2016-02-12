@@ -77,6 +77,8 @@ public class Victim : Enemy {
         else if (currentAnim == "victimAWalk_normal")
             anim.Play("victimAPung_normal");
         clothes.Undress();
+
+        Events.OnAddCoins(laneId, transform.localPosition.x);
     }
     override public void OnCrashed()
     {

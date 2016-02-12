@@ -4,85 +4,39 @@ using UnityEngine.UI;
 
 public class Summary : MonoBehaviour {
 
-    public GameObject canvas;
-    [SerializeField] Stars stars;
-    private string NextAction;
-
-    public GameObject RewardsCanvas;
-
-    public GameObject[] rewardHats;
-    public GameObject[] rewardChairs;
-    public GameObject[] rewardHShoes;
-
-    public AudioClip[] clipHats;
-    public AudioClip[] clipChairs;
-    public AudioClip[] clipShoes;
+    public GameObject panel;
+    public Text hiscoreField;
 
     void Start()
     {
-        Events.OnLevelComplete += OnLevelComplete;
-        canvas.SetActive(false);
-        RewardsCanvas.SetActive(false);
+        panel.SetActive(false);
+        Events.OnHeroDie += OnHeroDie;
     }
     void OnDestroy()
     {
-        Events.OnLevelComplete -= OnLevelComplete;
+        Events.OnHeroDie -= OnHeroDie;
     }
-    void OnLevelComplete()
+    void OnHeroDie()
     {
-        canvas.SetActive(true);
-        int _stars;
-        int errors = Data.Instance.errors;
-
-        if (errors==0)
-            _stars = 3;
-        else if (errors==1)
-            _stars = 2;
+        panel.SetActive(true);
+        panel.GetComponent<Animation>().Play("PopupOn");      
+        int distance = (int)Game.Instance.gameManager.distance;
+        if (distance > SocialManager.Instance.userHiscore.hiscore)
+        {
+            SendHiscore(distance);
+            hiscoreField.text = "NUEVO HISCORE: " + distance + " METROS";
+        }
         else
-            _stars = 1;
-        
-        stars.Init(_stars);
-
-        Invoke("sayCongrats", 1);
+        {
+            hiscoreField.text = "HICISTE " + distance + " METROS";
+        }
     }
-    void sayCongrats()
+    public void SendHiscore(int distance)
     {
-        int rand = Random.Range(0, 100);
-
-        if (rand < 33)
-            Events.OnSoundFX("2_Well Done");
-        else if (rand < 66)
-            Events.OnSoundFX("3_Great Job");
-        else
-            Events.OnSoundFX("4_Awesome Job");
+        SocialEvents.OnNewHiscore(distance);
     }
-    void particlesOn()
+    public void Restart()
     {
-      //  Events.OnHeroWinClothes(reward.rewardType, reward.num);
-        Invoke("sayIt", 1);
-    }
-    void sayIt()
-    {
-       // Events.OnSoundFX(clip.name);
-    }
-    public void ResetLevel()
-    {
-        Data.Instance.LoadLevel("04_Game");
-        Data.Instance.errors = 0;
-    }
-    public void Next()
-    {
-        Events.OnSoundFX("buttonPress");
-        ResetLevel();
-    }
-    public void RePlay()
-    {
-        Events.OnSoundFX("buttonPress");
-        ResetLevel();
-    }
-    public void MainMenu()
-    {
-        Events.OnSoundFX("buttonPress");
-        ResetLevel();
+        Game.Instance.gameManager.Restart();
     }
 }
