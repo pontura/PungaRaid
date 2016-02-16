@@ -22,7 +22,6 @@ public class CharacterCollider : MonoBehaviour {
 
         Events.OnChangeLaneComplete += OnChangeLaneComplete;
         Events.OnChangeLane += OnChangeLane;
-        Events.OnPowerUp += OnPowerUp;
         Events.OnPowerUpShoot += OnPowerUpShoot;
         Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
         
@@ -31,7 +30,6 @@ public class CharacterCollider : MonoBehaviour {
     {
         Events.OnChangeLaneComplete -= OnChangeLaneComplete;
         Events.OnChangeLane -= OnChangeLane;
-        Events.OnPowerUp -= OnPowerUp;
         Events.OnPowerUpShoot -= OnPowerUpShoot;
         Events.OnHeroPowerUpOff -= OnHeroPowerUpOff;
     }
@@ -56,11 +54,6 @@ public class CharacterCollider : MonoBehaviour {
     void PowerUpReady()
     {
         collider2d.enabled = false;
-    }
-    void OnPowerUp(PowerupManager.types newType)
-    {
-       // if (type == types.CENTER && newType == PowerupManager.types.MOTO)
-           // collider2d.size = new Vector2(5, collider2d.size.y);
     }
     void OnHeroPowerUpOff()
     {

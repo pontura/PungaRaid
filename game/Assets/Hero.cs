@@ -12,6 +12,7 @@ public class Hero : MonoBehaviour {
         RUN,
         CRASH, 
         DASH,
+        SORETE,
         CELEBRATE,
         DEAD,        
         WIN,
@@ -76,10 +77,20 @@ public class Hero : MonoBehaviour {
         animator.Play("pungaDash", 0, 0);
         Invoke("EndAnimation", 0.6f);
     }
+    public void OnSorete()
+    {
+        if (Game.Instance.state != Game.states.PLAYING) return;
+        if (state == states.CRASH) return;
+        state = states.SORETE;
+      //  animator.SetBool(state.ToString(), true);
+        animator.Play("pungaShit", 0, 0);
+        Invoke("EndAnimation", 0.6f);
+    }
     void EndAnimation()
     {
         switch (state)
-        {
+        {   
+            case states.SORETE:         Run();          break;
             case states.DASH:           Run();          break;
             case states.CHUMBO_FIRE:    ChumboRun();    break;
         }

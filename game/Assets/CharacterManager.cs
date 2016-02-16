@@ -41,14 +41,17 @@ public class CharacterManager : MonoBehaviour {
         switch (direction)
         {
             case SwipeDetector.directions.UP:
+                if (character.hero.state == Hero.states.SORETE) return;
                 if (!character.CantMoveUp && lanes.TryToChangeLane(true))
                     character.MoveUP(); 
                 break;
             case SwipeDetector.directions.DOWN:
+                if (character.hero.state == Hero.states.SORETE) return;
                 if (!character.CantMoveDown && lanes.TryToChangeLane(false))
                     character.MoveDown(); 
                break;
             case SwipeDetector.directions.RIGHT:
+               if (character.hero.state == Hero.states.SORETE) return;
                character.Dash();
                break;
         }

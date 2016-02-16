@@ -104,11 +104,9 @@ public class Lanes : MonoBehaviour {
 
         switch (name)
         {
-            case "CoinParticles":
-                
+            case "CoinParticles":                
                 enemy = Data.Instance.enemiesManager.GetEnemy("CoinParticles");
-
-                print("!________!" + enemy);
+                enemy.GetComponent<CoinsParticles>().particles.Emit(settings.qty);
                 break;
             case "ObstacleGeneric":
                 enemy = Data.Instance.enemiesManager.GetEnemy("ObstacleGeneric");
@@ -125,6 +123,13 @@ public class Lanes : MonoBehaviour {
             case "PowerUp":
                 if(Game.Instance.gameManager.characterManager.character.powerupManager.type == PowerupManager.types.NONE)
                     enemy = Data.Instance.enemiesManager.GetEnemy("PowerUp");
+                break;
+            case "Coins":
+                enemy = Data.Instance.enemiesManager.GetEnemy("Coins");
+                break;
+            case "PowerDown":
+              //  if (Game.Instance.gameManager.characterManager.character.powerupManager.type == PowerupManager.types.NONE)
+                    enemy = Data.Instance.enemiesManager.GetEnemy("PowerDown");
                 break;
         }
         if (enemy == null)

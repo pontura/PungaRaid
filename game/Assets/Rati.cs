@@ -28,7 +28,8 @@ public class Rati : Enemy {
     {
         if (state == states.CRASHED) return;
         state = states.CRASHED;
-        anim.Play("crashed");
+       // anim.Play("crashed");
         GetComponent<BoxCollider2D>().enabled = false;
+        Pool();
     }
 }

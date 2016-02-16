@@ -63,6 +63,8 @@ public class LevelsManager : MonoBehaviour {
     }
     private void LoadLevelAssets(int nextLevelDistance)
     {
+        print("nextLevelDistance" + nextLevelDistance);
+        print("activeLevel" + activeLevel);
         Lanes laneData = activeLevel.GetComponent<Lanes>();
         lanes.AddBackground(laneData.vereda, nextLevelDistance, activeLevel.length);
 

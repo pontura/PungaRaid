@@ -117,7 +117,6 @@ public class LoginManager : MonoBehaviour
         if (FB.IsLoggedIn)
         {
             print("___________MADE LOGIN");
-            SocialEvents.OnFacebookLogin();
             StartCoroutine("ParseLogin");
             GetFriends();
             doLoop = false;
@@ -160,34 +159,34 @@ public class LoginManager : MonoBehaviour
         {
             // Got user profile info
             var resultObject = result.ResultDictionary as Dictionary<string, object>;
-            var userProfile = new Dictionary<string, string>();
+            userProfile = new Dictionary<string, string>();
 
 
             SocialManager.Instance.userData.RegisterUser(getDataValueForKey(resultObject, "name"), getDataValueForKey(resultObject, "id"), getDataValueForKey(resultObject, "email"));
 
             userProfile["name"] = getDataValueForKey(resultObject, "name");
 
-            StartCoroutine("saveUserProfile", userProfile);
+           // StartCoroutine("saveUserProfile", userProfile);
+
+            UpdateProfile();
         }
     }
+    private Dictionary<string, string> userProfile;
 
-    private IEnumerator saveUserProfile(Dictionary<string, string> profile)
-    {
-        print("SocialManager.Instance.userData.email    " + SocialManager.Instance.userData.email + " : " + SocialManager.Instance.userData.facebookID + " :username:  " + SocialManager.Instance.userData.username);
-        var user = ParseUser.CurrentUser;
-        // user["profile"] = profile;
-      //  user["email"] = SocialManager.Instance.userData.email;
-        user["email"] = "hola";
-        user["facebookID"] = SocialManager.Instance.userData.facebookID;
-        user["playerName"] = SocialManager.Instance.userData.username;
-        // Save if there have been any updates
-        //if (user.IsKeyDirty("profile"))
-        //{
-        var saveTask = user.SaveAsync();
-        while (!saveTask.IsCompleted) yield return null;
-        UpdateProfile();
-        //}
-    }
+    //private IEnumerator saveUserProfile(Dictionary<string, string> profile)
+    //{
+    //    print("SocialManager.Instance.userData.email    " + SocialManager.Instance.userData.email + " : " + SocialManager.Instance.userData.facebookID + " :username:  " + SocialManager.Instance.userData.username);
+
+        //ParseObject parseObj = ParseUser.CurrentUser;
+
+        //parseObj["facebookID"] = SocialManager.Instance.userData.facebookID;
+        //parseObj["playerName"] = SocialManager.Instance.userData.username;
+        ////{
+        //var saveTask = parseObj.SaveAsync();
+        //while (!saveTask.IsCompleted) yield return null;
+    //    UpdateProfile();
+    //    //}
+    //}
 
     private string getDataValueForKey(Dictionary<string, object> dict, string key)
     {

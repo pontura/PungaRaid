@@ -19,16 +19,16 @@ public class Summary : MonoBehaviour {
     void OnHeroDie()
     {
         panel.SetActive(true);
-        panel.GetComponent<Animation>().Play("PopupOn");      
-        int distance = (int)Game.Instance.gameManager.distance;
-        if (distance > SocialManager.Instance.userHiscore.hiscore)
+        panel.GetComponent<Animation>().Play("PopupOn");
+        int score = (int)Game.Instance.gameManager.score;
+        if (score > SocialManager.Instance.userHiscore.hiscore)
         {
-            SendHiscore(distance);
-            hiscoreField.text = "NUEVO HISCORE: " + distance + " METROS";
+            SendHiscore(score);
+            hiscoreField.text = "NUEVO RECORD! Hiciste $" + score + " guita!";
         }
         else
         {
-            hiscoreField.text = "HICISTE " + distance + " METROS";
+            hiscoreField.text = "Hiciste $" + score + " guita";
         }
     }
     public void SendHiscore(int distance)

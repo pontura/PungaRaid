@@ -81,7 +81,7 @@ public class Victim : Enemy {
 
         Events.OnScoreAdd((Random.Range(5, 10) * 10) * mnultiplayerStolen);
 
-        Events.OnAddCoins(laneId, transform.localPosition.x, mnultiplayerStolen);
+        Events.OnAddCoins(laneId, transform.localPosition.x, mnultiplayerStolen*500);
     }
     override public void OnCrashed()
     {

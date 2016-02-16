@@ -87,8 +87,19 @@ public class EnemiesManager : MonoBehaviour {
                             return enemy;
                         }                            
                         break;
+                    case "PowerDown":
+                        if (enemy.GetComponent<PowerDown>())
+                        {
+                            enemy.GetComponent<PowerDown>().InitPowerDown();
+                            return enemy;
+                        }
+                        break;
                     case "Blocker":
                         if (enemy.name == "Blocker" || enemy.name == "Blocker(Clone)")  
+                            return enemy;
+                        break;
+                    case "Coins":
+                        if (enemy.name == "Coins" || enemy.name == "Coins(Clone)")
                             return enemy;
                         break;
                     case "CoinParticles":
@@ -123,7 +134,6 @@ public class EnemiesManager : MonoBehaviour {
                 }                
             }
         }
-
         print("FALTAN:  " + type + " -  pool.Count : " +  pool.Count);
         return pool[0];
     }

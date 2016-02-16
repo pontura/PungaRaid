@@ -13,14 +13,13 @@ public class UserData : MonoBehaviour {
     public string email;
 
 	public void Init () {
-        //RegisterUser("", "", "");
-
-        if (PlayerPrefs.GetString("username") != "" && PlayerPrefs.GetString("facebookID") != "")
-            SetUser(PlayerPrefs.GetString("username"), PlayerPrefs.GetString("facebookID"), PlayerPrefs.GetString("email"));
 
 #if UNITY_EDITOR
         SetUser("", "", "");
+        return;
 #endif
+        if (PlayerPrefs.GetString("username") != "" && PlayerPrefs.GetString("facebookID") != "")
+            SetUser(PlayerPrefs.GetString("username"), PlayerPrefs.GetString("facebookID"), PlayerPrefs.GetString("email"));
 
 	}
     void SetUser(string username, string facebookID, string email)
@@ -28,8 +27,12 @@ public class UserData : MonoBehaviour {
         this.facebookID = facebookID;
         this.username = username;
         this.email = email;
-        if(username != "")
+        if (username.Length > 1)
+        {
+            print("::::::::::::::" + username + " logged: " + logged);
             logged = true;
+        }
+        SocialEvents.OnFacebookLogin();
     }
     public void RegisterUser(string username, string facebookID, string email)
     {

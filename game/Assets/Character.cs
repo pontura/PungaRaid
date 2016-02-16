@@ -47,6 +47,12 @@ public class Character : MonoBehaviour {
         hero.transform.SetParent(heroContainer.transform);
 
         hero.transform.localPosition = Vector3.zero;
+
+        Events.OnPowerDown += OnPowerDown;
+    }
+    void OnDestroy()
+    {
+        Events.OnPowerDown -= OnPowerDown;
     }
     public void OnSetHeroState( bool show)
     {
@@ -63,6 +69,14 @@ public class Character : MonoBehaviour {
                 hero.ChumboRun();  
                 break;
         }
+    }
+    void OnPowerDown(PowerdownManager.types type)
+    {
+        //SORETE:
+        if (powerupManager.type == PowerupManager.types.MOTO) return;
+        Events.OnChangeSpeed(6, false);
+        hero.OnSorete();
+        Invoke("ResetDash", 0.5f);
     }
     public void Dash()
     {
@@ -129,9 +143,26 @@ public class Character : MonoBehaviour {
     {
         if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
         {
-            if (enemy.GetComponent<PowerUp>())
+            if (enemy.GetComponent<Coins>())
+            {
+                Coins coins = enemy.GetComponent<Coins>();                
+
+                int money = coins.money;
+                Events.OnScoreAdd(25);
+
+                Events.OnAddCoins(enemy.laneId, enemy.transform.localPosition.x, 1);
+
+                coins.Activate();
+
+                Debug.Log("Coins");
+
+            } else if (enemy.GetComponent<PowerUp>())
             {
                 enemy.GetComponent<PowerUp>().Activate();
+            }
+            else if (enemy.GetComponent<PowerDown>())
+            {
+                enemy.GetComponent<PowerDown>().Activate();
             }
             else if (hero.state == Hero.states.DASH && enemy.GetComponent<Victim>())
             {

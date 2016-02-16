@@ -11,11 +11,12 @@ public class Obstacle : Enemy
         CRASHED
     }
     private int randObstacleID = -1;
-    public GameObject[] obstacles;
+    public GameObject[] obstaclesFreeLanes;
+    public GameObject[] obstaclesLane4;
+    private GameObject[] obstacles;
 
     private string currentAnim;
     private BoxCollider2D collider2d;
-    public GameObject container;
 
     override public void Enemy_Activate()
     {
@@ -24,27 +25,23 @@ public class Obstacle : Enemy
     }
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
-        int newRandObstacleID = Random.Range(0, obstacles.Length);        
-        if(randObstacleID == newRandObstacleID) return;
+        foreach (GameObject goToInactive in obstaclesFreeLanes)
+            goToInactive.SetActive(false);
+        foreach (GameObject goToInactive in obstaclesLane4)
+            goToInactive.SetActive(false);
 
-        randObstacleID = newRandObstacleID;
-        ResetContainer();
+        GameObject go = null;
 
-        GameObject go = Instantiate(obstacles[randObstacleID]) as GameObject;
-        go.transform.SetParent(container.transform);
+        if (laneId == 4)
+            go = obstaclesLane4[Random.Range(0, obstaclesLane4.Length)];  
+        else
+            go = obstaclesFreeLanes[Random.Range(0, obstaclesFreeLanes.Length)];
+
+
+        go.SetActive(true);
         anim = go.GetComponent<Animator>();
-       // distance = Game.Instance.gameManager.distance;
-        float scaleNum = 1;
-        Vector3 scale = new Vector3(scaleNum, scaleNum, scaleNum);
-        transform.localScale = scale;
-        transform.localPosition = Vector3.zero;
-        go.transform.localPosition = Vector3.zero;
+
         anim.Play("idle",0,0);
-    }
-    void ResetContainer()
-    {
-        foreach (Transform child in container.transform)
-            Destroy(child.gameObject);
     }
     override public void Enemy_Pooled()
     {

@@ -17,6 +17,7 @@ public static class Events {
     public static System.Action OnTransitionReady = delegate { };
     public static System.Action OnPoolAllItemsInScene = delegate { };
     public static System.Action<PowerupManager.types> OnPowerUp = delegate { };
+    public static System.Action<PowerdownManager.types> OnPowerDown = delegate { };
     public static System.Action<PowerupManager.types> OnPowerUpShoot = delegate { };
     public static System.Action OnHeroPowerUpOff = delegate { };
     

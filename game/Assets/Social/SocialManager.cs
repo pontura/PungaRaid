@@ -13,7 +13,9 @@ public class SocialManager : MonoBehaviour
     [HideInInspector]
     public FacebookFriends facebookFriends;
     [HideInInspector]
-    public UserHiscore userHiscore;  
+    public UserHiscore userHiscore;
+    [HideInInspector]
+    public Ranking ranking;  
 
     public static SocialManager Instance
     {
@@ -43,6 +45,7 @@ public class SocialManager : MonoBehaviour
         facebookFriends = GetComponent<FacebookFriends>();
         userData = GetComponent<UserData>();
         userHiscore = GetComponent<UserHiscore>();
+        ranking = GetComponent<Ranking>();
 
         userData.Init();
 

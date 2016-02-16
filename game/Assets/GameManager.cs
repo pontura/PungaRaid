@@ -46,9 +46,16 @@ public class GameManager : MonoBehaviour {
 
         Events.OnStartCountDown();
 
+        score = 0;
+
+    }
+    void Start()
+    {
+        Events.OnScoreAdd += OnScoreAdd;
     }
     void OnDestroy()
     {
+        Events.OnScoreAdd -= OnScoreAdd;
         Events.OnHeroDie -= OnHeroDie;
         Events.OnHeroCrash -= OnHeroCrash;
         Events.StartGame -= StartGame;
@@ -57,6 +64,10 @@ public class GameManager : MonoBehaviour {
         Events.OnResetSpeed -= OnResetSpeed;
 
         Events.OnMusicVolumeChanged(lastVolume);
+    }
+    public void OnScoreAdd(int _score)
+    {
+        score += _score;
     }
     void StartGame()
     {

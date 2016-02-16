@@ -17,6 +17,7 @@ public class CoinsParticlesManager : MonoBehaviour {
     {
       //  print("OnAddCoins  lane: " + laneID + " distance: " + distance);
         EnemySettings settings = new EnemySettings();
+        settings.qty = mnultiplayerStolen;
         levelsManager.lanes.AddObjectToLane("CoinParticles", laneID, (int)distance, settings);
     }
 }
