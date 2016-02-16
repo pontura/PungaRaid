@@ -11,6 +11,7 @@ public class Hero : MonoBehaviour {
         IDLE,
         RUN,
         CRASH, 
+        JUMP,
         DASH,
         SORETE,
         CELEBRATE,
@@ -24,7 +25,6 @@ public class Hero : MonoBehaviour {
     {
         Events.StartGame += StartGame;
         Events.OnHeroCrash += OnHeroCrash;
-        Events.OnHeroDash += OnHeroDash;
         Events.OnHeroCelebrate += OnHeroCelebrate;
         Events.OnLevelComplete += OnLevelComplete;
         Events.OnGamePaused += OnGamePaused;
@@ -37,7 +37,6 @@ public class Hero : MonoBehaviour {
         Events.StartGame -= StartGame;
         Events.OnHeroCrash -= OnHeroCrash;
         Events.OnHeroDie -= OnHeroDie;
-        Events.OnHeroDash -= OnHeroDash;
         Events.OnHeroCelebrate -= OnHeroCelebrate;
         Events.OnLevelComplete -= OnLevelComplete;
         Events.OnGamePaused -= OnGamePaused;
@@ -67,7 +66,22 @@ public class Hero : MonoBehaviour {
         print("OnHeroDie");
         animator.Play("pungaDeath", 0, 0);
     }
-    void OnHeroDash()
+    public void OnHeroJump()
+    {
+        if (Game.Instance.state != Game.states.PLAYING) return;
+        if (state == states.JUMP) return;
+        if (state == states.CRASH) return;
+        state = states.JUMP;
+        animator.Play("pungaJump", 0, 0);
+        Invoke("ResetJump", 0.8f);
+        Events.OnVulnerability(true);
+    }
+    void ResetJump()
+    {
+        Events.OnVulnerability(false);
+        EndAnimation();
+    }
+    public void OnHeroDash()
     {
         if (Game.Instance.state != Game.states.PLAYING) return;
         if (state == states.DASH) return;
@@ -89,7 +103,8 @@ public class Hero : MonoBehaviour {
     void EndAnimation()
     {
         switch (state)
-        {   
+        {
+            case states.JUMP:           Run();          break;
             case states.SORETE:         Run();          break;
             case states.DASH:           Run();          break;
             case states.CHUMBO_FIRE:    ChumboRun();    break;

@@ -22,19 +22,36 @@ public class Ranking : MonoBehaviour {
     {
         SocialEvents.OnFacebookFriends += OnFacebookFriends;
     }
+    void OnDestroy()
+    {
+        SocialEvents.OnFacebookFriends -= OnFacebookFriends;
+    }
     public void OnFacebookFriends()
     {
-        LoadData(true, 
-              ParseObject.GetQuery(TABLE)
-              .WhereContainedIn("facebookID", SocialManager.Instance.facebookFriends.ids)
-             .OrderByDescending("score")
-             .Limit(99)
-         );
+        LoadRanking();
+    }
+    public void LoadRanking()
+    {
+        data.Clear();
+        LoopUntilLoadingRanking();
+    }
+    public void LoopUntilLoadingRanking()
+    {
+        if (data.Count == 0)
+        {
+            Invoke("LoadRanking", 1);
+
+            LoadData(true,
+                  ParseObject.GetQuery(TABLE)
+                  .WhereContainedIn("facebookID", SocialManager.Instance.facebookFriends.ids)
+                 .OrderByDescending("score")
+                 .Limit(99)
+             );
+        }
     }
     void LoadData(bool _received, ParseQuery<ParseObject> query)
     {
-        data.Clear();
-        Debug.Log("RankingData     ________LoadData");
+        if (data.Count > 0) return;
         query.FindAsync().ContinueWith(t =>
         {
             IEnumerable<ParseObject> results = t.Result;

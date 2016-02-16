@@ -5,7 +5,7 @@ public class RankingUI : MonoBehaviour {
 
     public RankingButton button;
     public Transform container;
-    private bool loaded;
+    public bool loaded;
 
 	void Update () {
         if (loaded) return;

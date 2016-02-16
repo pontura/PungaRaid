@@ -27,7 +27,7 @@ public class Character : MonoBehaviour {
     public enum actions
     {
         PLAYING,
-        CHANGING_LANE
+        CHANGING_LANE,
     }
 
     void Awake()
@@ -78,6 +78,10 @@ public class Character : MonoBehaviour {
         hero.OnSorete();
         Invoke("ResetDash", 0.5f);
     }
+    public void Jump()
+    {
+        hero.OnHeroJump();
+    }
     public void Dash()
     {
         if (powerupManager.type == PowerupManager.types.CHUMBO)
@@ -88,7 +92,7 @@ public class Character : MonoBehaviour {
             if (hero.state != Hero.states.DASH && powerupManager.type != PowerupManager.types.MOTO)
         {
             Events.OnChangeSpeed(6, false);
-            Events.OnHeroDash();
+            hero.OnHeroDash();
             Invoke("ResetDash", 0.5f);
         }
     }

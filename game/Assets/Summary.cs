@@ -6,6 +6,8 @@ public class Summary : MonoBehaviour {
 
     public GameObject panel;
     public Text hiscoreField;
+    public RankingUI ranking;
+    public GameObject challengeButton;
 
     void Start()
     {
@@ -18,6 +20,16 @@ public class Summary : MonoBehaviour {
     }
     void OnHeroDie()
     {
+        if (SocialManager.Instance.userData.logged)
+        {
+            ranking.gameObject.SetActive(true);
+            challengeButton.SetActive(false);
+        }
+        else
+        {
+            ranking.gameObject.SetActive(false);
+            challengeButton.SetActive(true);
+        }
         panel.SetActive(true);
         panel.GetComponent<Animation>().Play("PopupOn");
         int score = (int)Game.Instance.gameManager.score;
@@ -38,5 +50,9 @@ public class Summary : MonoBehaviour {
     public void Restart()
     {
         Game.Instance.gameManager.Restart();
+    }
+    public void Challenge()
+    {
+        Events.OnLoginAdvisor();
     }
 }

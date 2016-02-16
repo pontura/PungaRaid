@@ -20,6 +20,7 @@ public static class Events {
     public static System.Action<PowerdownManager.types> OnPowerDown = delegate { };
     public static System.Action<PowerupManager.types> OnPowerUpShoot = delegate { };
     public static System.Action OnHeroPowerUpOff = delegate { };
+    public static System.Action<bool> OnVulnerability = delegate { };
     
 
     //The game:
@@ -51,7 +52,6 @@ public static class Events {
 
     public static System.Action OnHeroDie = delegate { };
     public static System.Action OnHeroCrash = delegate { };
-    public static System.Action OnHeroDash = delegate { };
     public static System.Action OnHeroCelebrate = delegate { };
     
     public static System.Action OnExplotion = delegate { };

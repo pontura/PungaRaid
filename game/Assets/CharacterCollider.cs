@@ -24,6 +24,7 @@ public class CharacterCollider : MonoBehaviour {
         Events.OnChangeLane += OnChangeLane;
         Events.OnPowerUpShoot += OnPowerUpShoot;
         Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
+        Events.OnVulnerability += OnVulnerability;
         
     }
     void OnDestroy()
@@ -32,6 +33,12 @@ public class CharacterCollider : MonoBehaviour {
         Events.OnChangeLane -= OnChangeLane;
         Events.OnPowerUpShoot -= OnPowerUpShoot;
         Events.OnHeroPowerUpOff -= OnHeroPowerUpOff;
+        Events.OnVulnerability -= OnVulnerability;
+    }
+    void OnVulnerability(bool isOn)
+    {
+        if (type == types.CENTER)
+            collider2d.enabled = !isOn;
     }
     void OnChangeLaneComplete()
     {

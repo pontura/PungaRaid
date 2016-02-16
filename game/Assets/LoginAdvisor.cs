@@ -23,6 +23,7 @@ public class LoginAdvisor : MonoBehaviour {
     public void LoginToFacebook()
     {        
         SocialManager.Instance.loginManager.FBLogin();
+        Data.Instance.LoadLevel("03_Connecting");
         Close();
     }
     public void Close()

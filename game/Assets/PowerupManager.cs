@@ -39,6 +39,8 @@ public class PowerupManager : MonoBehaviour {
 
         Events.OnBarInit(newType);
         Events.OnSoundFX("PowerUpItem");
+
+        Moto(); return;
         
         switch (newType)
         {
@@ -84,6 +86,7 @@ public class PowerupManager : MonoBehaviour {
             if (powerUp != null)
                 Destroy(powerUp.gameObject);
             Events.OnResetSpeed();
+            character.Jump();
         }
         else if (type == types.GIL)
         {
