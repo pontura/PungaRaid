@@ -22,13 +22,17 @@ public class UserHiscore : MonoBehaviour {
         TryToGetHiscore();
     }
     void TryToGetHiscore()
-    {
-        print(" TryToGetHiscore" + SocialManager.Instance.userData.facebookID);
-        LoadFromParse(
-               ParseObject.GetQuery(TABLE)
-              .WhereEqualTo("facebookID", SocialManager.Instance.facebookFriends.ids)
-              .Limit(1)
-          );
+    {      
+        if (hiscore == 0)
+        {
+            print(" TryToGetHiscore" + SocialManager.Instance.userData.facebookID);
+            LoadFromParse(
+                   ParseObject.GetQuery(TABLE)
+                  .WhereEqualTo("facebookID", SocialManager.Instance.userData.facebookID)
+                  .Limit(1)
+              );
+            Invoke("TryToGetHiscore", 1);
+        }
     }
     void LoadFromParse(ParseQuery<ParseObject> query)
     {

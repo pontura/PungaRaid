@@ -28,13 +28,9 @@ public class ChallengersManager : MonoBehaviour {
     }
     void Start()
     {
-        //Events.OnChallengesLoad += OnChallengesLoad;
-        //Events.OnChallengeCreate += OnChallengeCreate;
-        //Events.OnChallengeRemind += OnChallengeRemind;
-        //Events.OnChallengeClose += OnChallengeClose;
-        //Events.OnChallengeDelete += OnChallengeDelete;
-        //Events.OnChallengeNotificated += OnChallengeNotificated;
-        //Events.OnResetApp += OnResetApp;
+        SocialEvents.OnChallengeCreate += OnChallengeCreate;
+        LoadReceived();
+        LoadMade();
     }
     void OnResetApp()
     {
@@ -50,28 +46,34 @@ public class ChallengersManager : MonoBehaviour {
     }
     public void LoadReceived()
     {
-        LoadChallenge(true, 
-              ParseObject.GetQuery("Challenges")
-             .WhereEqualTo("op_facebookID", SocialManager.Instance.userData.facebookID)
-             .OrderByDescending("updatedAt")
-             .Limit(90)
-         );
+        if (received.Count == 0)
+        {
+            LoadChallenge(true,
+                  ParseObject.GetQuery("Challenges")
+                 .WhereEqualTo("op_facebookID", SocialManager.Instance.userData.facebookID)
+                 .OrderByDescending("updatedAt")
+                 .Limit(90)
+             );
+            Invoke("LoadReceived", 1);
+        }
     }
     public void LoadMade()
     {
-        LoadChallenge(false,
-              ParseObject.GetQuery("Challenges")
-             .WhereEqualTo("facebookID", SocialManager.Instance.userData.facebookID)
-             .OrderByDescending("updatedAt")
-             .Limit(90)
-         );
+        if (made.Count == 0)
+        {
+            LoadChallenge(false,
+                  ParseObject.GetQuery("Challenges")
+                 .WhereEqualTo("facebookID", SocialManager.Instance.userData.facebookID)
+                 .OrderByDescending("updatedAt")
+                 .Limit(90)
+             );
+            Invoke("LoadMade", 1);
+        }
     }
     void LoadChallenge(bool _received, ParseQuery<ParseObject> query)
     {
-        if (_received)
-            received.Clear();
-        else
-            made.Clear();
+        if (_received && received.Count > 0) return;
+        if (!_received && made.Count > 0) return;
 
         query.FindAsync().ContinueWith(t =>
         {
@@ -124,7 +126,7 @@ public class ChallengersManager : MonoBehaviour {
         }
         );
     }
-    public void OnChallengeCreate(string oponent_username, string oponent_facebookID, int level, float score)
+    void OnChallengeCreate(string oponent_username, string oponent_facebookID, int score)
     {
         ParseObject data = new ParseObject("Challenges");
         data["playerName"] = SocialManager.Instance.userData.username;
@@ -133,7 +135,7 @@ public class ChallengersManager : MonoBehaviour {
         data["op_playerName"] = oponent_username;
         data["op_facebookID"] = oponent_facebookID;
 
-        data["level"] = level;
+        data["level"] = 1;
         data["score"] = score;
 
         data["notificated"] = false;

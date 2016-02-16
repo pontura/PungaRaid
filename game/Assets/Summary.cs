@@ -51,8 +51,12 @@ public class Summary : MonoBehaviour {
     {
         Game.Instance.gameManager.Restart();
     }
-    public void Challenge()
+    public void LoginAdvisor()
     {
         Events.OnLoginAdvisor();
+    }
+    public void Challenge()
+    {
+        Data.Instance.LoadLevel("05_Challenges");
     }
 }

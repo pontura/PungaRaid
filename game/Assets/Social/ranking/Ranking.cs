@@ -32,7 +32,6 @@ public class Ranking : MonoBehaviour {
     }
     public void LoadRanking()
     {
-        data.Clear();
         LoopUntilLoadingRanking();
     }
     public void LoopUntilLoadingRanking()
@@ -40,7 +39,7 @@ public class Ranking : MonoBehaviour {
         if (data.Count == 0)
         {
             Invoke("LoadRanking", 1);
-
+            data.Clear();
             LoadData(true,
                   ParseObject.GetQuery(TABLE)
                   .WhereContainedIn("facebookID", SocialManager.Instance.facebookFriends.ids)

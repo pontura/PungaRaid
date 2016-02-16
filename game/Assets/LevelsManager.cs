@@ -4,19 +4,19 @@ using System;
 
 public class LevelsManager : MonoBehaviour {
 
-    [Serializable]
-    public class Group
-    {
-        public string name;
-        public int distance;
-        public Level[] levels;
-    }
+    //[Serializable]
+    //public class Group
+    //{
+    //    public string name;
+    //    public int distance;
+    //    public Level[] levels;
+    //}
     public int activeGroupId = 0;
     private float startingGroupDistance;
     public Lanes lanes;
     public Level StartingLevel;
 
-    public Group[] groups;
+   // public Group[] groups;
 
     public Level activeLevel;
     private int nextLevelDistance;
@@ -45,15 +45,15 @@ public class LevelsManager : MonoBehaviour {
             
        // }
 
-        if ((int)distance > (int)groups[activeGroupId].distance)
+        if ((int)distance > (int)Data.Instance.areasManager.areaSets[activeGroupId].distance)
         {
             startingGroupDistance += distance;
             activeGroupId++;
            // print("_ cambia grupo " + activeGroupId + " startingGroupDistance: " + startingGroupDistance + " distanc: " + distance);
         }
 
-        int rand = UnityEngine.Random.Range(0, groups[activeGroupId].levels.Length);
-        activeLevel = groups[activeGroupId].levels[rand];
+        int rand = UnityEngine.Random.Range(0, Data.Instance.areasManager.areaSets[activeGroupId].levels.Length);
+        activeLevel = Data.Instance.areasManager.areaSets[activeGroupId].levels[rand];
 
        // print("nextLevelDistance " + nextLevelDistance + " distance " + distance + " activeGroupId: " + activeGroupId + "  GROUP: " + groups[activeGroupId].name + " activeLevel.length " + activeLevel.length + "  activeLevel.NAME " + activeLevel.name);
         LoadLevelAssets(nextLevelDistance);

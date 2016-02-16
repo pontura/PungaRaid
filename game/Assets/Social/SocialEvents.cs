@@ -15,4 +15,9 @@ public static class SocialEvents {
 
     //Hiscores:
     public static System.Action<int> OnNewHiscore = delegate { };
+
+    //challenges:
+
+    //facebookID, op_facebookID, score
+    public static System.Action<string, string, int> OnChallengeCreate = delegate { };
 }

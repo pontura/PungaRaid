@@ -30,6 +30,8 @@ public class Data : MonoBehaviour
     public EnemiesManager enemiesManager;
     [HideInInspector]
     public GameSettings gameSettings;
+    [HideInInspector]
+    public AreasManager areasManager;
 
     public static Data Instance
     {
@@ -70,6 +72,7 @@ public class Data : MonoBehaviour
         enemiesManager = GetComponent<EnemiesManager>();
         gameData = GetComponent<GameData>();
         gameSettings = GetComponent<GameSettings>();
+        areasManager = GetComponent<AreasManager>();
 
         GetComponent<MusicManager>().Init();
 
