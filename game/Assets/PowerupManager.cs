@@ -39,9 +39,7 @@ public class PowerupManager : MonoBehaviour {
 
         Events.OnBarInit(newType);
         Events.OnSoundFX("PowerUpItem");
-
-        Moto(); return;
-        
+                
         switch (newType)
         {
             case types.MOTO: Moto(); break;

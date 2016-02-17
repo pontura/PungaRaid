@@ -153,12 +153,10 @@ public class Character : MonoBehaviour {
 
                 int money = coins.money;
                 Events.OnScoreAdd(25);
-
                 Events.OnAddCoins(enemy.laneId, enemy.transform.localPosition.x, 1);
 
                 coins.Activate();
-
-                Debug.Log("Coins");
+                Events.OnSoundFX("Pung");
 
             } else if (enemy.GetComponent<PowerUp>())
             {
@@ -194,8 +192,9 @@ public class Character : MonoBehaviour {
     }
     public void OnCollisionWithBlocker(Blocker blocker, CharacterCollider.types type)
     {
+        if (hero.state == Hero.states.JUMP) return;
         if (blocker.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
-        {            
+        {
             Die();
             Game.Instance.gameManager.realSpeed = 0;
             return;

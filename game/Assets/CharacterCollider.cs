@@ -87,7 +87,20 @@ public class CharacterCollider : MonoBehaviour {
             if (blocker)
             {
                 if (character.hero.state != Hero.states.DEAD)
-                    Events.OnHeroDie();
+                {
+                    if (character.hero.state == Hero.states.JUMP) return;
+                    if (character.powerupManager.type == PowerupManager.types.MOTO)
+                    {
+                        character.CantMoveUp = false;
+                        character.CantMoveDown = false;
+                        Events.OnHeroPowerUpOff();
+                        return;
+                    }
+                    else
+                    {
+                        Events.OnHeroDie();
+                    }
+                }
                 return;
             }
             character.OnCollisionCenter(enemy);
