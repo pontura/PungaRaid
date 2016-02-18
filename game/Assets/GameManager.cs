@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
 
     private float DEFAULT_SPEED = 0.09f;
 
+    
     public void Init()
     {
         lastVolume = Data.Instance.musicVolume;

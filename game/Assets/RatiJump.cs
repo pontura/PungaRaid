@@ -5,6 +5,7 @@ public class RatiJump : Enemy
 {
     public Collider2D characterCollisionCheck;
     public states state;
+    public SpriteRenderer heads;
 
     public enum states
     {
@@ -17,6 +18,7 @@ public class RatiJump : Enemy
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
         anim.Play("idle");
+        heads.sprite = Data.Instance.enemiesManager.GetRandomHead();
     }
     override public void OnCrashed()
     {

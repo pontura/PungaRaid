@@ -4,6 +4,7 @@ using System.Collections;
 public class Rati : Enemy {
 
     public states state;
+    public SpriteRenderer heads;
 
     public enum states
     {
@@ -18,6 +19,7 @@ public class Rati : Enemy {
         anim.Play("copShieldIdle");
         state = states.IDLE;
         GetComponent<BoxCollider2D>().enabled = true;
+        heads.sprite = Data.Instance.enemiesManager.GetRandomHead();
     }
 
     public override void OnCrashed()

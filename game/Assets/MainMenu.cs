@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour {
 
     void Start()
     {
-        Events.OnMusicChange("inGame");
+        Events.OnMusicChange("Gameplay");
 
         if (ranking == null) return;
 

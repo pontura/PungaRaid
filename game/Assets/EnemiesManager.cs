@@ -7,6 +7,7 @@ public class EnemiesManager : MonoBehaviour {
 
     public EnemyPool[] enemiesToPool;
     public EnemyPool[] veredasToPool;
+    public Sprite[] copHeads;
 
     [Serializable]
     public class EnemyPool
@@ -144,5 +145,9 @@ public class EnemiesManager : MonoBehaviour {
         pool.Add(enemy);
         enemy.transform.SetParent(poolObjects.transform);
         enemy.gameObject.SetActive(false);
+    }
+    public Sprite GetRandomHead()
+    {
+        return copHeads[UnityEngine.Random.Range(0,copHeads.Length)];
     }
 }
