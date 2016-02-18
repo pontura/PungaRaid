@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour {
         Events.OnLoginAdvisor();
     }
 	public void GotoGame () {
-        Data.Instance.LoadLevel("04_Game");
+        Data.Instance.LoadLevel("03_PreloadingGame");
 	}
     public void OnSettings()
     {

@@ -34,8 +34,7 @@ public class Game : MonoBehaviour {
     }
     void Start  ()
     {
-        Events.OnMusicChange("inGame");
-
+        
         Events.OnGamePaused += OnGamePaused;
         Events.OnLevelComplete += OnLevelComplete;
         Events.StartGame += StartGame;
