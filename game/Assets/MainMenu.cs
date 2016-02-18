@@ -8,6 +8,8 @@ public class MainMenu : MonoBehaviour {
 
     void Start()
     {
+        Events.OnMusicChange("inGame");
+
         if (ranking == null) return;
 
         if (SocialManager.Instance.userData.logged)

@@ -37,7 +37,6 @@ public class FacebookFriends : MonoBehaviour {
     }
     void AddFacebookFriend(string id, string username)
     {
-        print("AddFacebookFriend " + id + " " + username);
         ids.Add(id);
         Friend friend = new Friend();
         friend.id = id;
