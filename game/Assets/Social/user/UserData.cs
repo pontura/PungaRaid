@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using Soomla.Store;
+//using Soomla.Store;
 
 
 public class UserData : MonoBehaviour {
