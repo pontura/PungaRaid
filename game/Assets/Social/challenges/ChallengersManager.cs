@@ -29,6 +29,7 @@ public class ChallengersManager : MonoBehaviour {
     void Start()
     {
         SocialEvents.OnChallengeCreate += OnChallengeCreate;
+        SocialEvents.OnChallengeClose += OnChallengeClose;
         LoadReceived();
         LoadMade();
     }

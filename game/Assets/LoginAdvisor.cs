@@ -10,7 +10,8 @@ public class LoginAdvisor : MonoBehaviour {
 	void Start () {
      //   panel.transform.localScale = Data.Instance.screenManager.scale;
         panel.SetActive(false);
-        Events.OnLoginAdvisor += OnLoginAdvisor;    
+        Events.OnLoginAdvisor += OnLoginAdvisor;
+        SocialEvents.OnFacebookLoginCanceled += OnFacebookLoginCanceled;
 	}
     void OnLoginAdvisor()
     {
@@ -34,7 +35,12 @@ public class LoginAdvisor : MonoBehaviour {
     void CloseOff()
     {
         graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
-        graphicRaycaster.enabled = false;
+       // graphicRaycaster.enabled = false;
         panel.SetActive(false);
+    }
+    void OnFacebookLoginCanceled()
+    {
+        Close();
+        Data.Instance.LoadLevel("02_MainMenu");
     }
 }

@@ -20,6 +20,7 @@ public class Fade : MonoBehaviour
 	}
     private IEnumerator FadeStart(float aFadeOutTime, float aFadeInTime, Color aColor)
     {
+        masker.enabled = true;
         graphicRaycaster.enabled = true;
         float t = 0;
 		while (t < 1)
@@ -41,6 +42,7 @@ public class Fade : MonoBehaviour
 		}
         graphicRaycaster.enabled = false;
         m_Fading = false;
+        masker.enabled = false;
     }
     private void StartFade(float aFadeOutTime, float aFadeInTime, Color aColor)
     {

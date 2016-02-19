@@ -7,6 +7,7 @@ public static class SocialEvents {
     public static System.Action OnFacebookNotConnected = delegate { };
     public static System.Action OnFacebookInviteFriends = delegate { };
     public static System.Action OnFacebookLogin = delegate { };
+    public static System.Action OnFacebookLoginCanceled = delegate { };
     public static System.Action<string, string> AddFacebookFriend = delegate { }; 
 
     public static System.Action OnParseLogin = delegate { };
@@ -20,4 +21,10 @@ public static class SocialEvents {
 
     //facebookID, op_facebookID, score
     public static System.Action<string, string, int> OnChallengeCreate = delegate { };
+    public static System.Action<string> OnChallengeDelete = delegate { };
+    public static System.Action OnChallengesLoad = delegate { };
+    public static System.Action<string, string> OnChallengeRemind = delegate { };
+    public static System.Action<string, string, string, float> OnChallengeClose = delegate { };
+    public static System.Action<string> OnChallengeNotificated = delegate { };
+    public static System.Action<string, string, string, float> OnChallengeConfirm = delegate { };
 }

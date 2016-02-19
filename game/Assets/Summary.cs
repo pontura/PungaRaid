@@ -20,6 +20,9 @@ public class Summary : MonoBehaviour {
     }
     void OnHeroDie()
     {
+        //muestra los challenge result;
+        if (SocialManager.Instance.challengeData.isOn) return;
+
         if (SocialManager.Instance.userData.logged)
         {
             ranking.gameObject.SetActive(true);

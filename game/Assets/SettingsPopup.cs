@@ -64,7 +64,15 @@ public class SettingsPopup : MonoBehaviour {
     void CloseOff()
     {
         graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
-        graphicRaycaster.enabled = false;
+       // graphicRaycaster.enabled = false;
         panel.SetActive(false);
+    }
+    public void Challenges()
+    {
+        if (SocialManager.Instance.userData.logged)
+            Data.Instance.LoadLevel("05_Challenges");
+        else
+            Events.OnLoginAdvisor();
+        Close();
     }
 }

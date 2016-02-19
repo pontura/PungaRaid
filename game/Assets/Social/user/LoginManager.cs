@@ -136,6 +136,7 @@ public class LoginManager : MonoBehaviour
         else
         {
             Debug.Log("FBLoginCallback: User canceled login");
+            SocialEvents.OnFacebookLoginCanceled();
         }
     }
 
