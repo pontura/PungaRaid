@@ -17,21 +17,24 @@ public class GameManager : MonoBehaviour {
     public float speed;
     public float realSpeed = 0;
 
-    private float lastVolume;
     public CharacterManager characterManager;
     private LevelsManager levelsManager;
     public MainCamera camera;
     public BackgroundScrolleable[] backgroundsScrolleable;
     public ParticleSystem explotion;
+    private CombosManager combosManager;
 
     private float DEFAULT_SPEED = 0.09f;
 
     
     public void Init()
     {
-        lastVolume = Data.Instance.musicVolume;
-        Data.Instance.errors = 0;
+        
 
+        Data.Instance.errors = 0;
+       combosManager = Data.Instance.combosManager;
+
+        Events.OnScoreAdd += OnScoreAdd;
         Events.OnHeroDie += OnHeroDie;
         Events.OnHeroCrash += OnHeroCrash;
         Events.StartGame += StartGame;
@@ -47,12 +50,10 @@ public class GameManager : MonoBehaviour {
 
         Events.OnStartCountDown();
 
+        Events.OnMusicChange("Gameplay");
+
         score = 0;
 
-    }
-    void Start()
-    {
-        Events.OnScoreAdd += OnScoreAdd;
     }
     void OnDestroy()
     {
@@ -64,16 +65,18 @@ public class GameManager : MonoBehaviour {
         Events.OnChangeSpeed -= OnChangeSpeed;
         Events.OnResetSpeed -= OnResetSpeed;
 
-        Events.OnMusicVolumeChanged(lastVolume);
+        combosManager = null;
     }
     public void OnScoreAdd(int _score)
     {
-        score += _score;
+        score += _score * combosManager.comboID;
+        Events.OnRefreshScore(score);
     }
     void StartGame()
     {
         speed = DEFAULT_SPEED;
-        state = states.ACTIVE;        
+        state = states.ACTIVE;
+        
     }
     void OnHeroDie()
     {

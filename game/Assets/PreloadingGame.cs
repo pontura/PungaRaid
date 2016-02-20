@@ -5,7 +5,7 @@ public class PreloadingGame : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Events.OnMusicChange("inGame");
+        Events.OnMusicChange("");
         Invoke("StartGame", 2);
 	}
     void StartGame()

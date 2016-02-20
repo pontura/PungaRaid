@@ -3,10 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour {
-
-    [SerializeField]
-    PausedMenu pausedMenu;
-
+    
     [SerializeField]
     ScoreProgress scoreProgress;
 
@@ -24,7 +21,6 @@ public class UI : MonoBehaviour {
     }
     public void OnPauseButton()
     {
-        GetComponent<PausedMenu>().Init();
         Events.OnGamePaused(true);
     }
     void OnLevelComplete()

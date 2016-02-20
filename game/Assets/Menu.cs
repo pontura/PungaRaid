@@ -24,7 +24,6 @@ public class Menu : MonoBehaviour {
     public void Init()
     {
         canvas.SetActive(true);
-        GetComponent<PausedMenu>().Init();
     }
 
     public void Privacy()

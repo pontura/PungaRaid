@@ -7,8 +7,10 @@ public class MusicManager : MonoBehaviour {
     public float volume;
        
 	public void Init () {
+
+        volume = PlayerPrefs.GetFloat("MusicVol", 1);
         audioSource.loop = true;
-        OnMusicVolumeChanged(Data.Instance.musicVolume);
+        OnMusicVolumeChanged(volume);
 
         Events.OnGamePaused += OnGamePaused;
         Events.OnMusicVolumeChanged += OnMusicVolumeChanged;
@@ -44,6 +46,7 @@ public class MusicManager : MonoBehaviour {
     {
         audioSource.volume = value;
         volume = value;
+        PlayerPrefs.SetFloat("MusicVol", value);
     }
     void OnGamePaused(bool paused)
     {

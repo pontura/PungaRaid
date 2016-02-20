@@ -77,6 +77,7 @@ public class Character : MonoBehaviour {
         Events.OnChangeSpeed(6, false);
         hero.OnSorete();
         Invoke("ResetDash", 0.5f);
+        
     }
     public void Jump()
     {
@@ -94,6 +95,7 @@ public class Character : MonoBehaviour {
             Events.OnChangeSpeed(6, false);
             hero.OnHeroDash();
             Invoke("ResetDash", 0.5f);
+            Events.OnSoundFX("Dash");
         }
     }
     void ResetDash()
@@ -152,11 +154,12 @@ public class Character : MonoBehaviour {
                 Coins coins = enemy.GetComponent<Coins>();                
 
                 int money = coins.money;
+                Events.OnCombo(enemy.transform.position.x);
                 Events.OnScoreAdd(25);
                 Events.OnAddCoins(enemy.laneId, enemy.transform.localPosition.x, 1);
 
                 coins.Activate();
-                Events.OnSoundFX("Pung");
+                
 
             } else if (enemy.GetComponent<PowerUp>())
             {
@@ -185,8 +188,8 @@ public class Character : MonoBehaviour {
         {
             if (enemy.GetComponent<Victim>())
             {
-                enemy.GetComponent<Victim>().Steal();
-                Events.OnSoundFX("Pung");
+                Events.OnCombo(enemy.transform.localPosition.x);
+                enemy.GetComponent<Victim>().Steal();                
             }
         }
     }

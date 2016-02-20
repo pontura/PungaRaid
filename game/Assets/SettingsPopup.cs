@@ -5,6 +5,9 @@ using System.Collections;
 public class SettingsPopup : MonoBehaviour {
 
     public Text LoginField;
+    public Text musicLabel;
+    public Text sfxLabel;
+
     public GameObject panel;
     private GraphicRaycaster graphicRaycaster;
 
@@ -13,6 +16,9 @@ public class SettingsPopup : MonoBehaviour {
         panel.SetActive(false);
         Events.OnSettings += OnSettings;
         SocialEvents.OnFacebookNotConnected += OnFacebookNotConnected;
+
+        SetMusicLabel();
+        SetSFXLabel();
         
 	}
     void OnDestroy()
@@ -75,4 +81,45 @@ public class SettingsPopup : MonoBehaviour {
             Events.OnLoginAdvisor();
         Close();
     }
+    public void SwitchMusic()
+    {
+        float vol = 1;
+        if (Data.Instance.musicManager.volume == 0)
+            vol = 1;
+        else
+            vol = 0;
+
+        Events.OnMusicVolumeChanged(vol);
+
+        SetMusicLabel();
+    }
+    public void SwitchSFX()
+    {
+        float vol = 1;
+        if (Data.Instance.soundManager.volume == 0)
+            vol = 1;
+        else
+            vol = 0;
+
+        Events.OnSoundsVolumeChanged(vol);
+
+        SetSFXLabel();
+    }
+    void SetMusicLabel()
+    {
+        if(Data.Instance.musicManager.volume ==0)
+            musicLabel.text = "Música ON";
+        else 
+            musicLabel.text = "Música OFF";
+
+    }
+    void SetSFXLabel()
+    {
+        if (Data.Instance.soundManager.volume == 0)
+            sfxLabel.text = "SFX ON";
+        else
+            sfxLabel.text = "SFX OFF";
+
+    }
+
 }

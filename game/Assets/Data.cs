@@ -11,8 +11,6 @@ public class Data : MonoBehaviour
     public int totalScore;
     public int errors = 0;
 
-    public float musicVolume = 1;
-    public float soundsVolume = 1;
     public bool caps = false;
 
     public GameData gameData;
@@ -32,6 +30,12 @@ public class Data : MonoBehaviour
     public GameSettings gameSettings;
     [HideInInspector]
     public AreasManager areasManager;
+    [HideInInspector]
+    public MusicManager musicManager;
+    [HideInInspector]
+    public SoundManager soundManager;
+    [HideInInspector]
+    public CombosManager combosManager;
 
     public static Data Instance
     {
@@ -73,11 +77,11 @@ public class Data : MonoBehaviour
         gameData = GetComponent<GameData>();
         gameSettings = GetComponent<GameSettings>();
         areasManager = GetComponent<AreasManager>();
+        musicManager = GetComponent<MusicManager>();
+        soundManager = GetComponent<SoundManager>();
+        combosManager = GetComponent<CombosManager>();
 
         GetComponent<MusicManager>().Init();
-
-        Events.OnMusicVolumeChanged += OnMusicVolumeChanged;
-        Events.OnSoundsVolumeChanged += OnSoundsVolumeChanged;
 
 //#if UNITY_ANDROID || UNITY_IPHONE
        // Handheld.PlayFullScreenMovie(movPath, Color.black, FullScreenMovieControlMode.Hidden, FullScreenMovieScalingMode.AspectFill);
@@ -88,14 +92,7 @@ public class Data : MonoBehaviour
     {
        // Data.Instance.LoadLevel("01_Splash");
     }
-    void OnMusicVolumeChanged(float value)
-    {
-        musicVolume = value;
-    }
-    void OnSoundsVolumeChanged(float value)
-    {
-        soundsVolume = value;
-    }
+
     void OnBadgeSelected(int _totalScore)
     {
         this.totalScore = _totalScore;
@@ -103,10 +100,5 @@ public class Data : MonoBehaviour
     public void Reset()
     {
 
-    }
-    void OnSaveVolumes(float _musicVolume, float _soundsVolume)
-    {
-        this.musicVolume = _musicVolume;
-        this.soundsVolume = _soundsVolume;
     }
 }

@@ -99,6 +99,7 @@ public class Hero : MonoBehaviour {
       //  animator.SetBool(state.ToString(), true);
         animator.Play("pungaShit", 0, 0);
         Invoke("EndAnimation", 0.6f);
+        Events.OnSoundFX("Shit");
     }
     void EndAnimation()
     {

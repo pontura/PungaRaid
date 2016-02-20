@@ -57,10 +57,12 @@ public static class Events {
     public static System.Action OnExplotion = delegate { };
 
     public static System.Action<int> OnScoreAdd = delegate { };
+    public static System.Action<int> OnRefreshScore = delegate { };
     public static System.Action OnStartCountDown = delegate { };
     public static System.Action<PowerupManager.types> OnBarInit = delegate { };
     public static System.Action OnBarReady = delegate { };
-    
+
+    public static System.Action<float> OnCombo = delegate { };
     
     
 

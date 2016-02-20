@@ -55,6 +55,7 @@ public class PowerupManager : MonoBehaviour {
     }
     void Gil()
     {
+        Events.OnSoundFXLoop("GilPowa");
         powerUpGil.SetActive(true);
         type = types.GIL;
         character.PowerupActivated(type);
@@ -88,6 +89,7 @@ public class PowerupManager : MonoBehaviour {
         }
         else if (type == types.GIL)
         {
+            Events.OnSoundFXLoop("");
             powerUpGil.SetActive(false);           
         }
         type = types.NONE;

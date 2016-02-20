@@ -6,20 +6,17 @@ public class ScoreProgress : MonoBehaviour {
 
     [SerializeField]
     Text label;
-    private int totalLevelScore;
-    public int score;
 
     void Start()
     {
-        Events.OnScoreAdd += OnScoreAdd;        
+        Events.OnRefreshScore += OnRefreshScore;        
     }
     void OnDestroy()
     {
-        Events.OnScoreAdd -= OnScoreAdd;
+        Events.OnRefreshScore -= OnRefreshScore;
     }
-    public void OnScoreAdd(int _score)
+    public void OnRefreshScore(int score)
     {
-        score += _score;
         label.text = "$" + score.ToString();
     }
 }

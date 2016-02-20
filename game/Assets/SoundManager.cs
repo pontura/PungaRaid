@@ -5,26 +5,40 @@ public class SoundManager : MonoBehaviour
 {
     public AudioSource audioSource;
     private AudioSource loopAudioSource;
+    public float volume;
 
     void Start()
     {
+        volume = PlayerPrefs.GetFloat("SFXVol", 1);
         Events.OnSoundFX += OnSoundFX;
         Events.OnSoundFXLoop += OnSoundFXLoop;
+        Events.OnSoundsVolumeChanged += OnSoundsVolumeChanged;        
+        Events.OnHeroDie += OnHeroDie;
     }
-
+    void OnHeroDie()
+    {
+        OnSoundFXLoop("");
+    }
     void OnDestroy()
     {
         Events.OnSoundFX -= OnSoundFX;
         Events.OnSoundFXLoop -= OnSoundFXLoop;
+        Events.OnSoundsVolumeChanged -= OnSoundsVolumeChanged;
+        Events.OnHeroDie -= OnHeroDie;
         if (loopAudioSource)
         {
             loopAudioSource = null;
             loopAudioSource.Stop();
         }
     }
+    void OnSoundsVolumeChanged(float vol)
+    {
+        PlayerPrefs.SetFloat("SFXVol", vol);
+        this.volume = vol;
+    }
     void OnSoundFXLoop(string soundName)
     {
-        if (Data.Instance.soundsVolume == 0) return;
+        if (volume == 0) return;
 
         if (!loopAudioSource)
             loopAudioSource = gameObject.AddComponent<AudioSource>() as AudioSource;
@@ -48,7 +62,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        if (Data.Instance.soundsVolume == 0) return;
+        if (volume == 0) return;
        // print("_________________soundName: " + soundName);
         audioSource.PlayOneShot(Resources.Load("sound/" + soundName) as AudioClip);
 
