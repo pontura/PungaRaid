@@ -33,6 +33,10 @@ public class Summary : MonoBehaviour {
             ranking.gameObject.SetActive(false);
             challengeButton.SetActive(true);
         }
+        Invoke("TimeOut", 1.5f);
+    }
+    void TimeOut()
+    {
         panel.SetActive(true);
         panel.GetComponent<Animation>().Play("PopupOn");
         int score = (int)Game.Instance.gameManager.score;

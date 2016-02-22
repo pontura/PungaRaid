@@ -20,6 +20,7 @@ public class Victim : Enemy {
 
     override public void Enemy_Activate()
     {
+        loopStealing = false;
         Walk();
         anim.GetComponentInChildren<Animator>();
         anim.SetBool("WALK", true);
@@ -52,6 +53,7 @@ public class Victim : Enemy {
     {
         anim.SetBool("WALK", false);
         state = states.IDLE;
+        loopStealing = false;
     }
     public void Walk()
     {
@@ -65,17 +67,34 @@ public class Victim : Enemy {
 
         anim.Play(currentAnim);
     }
+    public bool loopStealing;
+    public void StealLoop_Gil()
+    {
+        loopStealing = true;
+        Steal();
+    }
+    public void StealLoopEnd_Gil()
+    {
+        loopStealing = false;
+    }
     public void Steal()
     {
+        if (Game.Instance.gameManager.state == GameManager.states.ENDING) return;
+        if(loopStealing) 
+        {
+            Invoke("Steal", 0.5f);
+            state = states.WALKING;
+        }
         if (state == states.STOLEN) return;
         if (state == states.CRASHED) return;
+        if (state == states.IDLE) return;
         state = states.STOLEN;
         if (currentAnim == "victimAWalk_phone")
-            anim.Play("victimAPung_phone");
+            anim.Play("victimAPung_phone", 0, 0);
         else if (currentAnim == "victimAWalk_bag")
-            anim.Play("victimAPung_bag");
+            anim.Play("victimAPung_bag", 0, 0);
         else if (currentAnim == "victimAWalk_normal")
-            anim.Play("victimAPung_normal");
+            anim.Play("victimAPung_normal",0,0);
 
         int mnultiplayerStolen = clothes.Undress();
 

@@ -13,7 +13,8 @@ public class CharacterCollider : MonoBehaviour {
         CENTER,
         TOP,
         BOTTOM,
-        GUN
+        GUN,
+        GIL_POWERUP
     }
     void Start()
     {
@@ -74,7 +75,12 @@ public class CharacterCollider : MonoBehaviour {
         if(!enemy) return;        
 
         Blocker blocker = enemy.GetComponent<Blocker>();
-
+        if (type == types.GIL_POWERUP)
+        {
+            Victim victim = other.GetComponent<Victim>();
+            if (victim && !victim.loopStealing)
+                victim.StealLoop_Gil();
+        } else
         if (type == types.GUN)
         {
           //  if(blocker == null)
@@ -118,6 +124,15 @@ public class CharacterCollider : MonoBehaviour {
         if (type == types.CENTER) return;
         if (type == types.GUN) return;
 
+        if (type == types.GIL_POWERUP)
+        {
+            Victim victim = other.GetComponent<Victim>();
+            if (victim)
+            {
+                victim.StealLoopEnd_Gil();
+            }
+            return;
+        } 
         if (lastBlocker == other.GetComponent<Blocker>())
         {
             if (type == types.TOP)

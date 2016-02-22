@@ -27,11 +27,13 @@ public class PowerupManager : MonoBehaviour {
         character = GetComponent<Character>();
         Events.OnPowerUp += OnPowerUp;
         Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
+        Events.OnHeroDie += OnHeroDie;
     }
     void OnDestroy()
     {
         Events.OnPowerUp -= OnPowerUp;
         Events.OnHeroPowerUpOff -= OnHeroPowerUpOff;
+        Events.OnHeroDie -= OnHeroDie;
     }
     void OnPowerUp(types newType)
     {
@@ -72,9 +74,13 @@ public class PowerupManager : MonoBehaviour {
         character.OnSetHeroState(false);
         Events.OnChangeSpeed(2, true);
     }
-
+    void OnHeroDie()
+    {
+        powerUpGil.SetActive(false);
+    }
     void OnHeroPowerUpOff()
-    {        
+    {      
+  
         character.Idle();
 
         if (type == types.MOTO)

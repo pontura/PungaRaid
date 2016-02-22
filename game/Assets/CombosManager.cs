@@ -10,8 +10,12 @@ public class CombosManager : MonoBehaviour {
 
 	void Start () {
         Events.OnCombo += OnCombo;
+        Events.OnHeroDie += OnHeroDie;
 	}
-	
+    void OnHeroDie()
+    {
+        comboID = 0;
+    }
     void OnCombo (float distance)
     {
         float diffDistance = distance - lastDistance;
