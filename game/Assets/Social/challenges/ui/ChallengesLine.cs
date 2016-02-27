@@ -39,7 +39,7 @@ public class ChallengesLine : MonoBehaviour
         }
 
 
-        if (playerData.winner != "")
+        if (playerData.winner != null && playerData.winner.Length > 1)
         {
             if (playerData.winner == SocialManager.Instance.userData.facebookID)
             {
@@ -55,11 +55,17 @@ public class ChallengesLine : MonoBehaviour
             }
             InactiveButtons();
         }
+        else
+        {
+            op_score = playerData.score;
+            scoreLabel.text = "$" + playerData.score;
+        }
         this.objectID = playerData.objectID;
         this.facebookID = playerData.facebookID;
 
         username = Data.Instance.gameSettings.GetUsername(playerData.playerName);
-        usernameLabel.text = username;        
+        usernameLabel.text = username;
+        
 
         profilePicture.setPicture(facebookID);
         infoLoaded = true;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class SocialManager : MonoBehaviour
 {
     static SocialManager mInstance = null;
+    public string FIREBASE = "https://punga.firebaseio.com";
 
     [HideInInspector]
     public UserData userData;

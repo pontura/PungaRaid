@@ -64,6 +64,6 @@ public class Summary : MonoBehaviour {
     }
     public void Challenge()
     {
-        Data.Instance.LoadLevel("05_Challenges");
+        Data.Instance.LoadLevel("08_ChallengesCreator");
     }
 }

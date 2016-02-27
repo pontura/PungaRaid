@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Facebook.Unity;
 
 public class FacebookFriends : MonoBehaviour {
 
@@ -20,6 +21,37 @@ public class FacebookFriends : MonoBehaviour {
         SocialEvents.AddFacebookFriend += AddFacebookFriend;
         SocialEvents.OnFacebookInviteFriends += OnFacebookInviteFriends;
 	}
+    public void GetFriends()
+    {
+        //  print("GetFriendsGetFriendsGetFriendsGetFriendsGetFriendsGetFriends");
+        var perms = new List<string>() { "public_profile", "email", "user_friends" };
+        FB.API("/me?fields=id,name,friends.limit(100).fields(name,id)", Facebook.Unity.HttpMethod.GET, FBFriendsCallback);
+    }
+    void FBFriendsCallback(IGraphResult result)
+    {
+        if (result.Error != null)
+        {
+            Debug.LogError(result.Error);
+            // Let's just try again
+            FB.API("/me?fields=id,name,friends.limit(100).fields(name,id)", Facebook.Unity.HttpMethod.GET, FBFriendsCallback);
+            return;
+        }
+
+        var data = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as Dictionary<string, object>;
+        IDictionary dict = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as IDictionary;
+        var friends = dict["friends"] as Dictionary<string, object>;
+        System.Collections.Generic.List<object> ff = friends["data"] as System.Collections.Generic.List<object>;
+
+        foreach (var obj in ff)
+        {
+            Dictionary<string, object> facebookFriendData = obj as Dictionary<string, object>;
+            SocialEvents.AddFacebookFriend(facebookFriendData["id"].ToString(), facebookFriendData["name"].ToString());
+        }
+        print("OnFacebookFriends");
+        SocialEvents.OnFacebookFriends();
+    }
+
+
     public string GetUsernameByFacebookID(string _facebookID)
     {
         foreach (Friend data in all)

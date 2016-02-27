@@ -81,6 +81,14 @@ public class SettingsPopup : MonoBehaviour {
             Events.OnLoginAdvisor();
         Close();
     }
+    public void Ranking()
+    {
+        if (SocialManager.Instance.userData.logged)
+            Data.Instance.LoadLevel("07_Ranking");
+        else
+            Events.OnLoginAdvisor();
+        Close();
+    }
     public void SwitchMusic()
     {
         float vol = 1;

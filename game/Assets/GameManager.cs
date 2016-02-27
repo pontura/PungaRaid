@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour {
     public states state;
     public enum states
     {
-        ACTIVE,
         INACTIVE,
+        ACTIVE,        
         ENDING
     }
 
@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour {
     
     public void Init()
     {
-        
 
         Data.Instance.errors = 0;
        combosManager = Data.Instance.combosManager;
@@ -75,7 +74,8 @@ public class GameManager : MonoBehaviour {
     void StartGame()
     {
         speed = DEFAULT_SPEED;
-        state = states.ACTIVE;
+        //state = states.ACTIVE;
+        Invoke("goOn", 0.2f);
         
     }
     void OnHeroDie()
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
     {
       //  Events.OnSoundFX("trip");
        // state = states.INACTIVE;
-       // Invoke("goOn", 0.2f);
+       // 
     }
     void goOn()
     {

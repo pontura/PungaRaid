@@ -5,7 +5,7 @@ public class Splash : MonoBehaviour {
 
     void Start()
     {
-        Invoke("GotoGame", 4);
+        Invoke("GotoGame", 7);
     }
 	public void GotoGame () {
         Data.Instance.LoadLevel("02_MainMenu");

@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Parse;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
 
 public class ChallengersManager : MonoBehaviour {
@@ -13,6 +11,16 @@ public class ChallengersManager : MonoBehaviour {
     public List<PlayerData> received;
     public List<PlayerData> made;
 
+    public state made_state;
+    public state received_state;
+
+    public enum state
+    {
+        LOADING,
+        REFRESHING,
+        READY
+    }
+
     [Serializable]
     public class PlayerData
     {
@@ -20,7 +28,7 @@ public class ChallengersManager : MonoBehaviour {
         public string facebookID;
         public string playerName;
         public float score;
-        public int level;
+       // public int level;
 
         public float score2;
         public string winner;
@@ -29,196 +37,201 @@ public class ChallengersManager : MonoBehaviour {
     void Start()
     {
         SocialEvents.OnChallengeCreate += OnChallengeCreate;
+        SocialEvents.OnFacebookLogin += OnFacebookLogin;
         SocialEvents.OnChallengeClose += OnChallengeClose;
+        //Invoke("LoadReceived", 1);
+       // LoadMade();
+    }
+    void OnFacebookLogin()
+    {
         LoadReceived();
         LoadMade();
     }
-    void OnResetApp()
-    {
-        received.Clear();
-        made.Clear();
-    }
-    void OnChallengesLoad()
-    {
-        received.Clear();
-        made.Clear();
-        Invoke("LoadReceived", 2);
-        Invoke("LoadMade", 4);
-    }
     public void LoadReceived()
     {
-        if (received.Count == 0)
+        received_state = state.LOADING;
+        received.Clear();
+        string url = SocialManager.Instance.FIREBASE + "/challenges.json";
+            //?orderBy=\"time\"&limitToLast=30";
+        url += "?orderBy=\"op_facebookID\"&equalTo=\"" + SocialManager.Instance.userData.facebookID + "\"";
+        Debug.Log("LoadReceived: " + url);
+        HTTP.Request someRequest = new HTTP.Request("get", url);
+        someRequest.Send((request) =>
         {
-            LoadChallenge(true,
-                  ParseObject.GetQuery("Challenges")
-                 .WhereEqualTo("op_facebookID", SocialManager.Instance.userData.facebookID)
-                 .OrderByDescending("updatedAt")
-                 .Limit(90)
-             );
-            Invoke("LoadReceived", 1);
-        }
+            Hashtable decoded = (Hashtable)JSON.JsonDecode(request.response.Text);
+            if (decoded == null)
+            {
+                Debug.LogError("server returned null or     malformed response ):");
+                return;
+            }
+
+            foreach (DictionaryEntry json in decoded)
+            {
+                Hashtable jsonObj = (Hashtable)json.Value;
+                PlayerData newData = new PlayerData();
+                newData.objectID = (string)json.Key;
+                newData.facebookID = (string)jsonObj["facebookID"];
+                newData.playerName = (string)jsonObj["playerName"];
+                newData.score = (int)jsonObj["score"];
+                newData.score2 = (int)jsonObj["score2"];
+                newData.winner = (string)jsonObj["winner"];
+                newData.notificated = (bool)jsonObj["notificated"];
+                received.Add(newData);
+            }
+            received_state = state.READY;
+        });
     }
     public void LoadMade()
     {
-        if (made.Count == 0)
-        {
-            LoadChallenge(false,
-                  ParseObject.GetQuery("Challenges")
-                 .WhereEqualTo("facebookID", SocialManager.Instance.userData.facebookID)
-                 .OrderByDescending("updatedAt")
-                 .Limit(90)
-             );
-            Invoke("LoadMade", 1);
-        }
-    }
-    void LoadChallenge(bool _received, ParseQuery<ParseObject> query)
-    {
-        if (_received && received.Count > 0) return;
-        if (!_received && made.Count > 0) return;
+        made_state = state.LOADING;
+        made.Clear();
+        string url = SocialManager.Instance.FIREBASE + "/challenges.json";
+            //?orderBy=\"time\"&limitToLast=30";
+        url += "?orderBy=\"facebookID\"&equalTo=\"" + SocialManager.Instance.userData.facebookID + "\"";
 
-        query.FindAsync().ContinueWith(t =>
+        Debug.Log("LoadMade: " + url);
+        HTTP.Request someRequest = new HTTP.Request("get", url);
+        someRequest.Send((request) =>
         {
-            IEnumerable<ParseObject> results = t.Result;
-            foreach (var result in results)
+            Hashtable decoded = (Hashtable)JSON.JsonDecode(request.response.Text);
+            if (decoded == null)
             {
-                string objectID = result.ObjectId;
-                string facebookID = result.Get<string>("facebookID");
-                string op_facebookID = result.Get<string>("op_facebookID");
-                string op_playerName = result.Get<string>("op_playerName");
-                string playerName = result.Get<string>("playerName");
-                bool notificated = result.Get<bool>("notificated");
-                
-                int level = result.Get<int>("level");
-                float score = result.Get<float>("score");
-
-                float score2 = 0;
-                string winner = "";
-                try
-                {
-                    score2 = result.Get<float>("score2");
-                    winner = result.Get<string>("winner");
-                }
-                catch
-                {
-                }
-                PlayerData playerData = new PlayerData();
-                playerData.objectID = objectID;
-                playerData.facebookID = facebookID;
-                playerData.playerName = playerName;
-                playerData.notificated = notificated;
-
-                if (!_received)
-                {
-                    playerData.facebookID = op_facebookID;
-                    playerData.playerName = op_playerName;
-                }
-
-                playerData.score = score;
-                playerData.level = level;
-
-                playerData.winner = winner;
-                playerData.score2 = score2;
-
-                if (_received)
-                    received.Add(playerData);
-                else
-                    made.Add(playerData);
+                Debug.LogError("server returned null or     malformed response ):");
+                return;
             }
-        }
-        );
+
+            foreach (DictionaryEntry json in decoded)
+            {
+                Hashtable jsonObj = (Hashtable)json.Value;
+                PlayerData newData = new PlayerData();
+                newData.objectID = (string)json.Key;
+                newData.facebookID = (string)jsonObj["op_facebookID"];
+                newData.playerName = (string)jsonObj["op_playerName"];
+                newData.score = (int)jsonObj["score"];
+                newData.score2 = (int)jsonObj["score2"];
+                newData.winner = (string)jsonObj["winner"];
+                newData.notificated = (bool)jsonObj["notificated"];
+                made.Add(newData);
+            }
+            made_state = state.READY;
+        });
     }
+
+    //void LoadChallenge(bool _received, ParseQuery<ParseObject> query)
+    //{
+    //    query.FindAsync().ContinueWith(t =>
+    //    {
+    //        IEnumerable<ParseObject> results = t.Result;
+
+    //      //  if (_received && loaded_received) return;
+
+    //        if (!_received) 
+    //        {
+    //           if( made_state == state.READY) return;
+    //            made.Clear();
+    //        }
+
+    //        foreach (var result in results)
+    //        {
+    //            string objectID = result.ObjectId;
+    //            string facebookID = result.Get<string>("facebookID");
+    //            string op_facebookID = result.Get<string>("op_facebookID");
+    //            string op_playerName = result.Get<string>("op_playerName");
+    //            string playerName = result.Get<string>("playerName");
+    //            bool notificated = result.Get<bool>("notificated");
+                
+    //            int level = result.Get<int>("level");
+    //            float score = result.Get<float>("score");
+
+    //            float score2 = 0;
+    //            string winner = "";
+    //            try
+    //            {
+    //                score2 = result.Get<float>("score2");
+    //                winner = result.Get<string>("winner");
+    //            }
+    //            catch
+    //            {
+    //            }
+    //            PlayerData playerData = new PlayerData();
+    //            playerData.objectID = objectID;
+    //            playerData.facebookID = facebookID;
+    //            playerData.playerName = playerName;
+    //            playerData.notificated = notificated;
+
+    //            if (!_received)
+    //            {
+    //                playerData.facebookID = op_facebookID;
+    //                playerData.playerName = op_playerName;
+    //            }
+
+    //            playerData.score = score;
+    //            playerData.level = level;
+
+    //            playerData.winner = winner;
+    //            playerData.score2 = score2;
+
+    //            if (_received)
+    //            {
+    //                received.Add(playerData);
+    //               // loaded_received = true;
+    //            }
+    //            else
+    //            {
+    //                made.Add(playerData);
+    //                made_state = state.READY;
+    //            }
+    //        }
+    //    }
+    //    );
+    //}
     void OnChallengeCreate(string oponent_username, string oponent_facebookID, int score)
     {
-        ParseObject data = new ParseObject("Challenges");
-        data["playerName"] = SocialManager.Instance.userData.username;
-        data["facebookID"] = SocialManager.Instance.userData.facebookID;
-        
-        data["op_playerName"] = oponent_username;
-        data["op_facebookID"] = oponent_facebookID;
+        made_state = state.REFRESHING;
+        Hashtable data = new Hashtable();
+        data.Add("facebookID", SocialManager.Instance.userData.facebookID);
+        data.Add("playerName", SocialManager.Instance.userData.username);
 
-        data["level"] = 1;
-        data["score"] = score;
+        data.Add("op_playerName", oponent_username);
+        data.Add("op_facebookID", oponent_facebookID);
+        data.Add("score", score);
+        data.Add("score2", 0);
+        data.Add("notificated", false);
 
-        data["notificated"] = false;
+        Hashtable time = new Hashtable();
+        time.Add(".sv", "timestamp");
+        data.Add("time", time);
 
-        data.SaveAsync();
-        print("Challenge Saved");
-    }
-    void OnChallengeRemind(string objectID, string facebookID)
-    {
-        print("OnChallengeRemind(string objectID)  " + objectID + " facebookID " + facebookID);
+        HTTP.Request theRequest = new HTTP.Request("post", SocialManager.Instance.FIREBASE + "/challenges.json", data);
 
-        var query = new ParseQuery<ParseObject>("Challenges")
-            .WhereEqualTo("objectId", objectID);
-
-        query.FindAsync().ContinueWith(t =>
+        theRequest.Send((request) =>
         {
-            IEnumerator<ParseObject> enumerator = t.Result.GetEnumerator();
-            enumerator.MoveNext();
-            var data = enumerator.Current;
-            data["score2"] = 0;
-            data["notificated"] = false;
-           // data["winner"] = winner;
-            return data.SaveAsync();
-        }).Unwrap().ContinueWith(t =>
-        {
-            Debug.Log("OnChallengeRemind updated!");
-        });   
-
-    }
-    void OnChallengeNotificated(string objectID)
-    {
-        print("OnChallengeNotificated:::::::::: " + objectID);
-
-        var query = new ParseQuery<ParseObject>("Challenges")
-            .WhereEqualTo("objectId", objectID);
-
-        query.FindAsync().ContinueWith(t =>
-        {
-            IEnumerator<ParseObject> enumerator = t.Result.GetEnumerator();
-            enumerator.MoveNext();
-            var data = enumerator.Current;
-            data["notificated"] = true;
-            return data.SaveAsync();
-        }).Unwrap().ContinueWith(t =>
-        {
-            Debug.Log("OnChallengeNotificated updated!");
+            Hashtable jsonObj = (Hashtable)JSON.JsonDecode(request.response.Text);
+            if (jsonObj == null)
+            {
+                Debug.LogError("server returned null or malformed response ):");
+            }
+            Debug.Log("__OnChallengeCreated!");
+            LoadMade();
         });
     }
     public void OnChallengeClose(string objectID, string op_facebookID, string winner, float newScore)
     {
-        var query = new ParseQuery<ParseObject>("Challenges")
-            .WhereEqualTo("objectId", objectID);
+        print("OnChallengeClose objectID " + objectID + " winner: " + winner);
 
-        query.FindAsync().ContinueWith(t =>
-        {
-            IEnumerator<ParseObject> enumerator = t.Result.GetEnumerator();
-            enumerator.MoveNext();
-            var data = enumerator.Current;
-            data["score2"] = newScore;
-            data["winner"] = winner;
-            data["notificated"] = false;
-            return data.SaveAsync();
-        }).Unwrap().ContinueWith(t =>
-        {
-            Debug.Log("Score updated!");
-        });   
-    }
-    public void OnChallengeDelete(string objectId)
-    {
-        print("Deletechallengen");
-        var query = new ParseQuery<ParseObject>("Challenges")
-            .WhereEqualTo("objectId", objectId);
+        Hashtable data = new Hashtable();
+        data.Add("winner", winner);
+        data.Add("score2", newScore);
 
-        query.FindAsync().ContinueWith(t =>
+        HTTP.Request theRequest = new HTTP.Request("patch", SocialManager.Instance.FIREBASE + "/challenges/" + objectID + "/.json", data);
+        theRequest.Send((request) =>
         {
-            IEnumerator<ParseObject> enumerator = t.Result.GetEnumerator();
-            enumerator.MoveNext();
-            var data = enumerator.Current;
-            return data.DeleteAsync();
-        }).Unwrap().ContinueWith(t =>
-        {
-            Debug.Log("Challenge deleted!");
+            Hashtable jsonObj = (Hashtable)JSON.JsonDecode(request.response.Text);
+            if (jsonObj == null)
+            {
+                Debug.LogError("server returned null or malformed response ):");
+            }
+            Debug.Log("challenge updated: " + request.response.Text);
         });
     }
     public int GetNewChallenges()

@@ -1,284 +1,118 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Parse;
-using System;
 using Facebook.Unity;
-using Facebook.MiniJSON;
-using System.Linq;
 
+public class LoginManager : MonoBehaviour {
 
+    private string id;
+    private string facebookID;
+    private string username;
 
-public class LoginManager : MonoBehaviour
-{
-    private bool triedToLogin;
-
-    void Start()
+    void Awake()
     {
-        if (FB.IsLoggedIn)
-        {
-            if (ParseUser.CurrentUser == null)
-            {
-                StartCoroutine("ParseLogin");
-            }
-            else
-            {
-                UpdateProfile();
-            }
-            GetFriends();
-        }
-
-        if (FB.IsLoggedIn) return;
-        if(triedToLogin) return;
-
-        triedToLogin = true;
-        print("LoginManager Awake");
-
         FB.Init(SetInit, OnHideUnity);
-        
+    }
+    void SetInit()
+    {
+        if (FB.IsLoggedIn) {
+            Debug.Log ("FB is logged in");
+        } else {
+            Debug.Log ("FB is not logged in");
+        }
     }
 
-    private void SetInit()
+    void OnHideUnity(bool isGameShown)
     {
-        if (this)
-            enabled = true;
-    }
-
-    private void OnHideUnity(bool isGameShown)
-    {
-        print("FB LOOGED" + isGameShown);
-        if (!isGameShown)
-        {
-            // pause the game - we will need to hide
+        if (!isGameShown) {
             Time.timeScale = 0;
-        }
-        else
-        {
-            
+        } else {
             Time.timeScale = 1;
-        }
-    }
-
-    private IEnumerator ParseLogin()
-    {
-        if (FB.IsLoggedIn)
-        {
-            // Logging in with Parse
-            print("______________________");
-
-            System.Threading.CancellationToken s = new System.Threading.CancellationToken();
-
-             var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-
-            var loginTask = ParseFacebookUtils.LogInAsync(aToken.UserId,
-                                                          aToken.TokenString,
-                                                          DateTime.Now, s);
-            while (!loginTask.IsCompleted) yield return null;
-            // Login completed, check results
-            if (loginTask.IsFaulted || loginTask.IsCanceled)
-            {
-                // There was an error logging in to Parse
-                foreach (var e in loginTask.Exception.InnerExceptions)
-                {
-                    ParseException parseException = (ParseException)e;
-                    Debug.Log("ParseLogin: error message " + parseException.Message);
-                    Debug.Log("ParseLogin: error code: " + parseException.Code);
-
-                }
-
-            }
-            else
-            {
-                // Log in to Parse successful
-                // Get user info
-                FB.API("/me", HttpMethod.GET, FBAPICallback);
-                // Display current profile info
-                UpdateProfile();
-            }
         }
     }
 
     public void FBLogin()
     {
-        // Logging in with Facebook
-        //  FB.Login("user_about_me, user_relationships, user_birthday, user_location", FBLoginCallback);
-        //FB.Login("email, user_about_me, user_friends", FBLoginCallback);
 
-        var perms = new List<string>(){"public_profile", "email", "user_friends"};
-        FB.LogInWithReadPermissions(perms, FBLoginCallback);
+        List<string> permissions = new List<string> ();
+        permissions.Add ("public_profile");
 
-        doLoop = true;
+        FB.LogInWithReadPermissions (permissions, AuthCallBack);
     }
 
-    bool doLoop = true;
-    void Update()
+    void AuthCallBack(IResult result)
     {
-        if (!doLoop) return;
-        if (FB.IsLoggedIn)
-        {
-            print("___________MADE LOGIN");
-            StartCoroutine("ParseLogin");
-            GetFriends();
-            doLoop = false;
+        if (result.Error != null) {
+            Debug.Log (result.Error);
+        } else {
+            if (FB.IsLoggedIn) {
+                FB.API("/me?fields=name", HttpMethod.GET, DisplayUsername);
+                SocialManager.Instance.facebookFriends.GetFriends();
+            } 
         }
-
-    }
-    private void FBLoginCallback(ILoginResult result)
+    }   
+ 
+    void DisplayUsername(IResult result)
     {
-        //SocialEvents.OnFacebookLogin();
-
-        if (FB.IsLoggedIn)
-        {
-            print("result");
-          //  StartCoroutine("ParseLogin");
-           // GetFriends();
-        }
-        else
-        {
-            Debug.Log("FBLoginCallback: User canceled login");
-            SocialEvents.OnFacebookLoginCanceled();
-        }
+        facebookID = result.ResultDictionary["id"].ToString();
+        username = result.ResultDictionary["name"].ToString();
+        Debug.Log("facebookID: " + facebookID + " username:" + username  );
+        CheckIfUserExists(facebookID);
     }
 
-    public void ParseFBLogout()
+    protected void CheckIfUserExists(string facebookID)
     {
-        FB.LogOut();
-       // FB.Logout();
-        ParseUser.LogOut();
-    }
-   
-      
-    private void FBAPICallback(IGraphResult result)
-    {
-        if (!String.IsNullOrEmpty(result.Error))
+        Debug.Log("CheckIfUserExists: " + facebookID + username);
+
+
+        string url = SocialManager.Instance.FIREBASE + "/users.json?orderBy=\"facebookID\"&equalTo=\"" + facebookID + "\"";
+
+        Debug.Log(url);
+
+        HTTP.Request someRequest = new HTTP.Request("get", url);
+        someRequest.Send((request) =>
         {
-            Debug.Log("FBAPICallback: Error getting user info: + " + result.Error);
-            // Log the user out, the error could be due to an OAuth exception
-            ParseFBLogout();
-        }
-        else
-        {
-            // Got user profile info
-            var resultObject = result.ResultDictionary as Dictionary<string, object>;
-            userProfile = new Dictionary<string, string>();
+            Hashtable decoded = (Hashtable)JSON.JsonDecode(request.response.Text);
 
-
-            SocialManager.Instance.userData.RegisterUser(getDataValueForKey(resultObject, "name"), getDataValueForKey(resultObject, "id"), getDataValueForKey(resultObject, "email"));
-
-            userProfile["name"] = getDataValueForKey(resultObject, "name");
-
-           // StartCoroutine("saveUserProfile", userProfile);
-
-            UpdateProfile();
-        }
-    }
-    private Dictionary<string, string> userProfile;
-
-    //private IEnumerator saveUserProfile(Dictionary<string, string> profile)
-    //{
-    //    print("SocialManager.Instance.userData.email    " + SocialManager.Instance.userData.email + " : " + SocialManager.Instance.userData.facebookID + " :username:  " + SocialManager.Instance.userData.username);
-
-        //ParseObject parseObj = ParseUser.CurrentUser;
-
-        //parseObj["facebookID"] = SocialManager.Instance.userData.facebookID;
-        //parseObj["playerName"] = SocialManager.Instance.userData.username;
-        ////{
-        //var saveTask = parseObj.SaveAsync();
-        //while (!saveTask.IsCompleted) yield return null;
-    //    UpdateProfile();
-    //    //}
-    //}
-
-    private string getDataValueForKey(Dictionary<string, object> dict, string key)
-    {
-        object objectForKey;
-        if (dict.TryGetValue(key, out objectForKey))
-        {
-            return (string)objectForKey;
-        }
-        else
-        {
-            return "";
-        }
-    }
-
-    private bool profileLoaded;
-    private void UpdateProfile()
-    {
-        if (profileLoaded) return;
-        print("UpdateProfile");
-        SocialEvents.OnParseLogin();
-        profileLoaded = true;
-    }
-
-    // Wrap text by line height
-    private string ResolveTextSize(string input, int lineLength)
-    {
-
-        // Split string by char " "    
-        string[] words = input.Split(" "[0]);
-
-        // Prepare result
-        string result = "";
-
-        // Temp line string
-        string line = "";
-
-        // for each all words     
-        foreach (string s in words)
-        {
-            // Append current word into line
-            string temp = line + " " + s;
-
-            // If line length is bigger than lineLength
-            if (temp.Length > lineLength)
+            if (decoded == null)
             {
-
-                // Append current line into result
-                result += line + "\n";
-                // Remain word append into new line
-                line = s;
+                
+                Debug.Log("no existe el user or malformed response ):");
+                return;
             }
-            // Append current word into current line
+            else if (decoded.Count == 0)
+            {
+                AddNewUser(facebookID);
+            }
             else
             {
-                line = temp;
+                SocialEvents.OnUserReady(username, facebookID);
+            }            
+        });
+    }
+    protected void AddNewUser(string facebookID)
+    {
+        Debug.Log("AddNewUser" + facebookID + username);
+
+        Hashtable data = new Hashtable();
+
+        data.Add("playerName", username);
+        data.Add("facebookID", facebookID);
+
+        HTTP.Request theRequest = new HTTP.Request("post", SocialManager.Instance.FIREBASE + "/users.json", data);
+        theRequest.Send((request) =>
+        {
+            Hashtable jsonObj = (Hashtable)JSON.JsonDecode(request.response.Text);
+            if (jsonObj == null)
+            {
+                Debug.LogError("server returned null or malformed response ):");
             }
-        }
-
-        // Append last line into result   
-        result += line;
-
-        // Remove first " " char
-        return result.Substring(1, result.Length - 1);
-    }
-    void GetFriends()
-    {
-      //  print("GetFriendsGetFriendsGetFriendsGetFriendsGetFriendsGetFriends");
-         var perms = new List<string>(){"public_profile", "email", "user_friends"};
-        FB.API("/me?fields=id,name,friends.limit(100).fields(name,id)", Facebook.Unity.HttpMethod.GET, FBFriendsCallback);
-    }
-    void FBFriendsCallback(IGraphResult result)
-    {
-        if (result.Error != null)
-        {
-            Debug.LogError(result.Error);
-            // Let's just try again
-            FB.API("/me?fields=id,name,friends.limit(100).fields(name,id)", Facebook.Unity.HttpMethod.GET, FBFriendsCallback);
-            return;
-        }
-
-        var data = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as Dictionary<string, object>;
-        IDictionary dict = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as IDictionary;
-        var friends = dict["friends"] as Dictionary<string, object>;
-        System.Collections.Generic.List<object> ff = friends["data"] as System.Collections.Generic.List<object>;
-
-        foreach (var obj in ff)
-        {
-            Dictionary<string, object> facebookFriendData = obj as Dictionary<string, object>;
-            SocialEvents.AddFacebookFriend(facebookFriendData["id"].ToString(), facebookFriendData["name"].ToString());
-        }
-        print("OnFacebookFriends");
-        SocialEvents.OnFacebookFriends();
+            else
+            {
+                Debug.Log("nuevo usuario!!");
+                SocialEvents.OnUserReady(username, facebookID);
+            }
+        });
     }
 }

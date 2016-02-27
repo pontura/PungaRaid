@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Parse;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
 
 public class Challenges : MonoBehaviour {
@@ -46,7 +44,7 @@ public class Challenges : MonoBehaviour {
     }
     public void Back()
     {
-       // Data.Instance.Back();
+        Data.Instance.LoadLevel("02_MainMenu");
     }
     public void Switch()
     {
@@ -92,8 +90,7 @@ public class Challenges : MonoBehaviour {
             string objectID = result.objectID;
             string facebookID = result.facebookID;
             string op_playerName = result.playerName;
-            string playerName = result.playerName;
-            int level = result.level;            
+            string playerName = result.playerName;        
             float score = result.score;
             float score2 = result.score2;
             string winner = result.winner;
@@ -108,7 +105,7 @@ public class Challenges : MonoBehaviour {
                 playerData.playerName = playerName;
 
             playerData.score = score;
-            playerData.level = level;
+           // playerData.level = level;
             playerData.winner = winner;
 
             playerData.score2 = score2;

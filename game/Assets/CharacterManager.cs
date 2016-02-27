@@ -9,13 +9,12 @@ public class CharacterManager : MonoBehaviour {
     public void Init()
     {
         Events.OnSwipe += OnSwipe;
-       // Events.OnChangeLane += OnChangeLane;
         Events.OnChangeLaneComplete += OnChangeLaneComplete;
 
         OnChangeLaneComplete();
         character.Init();
 
-        Invoke("Delay", 0.1f);
+        Invoke("Delay", 1f);
         
     }
     void Delay()
@@ -25,7 +24,6 @@ public class CharacterManager : MonoBehaviour {
     public void OnDestroy()
     {
         Events.OnSwipe -= OnSwipe;
-       // Events.OnChangeLane -= OnChangeLane;
         Events.OnChangeLaneComplete -= OnChangeLaneComplete;
     }
     public void UpdatePosition(float _x)
