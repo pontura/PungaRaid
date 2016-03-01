@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class SwipeDetector : MonoBehaviour
 {
-    public float minSwipeDistY;
-    public float minSwipeDistX;
+    private float minSwipeDistY = 25;
+    private float minSwipeDistX = 20;
+
     private float startPosY;
+    private float startPosX;
+
+   // public Text debugText;
 
     public enum directions
     {
@@ -32,6 +37,7 @@ public class SwipeDetector : MonoBehaviour
                     newTime = 0;
                     touched = true;
                     startPosY = touch.position.y;
+                    startPosX = touch.position.x;
                     break;
                 case TouchPhase.Ended:
                     newTime = 0;
@@ -46,12 +52,11 @@ public class SwipeDetector : MonoBehaviour
                 newTime += Time.deltaTime;
             }
 
-            if (newTime > 0.06f && touched)
+            if (newTime > 0.2f && touched)
             {
                 Move(touch.position.x, touch.position.y);
-                startPosY = touch.position.y;
                 movedByTime = true;                
-                newTime = -0.12f;
+                newTime = -0.22f;
             }
 
 
@@ -59,34 +64,35 @@ public class SwipeDetector : MonoBehaviour
     }
     void Move(float touchFinalPositionX, float touchFinalPositionY)
     {
-        if (Mathf.Abs(touchFinalPositionX) < Mathf.Abs(touchFinalPositionY))
+        float diffY = startPosY - touchFinalPositionY;
+        float diffX = startPosX - touchFinalPositionX;
+
+        //if (debugText)
+        //    debugText.text = "Y: " + diffY + " x: " + diffX;
+
+        if (Mathf.Abs(diffY) > minSwipeDistY)
         {
-            float swipeDistVertical = (new Vector3(0, touchFinalPositionY, 0) - new Vector3(0, startPosY, 0)).magnitude;
-            if (swipeDistVertical > minSwipeDistY / 2)
-            {
-                float swipeValue = Mathf.Sign(touchFinalPositionY - startPosY);
-                if (swipeValue > 0)
-                    Swipe(directions.UP);
-                else if (swipeValue < 0)
-                    Swipe(directions.DOWN);
-            }
+            if (diffY < 0)
+                Swipe(directions.UP);
+            else
+                Swipe(directions.DOWN);            
         }
         else
         {
+           // debugText.text += " RIGHT";
             Swipe(directions.RIGHT);
         }
+        
     }
     void Swipe(directions direction)
     {
-        print(direction);
-
         switch (direction)
         {
             case directions.UP:
                 Events.OnSwipe(directions.UP); break;
             case directions.DOWN:
                 Events.OnSwipe(directions.DOWN); break;
-            case directions.RIGHT:
+            case directions.RIGHT:               
                 Events.OnSwipe(directions.RIGHT); break;
         }
     }

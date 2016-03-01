@@ -14,7 +14,7 @@ public class CharacterManager : MonoBehaviour {
         OnChangeLaneComplete();
         character.Init();
 
-        Invoke("Delay", 1f);
+        Invoke("Delay", 0.2f);
         
     }
     void Delay()

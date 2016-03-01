@@ -22,6 +22,7 @@ public class EnemiesManager : MonoBehaviour {
     public GameObject poolObjects;
 
 	void Start () {
+        Events.OnHeroDie += OnHeroDie;
         poolObjects = new GameObject();
         poolObjects.name = "POOL";
 
@@ -56,6 +57,13 @@ public class EnemiesManager : MonoBehaviour {
         pool.Remove(enemy);
         enemies.Add(enemy);
         return enemy;
+    }
+
+    private bool firstSceneShowed;
+
+    void OnHeroDie()
+    {
+        firstSceneShowed = false;
     }
     private Enemy GetPooled(string type)
     {
@@ -113,7 +121,12 @@ public class EnemiesManager : MonoBehaviour {
                         break;
                     case "veredaIntro":
                         if (enemy.name == "veredaIntro" || enemy.name == "veredaIntro(Clone)")
+                        {
+                            if (firstSceneShowed)
+                                return GetPooled("vereda_2_pastos");
+                            firstSceneShowed = true;
                             return enemy;
+                        }
                         break;
                     case "vereda_10mts_5lanes":
                         if (enemy.name == "vereda_10mts_5lanes" || enemy.name == "vereda_10mts_5lanes(Clone)")
@@ -129,6 +142,10 @@ public class EnemiesManager : MonoBehaviour {
                         break;
                     case "vereda_10mts_3lanes":
                         if (enemy.name == "vereda_10mts_3lanes" || enemy.name == "vereda_10mts_3lanes(Clone)")
+                            return enemy;
+                        break;
+                    case "vereda_2_pastos":
+                        if (enemy.name == "vereda_2_pastos" || enemy.name == "vereda_2_pastos(Clone)")
                             return enemy;
                         break;
                         

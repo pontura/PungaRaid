@@ -25,7 +25,7 @@ public class UI : MonoBehaviour {
     }
     void OnLevelComplete()
     {
-        scoreProgress.gameObject.SetActive(false);
-        menuButton.gameObject.SetActive(false);
+        //scoreProgress.gameObject.SetActive(false);
+        //menuButton.gameObject.SetActive(false);
     }
 }

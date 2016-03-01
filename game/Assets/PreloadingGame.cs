@@ -7,6 +7,7 @@ public class PreloadingGame : MonoBehaviour {
 	void Start () {
         Events.OnMusicChange("");
         Invoke("StartGame", 2);
+        Resources.UnloadUnusedAssets();
 	}
     void StartGame()
     {

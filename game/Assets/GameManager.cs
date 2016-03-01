@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour {
     public ParticleSystem explotion;
     private CombosManager combosManager;
 
-    private float DEFAULT_SPEED = 0.09f;
+    private float SPEED_ACCELERATION = 0.0075f;
+    public float DEFAULT_SPEED = 0.09f;
 
     
     public void Init()
@@ -53,6 +54,9 @@ public class GameManager : MonoBehaviour {
 
         score = 0;
 
+        camera.UpdatePosition(distance);
+        characterManager.UpdatePosition(distance);
+
     }
     void OnDestroy()
     {
@@ -76,7 +80,7 @@ public class GameManager : MonoBehaviour {
         speed = DEFAULT_SPEED;
         //state = states.ACTIVE;
         Invoke("goOn", 0.2f);
-        
+        EachSecond();
     }
     void OnHeroDie()
     {
@@ -113,6 +117,15 @@ public class GameManager : MonoBehaviour {
     void goOn()
     {
         state = states.ACTIVE;
+    }
+    void EachSecond()
+    {
+        Invoke("EachSecond", 5);
+
+        if (state == states.INACTIVE)
+            return;
+
+        DEFAULT_SPEED += (distance/1000)*SPEED_ACCELERATION;
     }
     void Update()
     {

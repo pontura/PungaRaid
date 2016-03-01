@@ -12,6 +12,12 @@ public class PowerupMoto : PowerUpOn {
     {
         rot = 0;
         Events.OnSoundFXLoop("Motor");
+        int laneActiveID = Game.Instance.gameManager.characterManager.lanes.laneActiveID;
+        string lane = "lane" + laneActiveID;
+        foreach (SpriteRenderer sprite in gameObject.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.sortingLayerName = lane;
+        }
     }
     void Update()
     {
