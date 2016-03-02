@@ -32,6 +32,8 @@ ExportedObj/
 ehthumbs.db
 Thumbs.db
 Assets/Rooms/
+game/ProjectSettings/ProjectSettings.asset
+game/ProjectSettings/ProjectVersion.txt
 game/Assets/Images/Enemies/Thumbs.db.meta
 game/Assets/Images/Victims/A/Clothes/Thumbs.db.meta
 game/Assets/Images/Victims/A/Face/Thumbs.db.meta

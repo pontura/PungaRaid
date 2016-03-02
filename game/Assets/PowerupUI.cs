@@ -7,12 +7,15 @@ public class PowerupUI : MonoBehaviour {
     public GameObject panel;
     public Text title;
 
+    public PowerupSign powerUpSign;
+
     public GameObject bar;
     private float percent;
     public bool isOn;
 
     void Start()
     {
+        powerUpSign.gameObject.SetActive(false);
         panel.SetActive(false);
         Events.OnBarInit += OnBarInit;
     }
@@ -31,6 +34,9 @@ public class PowerupUI : MonoBehaviour {
         panel.SetActive(true);
         isOn = true;
         percent = 1;
+        powerUpSign.gameObject.SetActive(true);
+        powerUpSign.Init(type);
+        
     }
     void Update()
     {

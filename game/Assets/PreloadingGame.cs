@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PreloadingGame : MonoBehaviour {
 
-	// Use this for initialization
+    public string[] randomTexts;
+    public Text field;
+
 	void Start () {
         Events.OnMusicChange("");
-        Invoke("StartGame", 2);
+        Invoke("StartGame", 5);
         Resources.UnloadUnusedAssets();
+        field.text = randomTexts[Random.Range(0, randomTexts.Length)];
 	}
     void StartGame()
     {

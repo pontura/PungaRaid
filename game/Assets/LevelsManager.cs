@@ -22,13 +22,21 @@ public class LevelsManager : MonoBehaviour {
     private int nextLevelDistance;
     private int offset = 40;
    
-
-	public void Init () {
-      //  activeLevel = StartingLevel;
-       // nextLevelDistance = StartingLevel.length;
-       // activeGroupId = -1;
+    public void Init()
+    {
+        //  activeLevel = StartingLevel;
+        // nextLevelDistance = StartingLevel.length;
+        // activeGroupId = -1;
+       // Invoke("Continue", 0.2f);
         CheckForNewLevel(0);
-	}
+    }
+    public void Continue()
+    {
+        //  activeLevel = StartingLevel;
+        // nextLevelDistance = StartingLevel.length;
+        // activeGroupId = -1;
+        
+    }
     public void CheckForNewLevel(float distance)
     {
         distance += offset;    
@@ -63,8 +71,8 @@ public class LevelsManager : MonoBehaviour {
     }
     private void LoadLevelAssets(int nextLevelDistance)
     {
-        print("nextLevelDistance" + nextLevelDistance);
-        print("activeLevel" + activeLevel);
+        //print("nextLevelDistance" + nextLevelDistance);
+        //print("activeLevel" + activeLevel);
         Lanes laneData = activeLevel.GetComponent<Lanes>();
         lanes.AddBackground(laneData.vereda, nextLevelDistance, activeLevel.length);
 

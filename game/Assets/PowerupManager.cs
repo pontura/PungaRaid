@@ -14,6 +14,8 @@ public class PowerupManager : MonoBehaviour {
     private PowerUpOn powerUp;
     private Character character;
 
+    public GameObject powerUpPArticles;
+
     public enum types
     {
         NONE,
@@ -48,7 +50,15 @@ public class PowerupManager : MonoBehaviour {
             case types.CHUMBO: Chumbo(); break;
             case types.GIL: Gil(); break;
         }
-        
+        PlayParticles();
+    }
+    void PlayParticles()
+    {
+        powerUpPArticles.SetActive(true);
+        foreach (ParticleSystem ps in powerUpPArticles.GetComponentsInChildren<ParticleSystem>())
+        {
+            ps.Play();
+        }
     }
     void Chumbo()
     {
@@ -79,8 +89,8 @@ public class PowerupManager : MonoBehaviour {
         powerUpGil.SetActive(false);
     }
     void OnHeroPowerUpOff()
-    {      
-  
+    {
+        PlayParticles();
         character.Idle();
 
         if (type == types.MOTO)
