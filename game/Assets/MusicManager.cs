@@ -46,7 +46,9 @@ public class MusicManager : MonoBehaviour {
     {
         audioSource.volume = value;
         volume = value;
-        PlayerPrefs.SetFloat("MusicVol", value);
+
+        if (value == 0 || value == 1)
+            PlayerPrefs.SetFloat("MusicVol", value);
     }
     void OnGamePaused(bool paused)
     {

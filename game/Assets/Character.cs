@@ -147,6 +147,8 @@ public class Character : MonoBehaviour {
 
     public void OnCollisionCenter(Enemy enemy) 
     {
+        if (hero.state == Hero.states.DEAD) return;
+
         if (enemy.laneId == Game.Instance.gameManager.characterManager.lanes.laneActiveID)
         {
             if (enemy.GetComponent<Coins>())
@@ -171,15 +173,19 @@ public class Character : MonoBehaviour {
             }
             else if (hero.state == Hero.states.DASH && enemy.GetComponent<Victim>())
             {
+                int rand = Random.Range(1, 3);
+                Events.OnSoundFX("Dashed" + rand);
                 enemy.Explote();
             }
             else if (powerupManager.type == PowerupManager.types.MOTO)
             {
                 Events.OnHeroCrash();
                 enemy.Explote();
+                Events.OnSoundFX("Explosion");
             }
-            else
+            else 
             {
+                Events.OnSoundFX("Crash");
                 enemy.Crashed();
                 Die();
             }

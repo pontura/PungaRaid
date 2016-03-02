@@ -65,7 +65,6 @@ public class Enemy : MonoBehaviour {
     }
     public void Explote()
     {
-        Events.OnSoundFX("Explosion");
         OnExplote();
         if (shadow != null) shadow.SetActive(false);
     }
