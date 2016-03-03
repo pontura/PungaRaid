@@ -7,6 +7,11 @@ public class RankingUI : MonoBehaviour {
     public Transform container;
     public bool loaded = false;
 
+    public void Init()
+    {
+        gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
 	void Update () {
         if (loaded) return;
 
@@ -31,6 +36,7 @@ public class RankingUI : MonoBehaviour {
 	}
     public void Back()
     {
-        Data.Instance.LoadLevel("02_MainMenu");
+        gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 }

@@ -161,9 +161,17 @@ public class Character : MonoBehaviour {
                 Events.OnAddCoins(enemy.laneId, enemy.transform.localPosition.x, 1);
 
                 coins.Activate();
-                
 
-            } else if (enemy.GetComponent<PowerUp>())
+
+            }
+            else if (enemy.GetComponent<Resorte>())
+            {
+                Resorte asset = enemy.GetComponent<Resorte>();
+                Jump();
+                asset.Activate();
+
+            }
+            else if (enemy.GetComponent<PowerUp>())
             {
                 enemy.GetComponent<PowerUp>().Activate();
             }

@@ -14,6 +14,8 @@ public class SettingsPopup : MonoBehaviour {
 
 	void Start () {
      //   panel.transform.localScale = Data.Instance.screenManager.scale;
+
+        
         panel.SetActive(false);
         Events.OnSettings += OnSettings;
         SocialEvents.OnFacebookNotConnected += OnFacebookNotConnected;
@@ -84,7 +86,7 @@ public class SettingsPopup : MonoBehaviour {
     {
         CloseOff();
         if (SocialManager.Instance.userData.logged)
-            Data.Instance.LoadLevel("05_Challenges");
+            Events.OnChallenges();
         else
             Events.OnLoginAdvisor();
         
@@ -93,7 +95,7 @@ public class SettingsPopup : MonoBehaviour {
     {
         CloseOff();
         if (SocialManager.Instance.userData.logged)
-            Data.Instance.LoadLevel("07_Ranking");
+            Events.OnRanking();
         else
             Events.OnLoginAdvisor();
         
@@ -124,7 +126,7 @@ public class SettingsPopup : MonoBehaviour {
     }
     void SetMusicLabel()
     {
-        if(Data.Instance.musicManager.volume ==0)
+        if(Data.Instance.musicManager.volume == 0)
             musicLabel.text = "Música ON";
         else 
             musicLabel.text = "Música OFF";

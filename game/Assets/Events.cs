@@ -7,7 +7,10 @@ public static class Events {
     public static System.Action OnLoginAdvisor = delegate { };
 
     public static System.Action<int, float> OnNewHiscore = delegate { };
-    public static System.Action<GameObject> OnUIClicked = delegate { };    
+    public static System.Action<GameObject> OnUIClicked = delegate { };
+
+    public static System.Action OnRanking = delegate { };  
+    public static System.Action OnChallenges = delegate { }; 
 
     public static System.Action<string> OnPreloadScene = delegate { };
     public static System.Action<string> OnSceneLoad = delegate { };

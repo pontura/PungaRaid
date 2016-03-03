@@ -83,6 +83,7 @@ public class Data : MonoBehaviour
         combosManager = GetComponent<CombosManager>();
 
         GetComponent<MusicManager>().Init();
+        GetComponent<SoundManager>().Init();
 
 //#if UNITY_ANDROID || UNITY_IPHONE
        // Handheld.PlayFullScreenMovie(movPath, Color.black, FullScreenMovieControlMode.Hidden, FullScreenMovieScalingMode.AspectFill);

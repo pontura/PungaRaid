@@ -33,7 +33,12 @@ public class Challenges : MonoBehaviour {
     private int buttonsSeparation = 89;
     public bool infoLoaded;
 
-   void Update()
+    public void Init()
+    {
+        gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+    void Update()
     {
         if (infoLoaded) return;
 
@@ -44,7 +49,8 @@ public class Challenges : MonoBehaviour {
     }
     public void Back()
     {
-        Data.Instance.LoadLevel("02_MainMenu");
+        Time.timeScale = 1;
+        gameObject.SetActive(false);
     }
     public void Switch()
     {

@@ -111,6 +111,10 @@ public class EnemiesManager : MonoBehaviour {
                         if (enemy.name == "Coins" || enemy.name == "Coins(Clone)")
                             return enemy;
                         break;
+                    case "Resorte":
+                        if (enemy.name == "Resorte" || enemy.name == "Resorte(Clone)")
+                            return enemy;
+                        break;
                     case "CoinParticles":
                         if (enemy.name == "CoinParticles" || enemy.name == "CoinParticles(Clone)")
                             return enemy;

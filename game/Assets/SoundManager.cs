@@ -7,9 +7,12 @@ public class SoundManager : MonoBehaviour
     private AudioSource loopAudioSource;
     public float volume;
 
-    void Start()
+    public void Init()
     {
         volume = PlayerPrefs.GetFloat("SFXVol", 1);
+
+        OnSoundsVolumeChanged(volume);
+
         Events.OnSoundFX += OnSoundFX;
         Events.OnSoundFXLoop += OnSoundFXLoop;
         Events.OnSoundsVolumeChanged += OnSoundsVolumeChanged;        
@@ -31,10 +34,13 @@ public class SoundManager : MonoBehaviour
             loopAudioSource.Stop();
         }
     }
-    void OnSoundsVolumeChanged(float vol)
+    void OnSoundsVolumeChanged(float value)
     {
-        PlayerPrefs.SetFloat("SFXVol", vol);
-        this.volume = vol;
+        audioSource.volume = value;
+        volume = value;
+
+        if (value == 0 || value == 1)
+            PlayerPrefs.SetFloat("SFXVol", value);
     }
     void OnSoundFXLoop(string soundName)
     {
