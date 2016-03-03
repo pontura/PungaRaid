@@ -73,7 +73,7 @@ public class Hero : MonoBehaviour {
         if (state == states.CRASH) return;
         state = states.JUMP;
         animator.Play("pungaJump", 0, 0);
-        Invoke("ResetJump", 0.8f);
+        Invoke("ResetJump", 1.4f);
         Events.OnVulnerability(true);
     }
     void ResetJump()

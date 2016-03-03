@@ -61,6 +61,9 @@ public class UserHiscore : MonoBehaviour {
     {
         if (hiscore < score)
             SetHiscore(score);
+
+        if (!SocialManager.Instance.userData.logged) return;
+
         if (id == "")
             AddNewHiscore(score);
         else

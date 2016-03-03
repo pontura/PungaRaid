@@ -101,13 +101,13 @@ public class PowerupManager : MonoBehaviour {
             if (powerUp != null)
                 Destroy(powerUp.gameObject);
             Events.OnResetSpeed();
-            character.Jump();
         }
         else if (type == types.GIL)
         {
             Events.OnSoundFXLoop("");
             powerUpGil.SetActive(false);           
         }
+        character.Jump();
         type = types.NONE;
     }
 }

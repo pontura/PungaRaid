@@ -19,23 +19,26 @@ public class LoginAdvisor : MonoBehaviour {
         graphicRaycaster.enabled = true;
 
         panel.SetActive(true);
-        panel.GetComponent<Animation>().Play("PopupOn");
+        panel.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        panel.GetComponent<Animator>().Play("PopupOn");
+        
     }
     public void LoginToFacebook()
     {        
         SocialManager.Instance.loginManager.FBLogin();
         Data.Instance.LoadLevel("03_Connecting");
         Close();
+        
     }
     public void Close()
     {
-        panel.GetComponent<Animation>().Play("PopupOff");
+        panel.GetComponent<Animator>().Play("PopupOff");
         Invoke("CloseOff", 0.2f);
+        Time.timeScale = 1;
     }
     void CloseOff()
     {
         graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
-       // graphicRaycaster.enabled = false;
         panel.SetActive(false);
     }
     void OnFacebookLoginCanceled()

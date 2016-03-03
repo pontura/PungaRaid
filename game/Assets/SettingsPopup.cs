@@ -10,6 +10,7 @@ public class SettingsPopup : MonoBehaviour {
 
     public GameObject panel;
     private GraphicRaycaster graphicRaycaster;
+    private float timescale = 1;
 
 	void Start () {
      //   panel.transform.localScale = Data.Instance.screenManager.scale;
@@ -34,7 +35,11 @@ public class SettingsPopup : MonoBehaviour {
         graphicRaycaster.enabled = true;
 
         panel.SetActive(true);
-        panel.GetComponent<Animation>().Play("PopupOn");
+        panel.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        panel.GetComponent<Animator>().Play("PopupOn",0,0);
+        timescale = Time.timeScale;
+        Time.timeScale = 0;
+
     }
     public void FBLoginInOut()
     {
@@ -64,8 +69,10 @@ public class SettingsPopup : MonoBehaviour {
     }
     public void Close()
     {
-        panel.GetComponent<Animation>().Play("PopupOff");
+        panel.GetComponent<Animator>().updateMode = AnimatorUpdateMode.UnscaledTime;
+        panel.GetComponent<Animator>().Play("PopupOff", 0, 0);
         Invoke("CloseOff", 0.2f);
+        Time.timeScale = timescale;
     }
     void CloseOff()
     {
@@ -75,19 +82,21 @@ public class SettingsPopup : MonoBehaviour {
     }
     public void Challenges()
     {
+        CloseOff();
         if (SocialManager.Instance.userData.logged)
             Data.Instance.LoadLevel("05_Challenges");
         else
             Events.OnLoginAdvisor();
-        Close();
+        
     }
     public void Ranking()
     {
+        CloseOff();
         if (SocialManager.Instance.userData.logged)
             Data.Instance.LoadLevel("07_Ranking");
         else
             Events.OnLoginAdvisor();
-        Close();
+        
     }
     public void SwitchMusic()
     {
