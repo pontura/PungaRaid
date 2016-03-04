@@ -55,14 +55,8 @@ public class EndScene : MonoBehaviour {
 
         ratiEnding.transform.localScale = scale;
 
-        SetLane(lane.id);
+        ratiEnding.SetLane(lane.id);
         ratiEnding.GetComponent<Animation>().Play();
 	}
-    void SetLane(int laneID)
-    {
-        foreach (SpriteRenderer sprite in ratiEnding.GetComponentsInChildren<SpriteRenderer>())
-        {
-            sprite.sortingLayerName = "lane" + laneID;
-        }
-    }
+    
 }

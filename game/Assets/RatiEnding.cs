@@ -5,6 +5,7 @@ public class RatiEnding : MonoBehaviour {
 
     public SpriteRenderer heads;
     public ParticleSystem particles;
+    private int laneID;
 
     private Animator anim;
 	void Start () {
@@ -36,5 +37,12 @@ public class RatiEnding : MonoBehaviour {
         particles.Play();
         Invoke("ShootAgain", 1);
         Events.OnSoundFX("Gunshot");
+        SetLane(laneID);
+    }
+    public void SetLane(int laneID)
+    {
+        this.laneID = laneID;
+        foreach (SpriteRenderer sprite in GetComponentsInChildren<SpriteRenderer>())
+            sprite.sortingLayerName = "lane" + laneID;
     }
 }
