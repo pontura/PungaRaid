@@ -6,6 +6,7 @@ public class Resorte : Enemy
 
     public int money;
     public states state;
+    public Animator anim;
 
     public enum states
     {
@@ -20,8 +21,15 @@ public class Resorte : Enemy
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
         collider = GetComponent<BoxCollider2D>();
+        anim.Play("alcantaIdle", 0, 0);
     }
     public void Activate()
+    {
+        Events.OnSoundFX("Alcantarilla");
+        anim.Play("alcantaJump", 0, 0);
+        Invoke("SetPool", 1.5f);
+    }
+    public void SetPool()
     {
         Pool();
     }
