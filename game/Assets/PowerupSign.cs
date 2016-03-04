@@ -11,7 +11,8 @@ public class PowerupSign : MonoBehaviour {
 
     public void Init(PowerupManager.types type)
     {
-        Events.OnMusicVolumeChanged(0.2f);
+        if(Data.Instance.musicManager.volume==1)
+            Events.OnMusicVolumeChanged(0.2f);
         anim = GetComponent<Animator>();
         anim.updateMode = AnimatorUpdateMode.UnscaledTime;
         Invoke("onComplete", 0.1f);
@@ -37,7 +38,8 @@ public class PowerupSign : MonoBehaviour {
     }
     void onComplete()
     {
-        Events.OnMusicVolumeChanged(1f);
+        if (Data.Instance.musicManager.volume == 0.2f)
+            Events.OnMusicVolumeChanged(1f);
         Time.timeScale = 1;
         gameObject.SetActive(false);
     }

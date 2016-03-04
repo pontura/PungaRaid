@@ -19,7 +19,7 @@ public class EndScene : MonoBehaviour {
     void OnHeroDie()
     {
         Invoke("LoopAddCop", 2);
-        Events.OnMusicChange("Menu");
+        Events.OnMusicChange("Siren");
     }
     void LoopAddCop()
     {
