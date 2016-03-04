@@ -133,6 +133,7 @@ public class Hero : MonoBehaviour {
         state = states.CHUMBO_FIRE;
         animator.Play("pungaFireMegachumbo", 0, 0);
         Invoke("EndAnimation", 0.5f);
+        Events.OnSoundFX("megachumbo");
     }
     void Celebrate()
     {

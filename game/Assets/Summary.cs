@@ -38,7 +38,7 @@ public class Summary : MonoBehaviour {
     void TimeOut()
     {
         panel.SetActive(true);
-        panel.GetComponent<Animator>().Play("PopupOn");
+       // panel.GetComponent<Animator>().Play("PopupOn");
         int score = (int)Game.Instance.gameManager.score;
         if (score > SocialManager.Instance.userHiscore.hiscore)
         {
