@@ -3,11 +3,13 @@ using System.Collections;
 
 public class RatiEnding : MonoBehaviour {
 
+    public SpriteRenderer heads;
     public ParticleSystem particles;
 
     private Animator anim;
 	void Start () {
         anim = GetComponentInChildren<Animator>();
+        heads.sprite = Data.Instance.enemiesManager.GetRandomHead();
 	}
     void Run()
     {
