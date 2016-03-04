@@ -36,6 +36,7 @@ public class RankingUI : MonoBehaviour {
 	}
     public void Back()
     {
+        Events.OnMusicVolumeChanged(1);
         gameObject.SetActive(false);
         Time.timeScale = 1;
     }

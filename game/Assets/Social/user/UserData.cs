@@ -11,6 +11,15 @@ public class UserData : MonoBehaviour {
     public string facebookID;
     public string username;
 
+    void Start()
+    {
+        SocialEvents.ResetApp += ResetApp;
+    }
+    void ResetApp()
+    {
+        username = facebookID = "";
+        logged = false;
+    }
 	public void Init () {
 
         SocialEvents.OnUserReady += OnUserReady;

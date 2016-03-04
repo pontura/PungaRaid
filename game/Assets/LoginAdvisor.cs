@@ -35,6 +35,7 @@ public class LoginAdvisor : MonoBehaviour {
         panel.GetComponent<Animator>().Play("PopupOff");
         Invoke("CloseOff", 0.2f);
         Time.timeScale = 1;
+        Events.OnMusicVolumeChanged(1);
     }
     void CloseOff()
     {

@@ -5,6 +5,7 @@ public class MusicManager : MonoBehaviour {
 
     public AudioSource audioSource;
     public float volume;
+    public bool disabled;
        
 	public void Init () {
 
@@ -15,14 +16,21 @@ public class MusicManager : MonoBehaviour {
         Events.OnGamePaused += OnGamePaused;
         Events.OnMusicVolumeChanged += OnMusicVolumeChanged;
         Events.OnMusicChange += OnMusicChange;
+        Events.OnMusicOff += OnMusicOff;
 	}
     void OnDestroy()
     {
         Events.OnGamePaused -= OnGamePaused;
         Events.OnMusicVolumeChanged -= OnMusicVolumeChanged;
         Events.OnMusicChange -= OnMusicChange;
+        Events.OnMusicOff -= OnMusicOff;
     }
-
+    public void OnMusicOff(bool off)
+    {
+        disabled = off;
+        if (off) OnMusicVolumeChanged(0);
+        else OnMusicVolumeChanged(0.2f);
+    }
     void OnMusicChange(string soundName)
     {
         if (soundName == "") audioSource.Stop();
@@ -44,6 +52,8 @@ public class MusicManager : MonoBehaviour {
     }
     void OnMusicVolumeChanged(float value)
     {
+        if (disabled) value = 0;
+
         audioSource.volume = value;
         volume = value;
 

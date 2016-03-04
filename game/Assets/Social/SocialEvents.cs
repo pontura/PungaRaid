@@ -5,6 +5,8 @@ public static class SocialEvents {
 
     public static System.Action<bool> OnUserExistInDB = delegate { };
     public static System.Action OnUserCreatedInDB = delegate { };
+    public static System.Action ResetApp = delegate { };
+    
 
     //facebookID, id
     public static System.Action<string, string> OnUserReady = delegate { };

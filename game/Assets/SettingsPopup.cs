@@ -32,6 +32,8 @@ public class SettingsPopup : MonoBehaviour {
     void OnSettings()
     {
        // SetLoginField(FB.IsLoggedIn);
+        if(!Data.Instance.musicManager.disabled)
+          Events.OnMusicVolumeChanged(0.2f);
 
         graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
         graphicRaycaster.enabled = true;
@@ -75,10 +77,11 @@ public class SettingsPopup : MonoBehaviour {
         panel.GetComponent<Animator>().Play("PopupOff", 0, 0);
         Invoke("CloseOff", 0.2f);
         Time.timeScale = timescale;
+        Events.OnMusicVolumeChanged(1);
     }
     void CloseOff()
     {
-        graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
+        //graphicRaycaster = GetComponentInChildren<GraphicRaycaster>();
        // graphicRaycaster.enabled = false;
         panel.SetActive(false);
     }
@@ -100,15 +103,22 @@ public class SettingsPopup : MonoBehaviour {
             Events.OnLoginAdvisor();
         
     }
+    public void Reset()
+    {
+        SocialEvents.ResetApp();
+        PlayerPrefs.DeleteAll();        
+        Application.LoadLevel("01_Splash");
+        CloseOff();
+        Time.timeScale = 1;
+        Events.OnMusicVolumeChanged(1);
+        Events.OnMusicChange("");
+    }
     public void SwitchMusic()
     {
-        float vol = 1;
         if (Data.Instance.musicManager.volume == 0)
-            vol = 1;
+            Data.Instance.musicManager.OnMusicOff(false);
         else
-            vol = 0;
-
-        Events.OnMusicVolumeChanged(vol);
+            Data.Instance.musicManager.OnMusicOff(true);
 
         SetMusicLabel();
     }
@@ -126,7 +136,7 @@ public class SettingsPopup : MonoBehaviour {
     }
     void SetMusicLabel()
     {
-        if(Data.Instance.musicManager.volume == 0)
+        if(Data.Instance.musicManager.disabled)
             musicLabel.text = "Música ON";
         else 
             musicLabel.text = "Música OFF";
@@ -140,5 +150,6 @@ public class SettingsPopup : MonoBehaviour {
             sfxLabel.text = "SFX OFF";
 
     }
+
 
 }

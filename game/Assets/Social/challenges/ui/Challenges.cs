@@ -51,6 +51,7 @@ public class Challenges : MonoBehaviour {
     {
         Time.timeScale = 1;
         gameObject.SetActive(false);
+        Events.OnMusicVolumeChanged(1);
     }
     public void Switch()
     {
