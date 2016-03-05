@@ -138,7 +138,7 @@ public class Hero : MonoBehaviour {
     }
     void OnEndingShot()
     {
-        int rand = Random.Range(1, 3);
+        int rand = Random.Range(1, 4);
         animator.Play("pungaShot" + rand, 0, 0);
     }
     void Celebrate()

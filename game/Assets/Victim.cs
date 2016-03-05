@@ -11,7 +11,8 @@ public class Victim : Enemy {
         IDLE,
         WALKING,
         STOLEN,
-        CRASHED
+        CRASHED,
+        READY
     }
     private Clothes clothes;
     private string currentAnim;
@@ -20,6 +21,7 @@ public class Victim : Enemy {
 
     override public void Enemy_Activate()
     {
+        if (state == states.READY) return;
         loopStealing = false;
         Walk();
         anim.GetComponentInChildren<Animator>();
@@ -39,10 +41,13 @@ public class Victim : Enemy {
         if (speed < 0)
             scale.x *= -1;
 
-        transform.localScale = scale;        
+        transform.localScale = scale;
+
+        Walk();
     }
     override public void Enemy_Update(Vector3 pos)
     {
+        if (state == states.READY) return;
         if (state == states.CRASHED) return;
         if (state == states.STOLEN) return;
 
@@ -115,6 +120,18 @@ public class Victim : Enemy {
         state = states.CRASHED;
         anim.Play("victimADashed");
         collider.enabled = false;
+    }
+    override public void OnHeroDie() 
+    {
+        Vector2 scale = transform.localScale;
+        if (transform.position.x > Game.Instance.GetComponent<CharacterManager>().character.transform.position.x+5)
+            scale.x = Mathf.Abs(scale.x);
+        else
+            scale.x = Mathf.Abs(scale.x)*-1;
+        transform.localScale = scale;
+
+        state = states.READY;
+        anim.Play("victimATemplate");
     }
     
 }

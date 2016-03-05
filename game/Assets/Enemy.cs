@@ -23,7 +23,13 @@ public class Enemy : MonoBehaviour {
             shadow.transform.localScale = Vector3.one;
             shadow.transform.localPosition = Vector3.zero;
         }
+        Events.OnHeroDie += OnHeroDie;
     }
+    void OnDestroy()
+    {
+        Events.OnHeroDie -= OnHeroDie;
+    }
+   
     public void Init(EnemySettings settings, int laneId)
     {
         if (shadow != null) shadow.SetActive(true);
@@ -68,6 +74,7 @@ public class Enemy : MonoBehaviour {
         OnExplote();
         if (shadow != null) shadow.SetActive(false);
     }
+    public virtual void OnHeroDie() { }
     public virtual void OnSecondaryCollision(Collider2D other) { }
     public virtual void Enemy_Pooled() { }
     public virtual void Enemy_Init(EnemySettings settings, int laneId) { }
