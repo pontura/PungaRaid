@@ -81,10 +81,13 @@ public class Character : MonoBehaviour {
     }
     public void Jump()
     {
+        Events.OnChangeSpeed(6, false);
         hero.OnHeroJump();
+        Invoke("ResetJump", 0.4f);
     }
     public void Dash()
     {
+        if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.CHUMBO)
         {
             hero.ChumboFire();
@@ -98,8 +101,13 @@ public class Character : MonoBehaviour {
             Events.OnSoundFX("Dash");
         }
     }
+    void ResetJump()
+    {
+        Events.OnResetSpeed();
+    }
     void ResetDash()
     {
+        if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.MOTO) return;
         hero.ResetAnimation();
         Events.OnResetSpeed();

@@ -43,6 +43,7 @@ public class CharacterCollider : MonoBehaviour {
     }
     void OnChangeLaneComplete()
     {
+        if (character && character.hero && character.hero.state == Hero.states.JUMP) return;
         if (type != types.GUN)
             collider2d.enabled = true;
     }
