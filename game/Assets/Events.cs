@@ -34,6 +34,8 @@ public static class Events {
 
     //laneID, distance, mnultiplayerStolen
     public static System.Action<int, float, int> OnAddCoins = delegate { };
+    public static System.Action OnEndingShot = delegate { };
+    
 
     public static System.Action<float, float> OnSaveVolumes = delegate { };
     public static System.Action<float> OnMusicVolumeChanged = delegate { };

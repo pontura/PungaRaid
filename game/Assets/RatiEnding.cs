@@ -27,6 +27,7 @@ public class RatiEnding : MonoBehaviour {
     }
     void ShootAgain()
     {
+        Events.OnEndingShot();
         if (transform.localScale.x < 0)
         {
             Vector3 rot = particles.gameObject.transform.localEulerAngles;

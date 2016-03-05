@@ -29,7 +29,7 @@ public class Hero : MonoBehaviour {
         Events.OnLevelComplete += OnLevelComplete;
         Events.OnGamePaused += OnGamePaused;
         Events.OnHeroDie += OnHeroDie;
-
+        Events.OnEndingShot += OnEndingShot;
         animator = GetComponent<Animator>();
     }
     void OnDestroy()
@@ -40,6 +40,7 @@ public class Hero : MonoBehaviour {
         Events.OnHeroCelebrate -= OnHeroCelebrate;
         Events.OnLevelComplete -= OnLevelComplete;
         Events.OnGamePaused -= OnGamePaused;
+        Events.OnEndingShot -= OnEndingShot;
     }
     void OnGamePaused(bool isPaused)
     {
@@ -134,6 +135,11 @@ public class Hero : MonoBehaviour {
         animator.Play("pungaFireMegachumbo", 0, 0);
         Invoke("EndAnimation", 0.5f);
         Events.OnSoundFX("megachumbo");
+    }
+    void OnEndingShot()
+    {
+        int rand = Random.Range(1, 3);
+        animator.Play("pungaShot" + rand, 0, 0);
     }
     void Celebrate()
     {
