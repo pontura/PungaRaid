@@ -47,6 +47,7 @@ public class Victim : Enemy {
     }
     override public void Enemy_Update(Vector3 pos)
     {
+        if (Time.timeScale == 0) return;
         if (state == states.READY) return;
         if (state == states.CRASHED) return;
         if (state == states.STOLEN) return;

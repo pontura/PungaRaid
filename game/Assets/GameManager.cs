@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public enum states
     {
         INACTIVE,
+        TUTORIAL,
         ACTIVE,        
         ENDING
     }
@@ -116,7 +117,8 @@ public class GameManager : MonoBehaviour {
     }
     void goOn()
     {
-        state = states.ACTIVE;
+        if(state != states.TUTORIAL)
+            state = states.ACTIVE;
     }
     void EachSecond()
     {

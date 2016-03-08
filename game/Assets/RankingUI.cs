@@ -26,9 +26,12 @@ public class RankingUI : MonoBehaviour {
             foreach(Ranking.RankingData data in  SocialManager.Instance.ranking.data)
             {
                 RankingButton newButton = Instantiate(button);
-                newButton.transform.localScale = Vector2.one;
+               
                 newButton.transform.SetParent(container.transform);
                 newButton.Init(data.facebookID, data.score, data.playerName);
+
+                newButton.transform.localScale = Vector2.one;
+
                 if (data.isYou)
                     newButton.IsYou();
             }

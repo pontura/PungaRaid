@@ -165,7 +165,8 @@ namespace UnityEditor.FacebookEditor
             proc.WaitForExit();
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                return proc.ExitCode == 0;
+               // return proc.ExitCode == 0;
+                return (proc.ExitCode == 0 || proc.ExitCode == 1);
             }
             else
             {

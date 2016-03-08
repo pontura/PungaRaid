@@ -4,7 +4,7 @@ using System.Collections;
 
 public class SwipeDetector : MonoBehaviour
 {
-    private float minSwipeDistY = 25;
+    private float minSwipeDistY = 15;
     private float minSwipeDistX = 20;
 
     private float startPosY;
@@ -14,6 +14,7 @@ public class SwipeDetector : MonoBehaviour
 
     public enum directions
     {
+        NONE,
         UP,
         DOWN,
         RIGHT,
@@ -52,11 +53,11 @@ public class SwipeDetector : MonoBehaviour
                 newTime += Time.deltaTime;
             }
 
-            if (newTime > 0.2f && touched)
+            if (newTime > 0.08f && touched)
             {
                 Move(touch.position.x, touch.position.y);
                 movedByTime = true;                
-                newTime = -0.22f;
+                newTime = -0.32f;
             }
 
 

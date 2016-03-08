@@ -34,6 +34,7 @@ public class CharacterManager : MonoBehaviour {
     }
     void OnSwipe(SwipeDetector.directions direction)
     {
+        if (Game.Instance.gameManager.state == GameManager.states.TUTORIAL) return;
         if ( Game.Instance.state != Game.states.PLAYING ) return;
 
         switch (direction)

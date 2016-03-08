@@ -6,6 +6,7 @@ public class RatiJump : Enemy
     public Collider2D characterCollisionCheck;
     public states state;
     public SpriteRenderer heads;
+    private bool moved;
 
     public enum states
     {
@@ -17,6 +18,7 @@ public class RatiJump : Enemy
 
     override public void Enemy_Init(EnemySettings settings, int laneId)
     {
+        moved = false;
         anim.Play("idle");
         heads.sprite = Data.Instance.enemiesManager.GetRandomHead();
     }
@@ -32,7 +34,9 @@ public class RatiJump : Enemy
         GetComponent<BoxCollider2D>().enabled = false;
     }
     override public void OnSecondaryCollision(Collider2D other)
-    {        
+    {
+        if (moved) return; 
+        moved = true;
         anim.Play("jump");
         if (other.tag == "Player")
         {

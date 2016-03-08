@@ -83,9 +83,9 @@ public class LevelsManager : MonoBehaviour {
             {
                  EnemySettings settings = new EnemySettings();
                 
-                settings.speed = 0.04f;
+                settings.speed = 0.05f;
                 if(t.transform.localScale.x < 0)
-                    settings.speed = -0.04f;
+                    settings.speed = -0.05f;
 
                 lanes.AddObjectToLane(t.gameObject.name, lane.id, (int)(nextLevelDistance + t.transform.localPosition.x), settings);
             }
