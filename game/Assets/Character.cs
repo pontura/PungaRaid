@@ -109,6 +109,8 @@ public class Character : MonoBehaviour {
     {
         if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.MOTO) return;
+
+        hero.EndAnimation();
         hero.ResetAnimation();
         Events.OnResetSpeed();
     }

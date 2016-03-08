@@ -90,7 +90,6 @@ public class Hero : MonoBehaviour {
         state = states.DASH;
         animator.SetBool(state.ToString(), true);
         animator.Play("pungaDash", 0, 0);
-        Invoke("EndAnimation", 0.6f);
     }
     public void OnSorete()
     {
@@ -98,11 +97,15 @@ public class Hero : MonoBehaviour {
         if (state == states.CRASH) return;
         state = states.SORETE;
       //  animator.SetBool(state.ToString(), true);
-        animator.Play("pungaShit", 0, 0);
+        if(Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.CHUMBO)
+            animator.Play("pungaShitMegachumbo", 0, 0);
+        else
+            animator.Play("pungaShit", 0, 0);
+
         Invoke("EndAnimation", 0.6f);
         Events.OnSoundFX("Shit");
     }
-    void EndAnimation()
+    public void EndAnimation()
     {
         switch (state)
         {
@@ -121,8 +124,13 @@ public class Hero : MonoBehaviour {
     }
     public void Run()
     {
-        state = states.RUN;
-        animator.Play("pungaRun", 0, 0);
+        if (Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.NONE)
+        {
+            state = states.RUN;
+            animator.Play("pungaRun", 0, 0);
+        }
+        else if (Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.CHUMBO)
+            ChumboRun();
     }
     public void ChumboRun()
     {
