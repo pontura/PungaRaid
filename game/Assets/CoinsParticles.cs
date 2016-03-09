@@ -8,7 +8,6 @@ public class CoinsParticles : Enemy {
 
     public void InitParticles()
     {
-        print("___________________");
         isOn = true;
         Invoke("ForcePool", 0.5f);
     }

@@ -68,7 +68,7 @@ public class Character : MonoBehaviour {
             case PowerupManager.types.CHUMBO:                
                 hero.ChumboRun();  
                 break;
-        }
+        }        
     }
     void OnPowerDown(PowerdownManager.types type)
     {
@@ -87,6 +87,7 @@ public class Character : MonoBehaviour {
     }
     public void Dash()
     {
+        Debug.Log("DASH");
         if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.CHUMBO)
         {
@@ -107,6 +108,7 @@ public class Character : MonoBehaviour {
     }
     void ResetDash()
     {
+        print("ResetDash");
         if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.MOTO) return;
 
@@ -169,17 +171,13 @@ public class Character : MonoBehaviour {
                 Events.OnCombo(enemy.transform.position.x);
                 Events.OnScoreAdd(25);
                 Events.OnAddCoins(enemy.laneId, enemy.transform.localPosition.x, 1);
-
                 coins.Activate();
-
-
             }
             else if (enemy.GetComponent<Resorte>())
             {
                 Resorte asset = enemy.GetComponent<Resorte>();
                 Jump();
                 asset.Activate();
-
             }
             else if (enemy.GetComponent<PowerUp>())
             {
@@ -197,9 +195,14 @@ public class Character : MonoBehaviour {
             }
             else if (powerupManager.type == PowerupManager.types.MOTO)
             {
-                Events.OnHeroCrash();
+               // Events.OnHeroCrash();
                 enemy.Explote();
                 Events.OnSoundFX("Explosion");
+            }
+            else if (powerupManager.type == PowerupManager.types.GIL || powerupManager.type == PowerupManager.types.CHUMBO)
+            {
+                Debug.Log("con powerup choco: " + powerupManager.type);
+                Events.OnHeroPowerUpOff();
             }
             else 
             {

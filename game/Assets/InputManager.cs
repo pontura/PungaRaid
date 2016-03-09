@@ -9,6 +9,12 @@ public class InputManager : MonoBehaviour {
         //{
         //    Events.OnLevelComplete();
         //}
+        if (Input.GetKeyDown(KeyCode.A))
+            Events.OnPowerUp(PowerupManager.types.CHUMBO);
+        else if (Input.GetKeyDown(KeyCode.S))
+            Events.OnPowerUp(PowerupManager.types.MOTO);
+        else if (Input.GetKeyDown(KeyCode.D))
+            Events.OnPowerUp(PowerupManager.types.GIL);
         if (Input.GetKeyDown(KeyCode.UpArrow))
             Events.OnSwipe(SwipeDetector.directions.UP);
         else if (Input.GetKeyDown(KeyCode.DownArrow))

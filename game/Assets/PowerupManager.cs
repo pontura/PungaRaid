@@ -93,6 +93,8 @@ public class PowerupManager : MonoBehaviour {
         PlayParticles();
         character.Idle();
 
+        Debug.Log("OnHeroPowerUpOff termino : " + type);
+
         if (type == types.MOTO)
         {
             Events.OnSoundFX("PowerUpOff");
@@ -107,6 +109,7 @@ public class PowerupManager : MonoBehaviour {
             Events.OnSoundFXLoop("");
             powerUpGil.SetActive(false);           
         }
+        character.hero.ResetState();
         character.Jump();
         type = types.NONE;
     }

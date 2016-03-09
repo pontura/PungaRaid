@@ -19,7 +19,6 @@ public class CombosManager : MonoBehaviour {
     void OnCombo (float distance)
     {
         float diffDistance = distance - lastDistance;
-        print("DISTANCE________________" + diffDistance);
 
         if (diffDistance > distanceInCombo)
             ResetCombo();

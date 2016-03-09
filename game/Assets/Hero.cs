@@ -23,29 +23,29 @@ public class Hero : MonoBehaviour {
     }
     void Start()
     {
+        Events.OnPowerUp += OnPowerUp;
         Events.StartGame += StartGame;
         Events.OnHeroCrash += OnHeroCrash;
         Events.OnHeroCelebrate += OnHeroCelebrate;
         Events.OnLevelComplete += OnLevelComplete;
-        Events.OnGamePaused += OnGamePaused;
         Events.OnHeroDie += OnHeroDie;
         Events.OnEndingShot += OnEndingShot;
         animator = GetComponent<Animator>();
     }
     void OnDestroy()
     {
+        Events.OnPowerUp -= OnPowerUp;
         Events.StartGame -= StartGame;
         Events.OnHeroCrash -= OnHeroCrash;
         Events.OnHeroDie -= OnHeroDie;
         Events.OnHeroCelebrate -= OnHeroCelebrate;
         Events.OnLevelComplete -= OnLevelComplete;
-        Events.OnGamePaused -= OnGamePaused;
         Events.OnEndingShot -= OnEndingShot;
     }
-    void OnGamePaused(bool isPaused)
+    void OnPowerUp(PowerupManager.types type)
     {
-        //if(!isPaused)
-        //    collider2d.enabled = true;
+        state = states.RUN;
+        animator.Play("pungaRun", 0, 0);
     }
     void StartGame()
     {
@@ -67,8 +67,14 @@ public class Hero : MonoBehaviour {
         print("OnHeroDie");
         animator.Play("pungaDeath", 0, 0);
     }
+    public void ResetState()
+    {
+        state = states.RUN;
+    }
     public void OnHeroJump()
     {
+        print("OnHeroJump Game.Instance.state " + Game.Instance.state + " state:" + state);
+
         if (Game.Instance.state != Game.states.PLAYING) return;
         if (state == states.JUMP) return;
         if (state == states.CRASH) return;
@@ -119,12 +125,15 @@ public class Hero : MonoBehaviour {
     {
         if (state == states.CRASH) return;
         state = states.CRASH;
-       // animator.SetBool(state.ToString(), true);
         animator.Play("pungaCrash",0,0);
     }
     public void Run()
     {
-        if (Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.NONE)
+
+        if (
+            Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.NONE
+            || Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.GIL
+        )
         {
             state = states.RUN;
             animator.Play("pungaRun", 0, 0);

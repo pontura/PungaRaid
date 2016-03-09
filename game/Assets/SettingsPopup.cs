@@ -45,6 +45,15 @@ public class SettingsPopup : MonoBehaviour {
         Time.timeScale = 0;
 
     }
+    public void Tutorial()
+    {
+        PlayerPrefs.SetString("tutorialReady", "false");
+
+        if(Application.loadedLevelName == "04_Game")
+            Game.Instance.gameManager.Restart();
+        else
+            Data.Instance.LoadLevel("04_Game");
+    }
     public void FBLoginInOut()
     {
         //if (!FB.IsLoggedIn)

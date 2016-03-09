@@ -18,10 +18,12 @@ public class PowerupUI : MonoBehaviour {
         powerUpSign.gameObject.SetActive(false);
         panel.SetActive(false);
         Events.OnBarInit += OnBarInit;
+        Events.OnHeroPowerUpOff += OnHeroPowerUpOff;
     }
     void OnDestroy()
     {
         Events.OnBarInit -= OnBarInit;
+        Events.OnHeroPowerUpOff -= OnHeroPowerUpOff;
     }
     void OnBarInit(PowerupManager.types type)
     {
@@ -50,9 +52,14 @@ public class PowerupUI : MonoBehaviour {
     }
     void SetOff()
     {
+        print("powerupUI setOff");
+        OnHeroPowerUpOff();
+        Events.OnHeroPowerUpOff();
+    }
+    void OnHeroPowerUpOff()
+    {
         isOn = false;
         panel.SetActive(false);
-        Events.OnHeroPowerUpOff();
     }
     void OnSetBar()
     {
