@@ -69,7 +69,11 @@ public static class Events {
     public static System.Action OnBarReady = delegate { };
 
     public static System.Action<float> OnCombo = delegate { };
-    
+
+
+    //zones:
+    public static System.Action<int> OnUnlockZone = delegate { };
+    public static System.Action OnLoadingPanel = delegate { };
     
 
 }

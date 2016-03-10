@@ -7,21 +7,34 @@ using System;
 public class UserHiscore : MonoBehaviour {
 
     private string TABLE = "Ranking";
+    public int totalScore;
     public int hiscore;
     public bool isLoaded;
     public string id = "";
 
 	void Start () {
         SocialEvents.OnNewHiscore += OnNewHiscore;
+        SocialEvents.OnAddToTotalScore += OnAddToTotalScore;
         SocialEvents.OnFacebookLogin += OnFacebookLogin;
+        SocialEvents.ResetApp += ResetApp;
         hiscore = PlayerPrefs.GetInt("UserHiscore", 0);
+        totalScore = PlayerPrefs.GetInt("totalScore", 0);
 	}
     void OnFacebookLogin()
     {
         if (!isLoaded)
             LoadHiscoreFromDB();
     }
-
+    void OnAddToTotalScore(int qty)
+    {
+        totalScore += qty;
+        PlayerPrefs.SetInt("totalScore", totalScore);
+    }
+    void ResetApp()
+    {
+        totalScore = 0;
+        hiscore = 0;
+    }
     void LoadHiscoreFromDB()
     {
         string url = SocialManager.Instance.FIREBASE + "/scores.json?orderBy=\"facebookID\"&equalTo=\"" + SocialManager.Instance.userData.facebookID + "\"";

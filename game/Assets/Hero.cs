@@ -44,8 +44,13 @@ public class Hero : MonoBehaviour {
     }
     void OnPowerUp(PowerupManager.types type)
     {
-        state = states.RUN;
-        animator.Play("pungaRun", 0, 0);
+        if (Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.CHUMBO)
+            ChumboRun();
+        else
+        {
+            state = states.RUN;
+            animator.Play("pungaRun", 0, 0);
+        }
     }
     void StartGame()
     {

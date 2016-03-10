@@ -89,15 +89,18 @@ public class GameManager : MonoBehaviour {
         Game.Instance.state = Game.states.ENDED;
         Events.OnSoundFX("warningPopUp");
         Events.OnMusicChange("gameOverTemp");              
-    }   
-    public void Restart()
+    }
+    private string nextLevelName;
+    public void Restart(string nextLevelName)
     {
+        Events.OnLoadingPanel();
+        this.nextLevelName = nextLevelName;
         Events.OnPoolAllItemsInScene();
         Invoke("AllPooled", 2);         
     }
     void AllPooled()
     {
-        Application.LoadLevel("04_Game");
+        Application.LoadLevel(nextLevelName);
     }
     void OnChangeSpeed(float _speed, bool accelerating)
     {

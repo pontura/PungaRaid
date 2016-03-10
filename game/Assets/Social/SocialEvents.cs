@@ -23,6 +23,8 @@ public static class SocialEvents {
 
     //Hiscores:
     public static System.Action<int> OnNewHiscore = delegate { };
+    public static System.Action<int> OnAddToTotalScore = delegate { };
+    
     public static System.Action OnRefreshRanking = delegate { };
 
     //challenges:

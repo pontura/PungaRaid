@@ -50,7 +50,7 @@ public class SettingsPopup : MonoBehaviour {
         PlayerPrefs.SetString("tutorialReady", "false");
 
         if(Application.loadedLevelName == "04_Game")
-            Game.Instance.gameManager.Restart();
+            Game.Instance.gameManager.Restart("04_Game");
         else
             Data.Instance.LoadLevel("04_Game");
     }
