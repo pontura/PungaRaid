@@ -7,22 +7,29 @@ public class EndScene : MonoBehaviour {
     private RatiEnding ratiEnding;
     private int MAXCOPS = 12;
     private int totalCops = 0;
+    private bool ready;
 
 	void Start () {
-        Events.OnHeroDie += OnHeroDie;        
+        Events.OnHeroDie += OnHeroDie;
+        Events.OnPoolAllItemsInScene += OnPoolAllItemsInScene;
 	}
     void OnDestroy()
     {
         Events.OnHeroDie -= OnHeroDie;
-
+        Events.OnPoolAllItemsInScene -= OnPoolAllItemsInScene;
     }
     void OnHeroDie()
     {
         Invoke("LoopAddCop", 2);
         Events.OnMusicChange("Siren");
     }
+    void OnPoolAllItemsInScene()
+    {
+        ready = true;
+    }
     void LoopAddCop()
     {
+        if (ready) return;
         totalCops++;
         if (totalCops > 10) return;
         AddRandomRati();

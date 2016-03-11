@@ -43,6 +43,10 @@ public class Lanes : MonoBehaviour {
                     if (enemy)
                         enemies.Add(enemy);
                 }
+                else
+                {
+                    Destroy(child.gameObject);
+                }
             }
         }
         foreach (Enemy enemy in enemies)

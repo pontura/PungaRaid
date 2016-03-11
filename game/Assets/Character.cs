@@ -87,7 +87,7 @@ public class Character : MonoBehaviour {
     }
     public void Dash()
     {
-        Debug.Log("DASH");
+       // Debug.Log("DASH");
         if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.CHUMBO)
         {
@@ -108,7 +108,7 @@ public class Character : MonoBehaviour {
     }
     void ResetDash()
     {
-        print("ResetDash");
+      //  print("ResetDash");
         if (hero.state == Hero.states.JUMP) return;
         if (powerupManager.type == PowerupManager.types.MOTO) return;
 

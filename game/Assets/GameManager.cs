@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour {
         INACTIVE,
         TUTORIAL,
         ACTIVE,        
-        ENDING
+        ENDING,
+        ENDED
     }
 
     public float speed;
@@ -90,17 +91,15 @@ public class GameManager : MonoBehaviour {
         Events.OnSoundFX("warningPopUp");
         Events.OnMusicChange("gameOverTemp");              
     }
-    private string nextLevelName;
-    public void Restart(string nextLevelName)
+    public void RePlayTutorial()
     {
         Events.OnLoadingPanel();
-        this.nextLevelName = nextLevelName;
         Events.OnPoolAllItemsInScene();
-        Invoke("AllPooled", 2);         
+        Invoke("AllPooled", 2);
     }
     void AllPooled()
     {
-        Application.LoadLevel(nextLevelName);
+        Application.LoadLevel("04_Game");
     }
     void OnChangeSpeed(float _speed, bool accelerating)
     {
@@ -138,7 +137,11 @@ public class GameManager : MonoBehaviour {
             return;
 
         if (Game.Instance.state == Game.states.ENDED)
+        {
             realSpeed -= 0.001f;
+            if (realSpeed <= 0)
+                state = states.ENDED;
+        }
         else
             realSpeed += 0.001f;
 
@@ -150,18 +153,19 @@ public class GameManager : MonoBehaviour {
         float _speed = (realSpeed*100)*Time.smoothDeltaTime;
         distance += _speed;
 
-        foreach (BackgroundScrolleable bgScrolleable in backgroundsScrolleable)
-            bgScrolleable.UpdatePosition(distance, _speed);
+        if (state != states.ENDED)
+        {
+            foreach (BackgroundScrolleable bgScrolleable in backgroundsScrolleable)
+                bgScrolleable.UpdatePosition(distance, _speed);
 
-        camera.UpdatePosition(distance);
-        characterManager.UpdatePosition(distance);
+            camera.UpdatePosition(distance);
+            characterManager.UpdatePosition(distance);
 
-        if (state == states.ENDING)
-            return;
+            if (state == states.ENDING)
+                return;
 
-        levelsManager.CheckForNewLevel(distance);
-
-        
+            levelsManager.CheckForNewLevel(distance);
+        }        
 	}
     void OnExplotion()
     {

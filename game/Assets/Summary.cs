@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class Summary : MonoBehaviour {
 
+    public Ruleta ruleta;
+    public GameObject ruletaContainer;
+
     public GameObject panel;
     public Text hiscoreStaticField;
     public Text hiscoreField;
@@ -15,11 +18,13 @@ public class Summary : MonoBehaviour {
     public int totalToWin = 100000;
     private float score;
     private float total_from;
+    private float total_bar_from;
     private int total_to;
+    private int total_bar_to;
     private bool ready;
 
-    private states state;
-    private enum states
+    public states state;
+    public enum states
     {
         OFF,
         COUNT_DOWN,
@@ -32,6 +37,7 @@ public class Summary : MonoBehaviour {
     }
     public void Init()
     {
+        Events.OnPoolAllItemsInScene();
         if (SocialManager.Instance.userData.logged)
         {
             ranking.gameObject.SetActive(true);
@@ -55,8 +61,15 @@ public class Summary : MonoBehaviour {
             hiscoreStaticField.text = "Hicites $" + score;
         }
         total_from = SocialManager.Instance.userHiscore.totalScore;
+        total_bar_from = SocialManager.Instance.userHiscore.barProgress;
         total_to = (int)total_from + (int)score;
+        total_bar_to = (int)total_bar_from + (int)score;
         SocialEvents.OnAddToTotalScore((int)score);
+
+        if (total_bar_to>totalToWin)
+            SocialEvents.OnSetToTotalBarScore(0);
+        else
+            SocialEvents.OnSetToTotalBarScore(total_bar_to);
 
         state = states.COUNT_DOWN;
 
@@ -65,25 +78,26 @@ public class Summary : MonoBehaviour {
     {
         if (state == states.COUNT_DOWN)
         {
-            float resta = (score / 40) * (Time.deltaTime*100);
+            float resta = (score / 20) * (Time.deltaTime*100);
             total_from += resta;
+            total_bar_from += resta;
             score -= resta;
-            if (total_from >= total_to)
+            print(score);
+            if (score <= 1)
             {
                 state = states.READY;
                 total_from = total_to;
                 score = 0;
+                CheckedIfShowRuleta();
             }
-            if (total_from > totalToWin)
+            if (total_bar_from > totalToWin)
             {
-                total_from = totalToWin;
-                state = states.READY;
-                score = 0;
+                total_bar_from = totalToWin;
             }
             totalScore.text = "$" + (int)total_from;
             hiscoreField.text = "$" + (int)score;
 
-            bar.fillAmount = total_from / totalToWin;
+            bar.fillAmount = total_bar_from / totalToWin;
         }
     }
     public void SendHiscore(int distance)
@@ -92,11 +106,11 @@ public class Summary : MonoBehaviour {
     }
     public void Restart()
     {
-        Game.Instance.gameManager.Restart("04_Game");
+        Data.Instance.LoadLevel("04_Game");
     }
     public void Map()
     {
-        Game.Instance.gameManager.Restart("02_Map");
+        Data.Instance.LoadLevel("02_Map");
     }
     public void LoginAdvisor()
     {
@@ -105,5 +119,18 @@ public class Summary : MonoBehaviour {
     public void Challenge()
     {
         Data.Instance.LoadLevel("08_ChallengesCreator");
+    }
+    void CheckedIfShowRuleta()
+    {
+        if ((int)total_bar_from == totalToWin)
+            AddRuleta();
+    }
+    void AddRuleta()
+    {
+        Ruleta ruletaNew = Instantiate(ruleta);
+        ruletaNew.transform.SetParent(ruletaContainer.transform);
+        ruletaNew.transform.localScale = Vector2.one;
+        ruletaNew.transform.localPosition = Vector2.zero;
+        ruletaNew.Init();
     }
 }
