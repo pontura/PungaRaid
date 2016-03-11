@@ -41,6 +41,7 @@ public class Character : MonoBehaviour {
     void Start()
     {        
         powerupManager = GetComponent<PowerupManager>();
+
         transform.localScale = new Vector3(0.52f, 0.52f, 0.52f);
 
         hero = Instantiate(heroAsset) as Hero;
@@ -201,8 +202,13 @@ public class Character : MonoBehaviour {
             }
             else if (powerupManager.type == PowerupManager.types.GIL || powerupManager.type == PowerupManager.types.CHUMBO)
             {
-                Debug.Log("con powerup choco: " + powerupManager.type);
+                //Debug.Log("con powerup choco: " + powerupManager.type);
                 Events.OnHeroPowerUpOff();
+            }
+            else if (Data.Instance.specialItems.type == SpecialItemsManager.types.CASCO)
+            {
+                Events.OnHeroPowerUpOff();
+                Events.OnSetSpecialItem(1, false);
             }
             else 
             {

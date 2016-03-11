@@ -36,6 +36,8 @@ public class Data : MonoBehaviour
     public SoundManager soundManager;
     [HideInInspector]
     public CombosManager combosManager;
+    [HideInInspector]
+    public SpecialItemsManager specialItems;
 
     public static Data Instance
     {
@@ -81,6 +83,7 @@ public class Data : MonoBehaviour
         musicManager = GetComponent<MusicManager>();
         soundManager = GetComponent<SoundManager>();
         combosManager = GetComponent<CombosManager>();
+        specialItems = GetComponent<SpecialItemsManager>();
 
         GetComponent<MusicManager>().Init();
         GetComponent<SoundManager>().Init();

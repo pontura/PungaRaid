@@ -18,6 +18,8 @@ public class Ruleta : MonoBehaviour {
         public Color color;
         public Sprite asset;
         public int id;
+        public int zone;
+        public int itemID;
     }
     public states state;
     public enum states
@@ -112,6 +114,7 @@ public class Ruleta : MonoBehaviour {
     {
         container.transform.localPosition = new Vector3(0, repositionTo, 0);
         state = states.FINISH;
+        GetComponent<RuletaPopup>().Open();
     }
     void ResetPosition()
     {

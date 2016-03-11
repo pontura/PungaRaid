@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Zones : MonoBehaviour {
 
+    public Text score;
+    public Text username;
     public GameObject container;
     private ZonesManager zonesManager;
 
 	void Start () {
-        Invoke("Delay", 0.1f);
-	}
-    void Delay()
-    {
+        score.text = "$" + SocialManager.Instance.userHiscore.totalScore;
+
+        if (SocialManager.Instance.userData.logged)
+            username.text = SocialManager.Instance.userData.username;
+
         zonesManager = Data.Instance.GetComponent<ZonesManager>();
         int id = 1;
         foreach (ZoneButton button in container.GetComponentsInChildren<ZoneButton>())

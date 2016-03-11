@@ -5,6 +5,7 @@ public class Hero : MonoBehaviour {
 
     private Animator animator;
     public states state;
+    public SpriteRenderer casco;
 
     public enum states
     {
