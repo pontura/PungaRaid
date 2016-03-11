@@ -61,6 +61,8 @@ public static class Events {
     public static System.Action OnHeroCelebrate = delegate { };
     
     public static System.Action OnExplotion = delegate { };
+    //laneID, distance
+    public static System.Action<int, int> OnAddExplotion = delegate { };
 
     public static System.Action<int> OnScoreAdd = delegate { };
     public static System.Action<int> OnRefreshScore = delegate { };
@@ -74,6 +76,8 @@ public static class Events {
     //zones:
     public static System.Action<int> OnUnlockZone = delegate { };
     public static System.Action OnLoadingPanel = delegate { };
+    
+    
     
 
 }

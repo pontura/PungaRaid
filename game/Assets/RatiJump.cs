@@ -32,6 +32,7 @@ public class RatiJump : Enemy
         state = states.CRASHED;
         anim.Play("crashed");
         GetComponent<BoxCollider2D>().enabled = false;
+        Events.OnAddExplotion(laneId, (int)transform.localPosition.x);
     }
     override public void OnSecondaryCollision(Collider2D other)
     {

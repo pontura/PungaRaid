@@ -115,9 +115,8 @@ public class Victim : Enemy {
     override public void OnExplote()
     {
         if (state == states.CRASHED) return;
-
+        currentAnim = "victimADashed";
         StealLoop_Gil();
-
         state = states.CRASHED;
         anim.Play("victimADashed");
         collider.enabled = false;

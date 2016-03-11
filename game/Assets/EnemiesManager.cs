@@ -123,6 +123,10 @@ public class EnemiesManager : MonoBehaviour {
                         if (enemy.name == "vereda_5_lanes" || enemy.name == "vereda_5_lanes(Clone)")
                             return enemy;
                         break;
+                    case "ExplosionRatis":
+                        if (enemy.name == "ExplosionRatis" || enemy.name == "ExplosionRatis(Clone)")
+                            return enemy;
+                        break;
                     case "veredaIntro":
                         if (enemy.name == "veredaIntro" || enemy.name == "veredaIntro(Clone)")
                         {

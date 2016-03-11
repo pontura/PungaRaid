@@ -84,9 +84,7 @@ public class CharacterCollider : MonoBehaviour {
         } else
         if (type == types.GUN)
         {
-          //  if(blocker == null)
-                enemy.Explote();
-
+            enemy.Explote();
             return;
         } else
         if (type == types.CENTER)

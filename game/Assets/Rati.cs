@@ -29,6 +29,7 @@ public class Rati : Enemy {
     override public void OnExplote()
     {
         if (state == states.CRASHED) return;
+        Events.OnAddExplotion(laneId, (int)transform.localPosition.x);
         state = states.CRASHED;
        // anim.Play("crashed");
         GetComponent<BoxCollider2D>().enabled = false;

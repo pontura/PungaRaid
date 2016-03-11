@@ -128,6 +128,9 @@ public class Lanes : MonoBehaviour {
             case "Coin":
                 enemy = Data.Instance.enemiesManager.GetEnemy("Coins");
                 break;
+            case "ExplosionRatis":
+                enemy = Data.Instance.enemiesManager.GetEnemy("ExplosionRatis");
+                break;
             case "Resorte":
                 enemy = Data.Instance.enemiesManager.GetEnemy("Resorte");
                 break;
