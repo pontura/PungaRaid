@@ -10,6 +10,7 @@ public class Zones : MonoBehaviour {
     private ZonesManager zonesManager;
 
 	void Start () {
+        Events.OnMusicChange("Raticity");
         score.text = "$" + SocialManager.Instance.userHiscore.totalScore;
 
         if (SocialManager.Instance.userData.logged)

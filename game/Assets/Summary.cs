@@ -37,6 +37,7 @@ public class Summary : MonoBehaviour {
     }
     public void Init()
     {
+        Events.OnMusicChange("Raticity");
         Events.OnPoolAllItemsInScene();
         if (SocialManager.Instance.userData.logged)
         {
