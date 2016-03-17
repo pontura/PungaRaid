@@ -79,7 +79,7 @@ public class Character : MonoBehaviour {
         if (powerupManager.type == PowerupManager.types.MOTO) return;
         Events.OnChangeSpeed(6, false);
         hero.OnSorete();
-        Invoke("ResetDash", 0.5f);
+        Invoke("ResetDash", 0.35f);
         
     }
     public void Jump(string animName)
