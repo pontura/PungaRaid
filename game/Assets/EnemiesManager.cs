@@ -156,6 +156,10 @@ public class EnemiesManager : MonoBehaviour {
                         if (enemy.name == "vereda_2_pastos" || enemy.name == "vereda_2_pastos(Clone)")
                             return enemy;
                         break;
+                    case "parque_4_lanes":
+                        if (enemy.name == "parque_4_lanes" || enemy.name == "parque_4_lanes(Clone)")
+                            return enemy;
+                        break;
                         
                 }                
             }

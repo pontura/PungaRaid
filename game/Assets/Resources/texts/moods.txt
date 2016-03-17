@@ -1,0 +1,15 @@
+{
+texts:
+	[
+		{	
+			id:1,
+			name:"Zona norte",
+			text: "Zona norte Zona norte Zona norteZona norte"
+		},
+		{	
+			id:2,
+			name:"La Boca",
+			text: "La BocaLa BocaLa BocaLa Boca norte Zona norte Zona norteZona norte"
+		}
+	]
+}

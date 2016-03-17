@@ -4,15 +4,6 @@ using System.Collections.Generic;
 
 public class Data : MonoBehaviour
 {
-    private string movPath = "bumper04.mp4";
-
-    public string URL_php_email = "http://www.pontura.com/tipitap/";
-        
-    public int totalScore;
-    public int errors = 0;
-
-    public bool caps = false;
-
     public GameData gameData;
 
     //malisimo
@@ -38,6 +29,10 @@ public class Data : MonoBehaviour
     public CombosManager combosManager;
     [HideInInspector]
     public SpecialItemsManager specialItems;
+    [HideInInspector]
+    public MoodsManager moodsManager;
+    [HideInInspector]
+    public Texts texts;
 
     public static Data Instance
     {
@@ -84,26 +79,16 @@ public class Data : MonoBehaviour
         soundManager = GetComponent<SoundManager>();
         combosManager = GetComponent<CombosManager>();
         specialItems = GetComponent<SpecialItemsManager>();
+        moodsManager = GetComponent<MoodsManager>();
+        texts = GetComponent<Texts>();
 
         GetComponent<MusicManager>().Init();
         GetComponent<SoundManager>().Init();
+        moodsManager.Init();
 
 //#if UNITY_ANDROID || UNITY_IPHONE
        // Handheld.PlayFullScreenMovie(movPath, Color.black, FullScreenMovieControlMode.Hidden, FullScreenMovieScalingMode.AspectFill);
 //#endif
-
-    }
-    void Start()
-    {
-       // Data.Instance.LoadLevel("01_Splash");
-    }
-
-    void OnBadgeSelected(int _totalScore)
-    {
-        this.totalScore = _totalScore;
-    }
-    public void Reset()
-    {
 
     }
 }

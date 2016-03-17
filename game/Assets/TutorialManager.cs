@@ -13,14 +13,7 @@ public class TutorialManager : MonoBehaviour {
     [Serializable]
     public class tutorialData
     {
-        public string title;
         public float distance;
-        public types type;
-        public enum types
-        {
-            SIMPLE_BUTTON,
-            SWIPE
-        }
         public SwipeDetector.directions direction;
     }
 
@@ -75,7 +68,7 @@ public class TutorialManager : MonoBehaviour {
         if (distance > all[tutorialID].distance)
         {
             tutorial.gameObject.SetActive(true);
-            string title = all[tutorialID].title;
+            string title = Data.Instance.texts.tutorial[tutorialID];
             tutorial.InitSimpleButton(title, all[tutorialID].direction);
             tutorialID++;
         }

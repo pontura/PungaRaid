@@ -13,10 +13,31 @@ public class RuletaPopup : MonoBehaviour {
         anim.gameObject.SetActive(false);
     }
 	
-	public void Open () {
+	public void Open (Ruleta.Item item) {
+
+
+        Data.Instance.moodsManager.UnlockMood(2);
+
+
+
+
+
+
+
+
+        if (item.item > 0)
+        {
+            icon.sprite = Resources.Load("helmets/" + item.item, typeof(Sprite)) as Sprite;
+        }
+        else if (item.zone > 0)
+        {
+            icon.sprite = Resources.Load("zones/" + item.zone, typeof(Sprite)) as Sprite;
+            Data.Instance.moodsManager.UnlockMood(item.zone);
+        }
         Invoke("OpenDelay", 0.5f);
-        desc.text = "+1 VIDA: Te ganaste un casco para la próxima partida";
-        Events.OnSetSpecialItem(1, true);
+        desc.text = item.text;
+        if (item.item != 0)
+            Events.OnSetSpecialItem(item.item, true);
 	}
     public void OpenDelay()
     {

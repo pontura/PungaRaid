@@ -29,7 +29,7 @@ public class Character : MonoBehaviour {
         PLAYING,
         CHANGING_LANE,
     }
-
+    
     void Awake()
     {
         collider = GetComponent<BoxCollider2D>();
@@ -50,10 +50,12 @@ public class Character : MonoBehaviour {
         hero.transform.localPosition = Vector3.zero;
 
         Events.OnPowerDown += OnPowerDown;
+        Events.OnSpecialItemOff += OnSpecialItemOff;
     }
     void OnDestroy()
     {
         Events.OnPowerDown -= OnPowerDown;
+        Events.OnSpecialItemOff -= OnSpecialItemOff;
     }
     public void OnSetHeroState( bool show)
     {
@@ -80,10 +82,10 @@ public class Character : MonoBehaviour {
         Invoke("ResetDash", 0.5f);
         
     }
-    public void Jump()
+    public void Jump(string animName)
     {
         Events.OnChangeSpeed(6, false);
-        hero.OnHeroJump();
+        hero.OnHeroJump(animName);
         Invoke("ResetJump", 0.4f);
     }
     public void Dash()
@@ -177,7 +179,10 @@ public class Character : MonoBehaviour {
             else if (enemy.GetComponent<Resorte>())
             {
                 Resorte asset = enemy.GetComponent<Resorte>();
-                Jump();
+                if (powerupManager.type == PowerupManager.types.CHUMBO)
+                    Jump("pungaJumpMegachumbo");
+                else
+                    Jump("pungaJump2");
                 asset.Activate();
             }
             else if (enemy.GetComponent<PowerUp>())
@@ -207,8 +212,8 @@ public class Character : MonoBehaviour {
             }
             else if (Data.Instance.specialItems.type == SpecialItemsManager.types.CASCO)
             {
-                Events.OnHeroPowerUpOff();
-                Events.OnSetSpecialItem(1, false);
+                Events.OnSpecialItemOff();
+                Events.OnSetSpecialItem(Data.Instance.specialItems.id, false);
             }
             else 
             {
@@ -245,5 +250,19 @@ public class Character : MonoBehaviour {
     {
         if (action == actions.CHANGING_LANE || hero.state == Hero.states.DEAD) return;
             Events.OnHeroDie();
+    }
+    void OnSpecialItemOff()
+    {
+        Idle();
+        Debug.Log("OnSpecialItemOff");
+        hero.ResetState();
+        Events.OnHeroCrash();
+        Invoke("ResetCrash", 0.9f);
+        Events.OnVulnerability(true);
+    }
+    void ResetCrash()
+    {
+        Events.OnVulnerability(false);
+        hero.EndAnimation();
     }
 }

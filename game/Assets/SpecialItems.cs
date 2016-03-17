@@ -8,7 +8,7 @@ public class SpecialItems : MonoBehaviour {
 	void Start () {
         hero = GetComponent<Character>().hero;
         if (Data.Instance.specialItems.type == SpecialItemsManager.types.CASCO)
-            OnSetSpecialItem(1, true);
+            OnSetSpecialItem(Data.Instance.specialItems.id, true);
         else
             hero.casco.gameObject.SetActive(false);
         Events.OnSetSpecialItem += OnSetSpecialItem;
@@ -22,6 +22,7 @@ public class SpecialItems : MonoBehaviour {
         if (active)
         {
             hero.casco.gameObject.SetActive(true);
+            hero.casco.sprite = Resources.Load("helmets/" + id, typeof(Sprite)) as Sprite;
         } else
         {
             hero.casco.gameObject.SetActive(false);

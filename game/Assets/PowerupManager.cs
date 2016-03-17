@@ -110,7 +110,7 @@ public class PowerupManager : MonoBehaviour {
             powerUpGil.SetActive(false);           
         }
         character.hero.ResetState();
-        character.Jump();
+        character.Jump("pungaJump");
         type = types.NONE;
     }
 }

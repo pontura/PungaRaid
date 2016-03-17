@@ -19,16 +19,9 @@ public class PowerUpOn : MonoBehaviour {
     void OnHeroCrash()
     {
         Events.OnExplotion();
-       // lives--;
-       // float percent = (float)lives / (float)totalLives;
-      //  Events.OnSetBar( percent );
-      //  if (lives <= 0)
-       //     Events.OnHeroPowerUpOff();
     }
     public void Init(int lives)
     {
-      //  this.totalLives = lives;
-      //  this.lives = lives;
         OnInit();
     }
     public virtual void OnInit() { }

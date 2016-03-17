@@ -4,13 +4,20 @@ using System.Collections;
 
 public class RuletaItem : MonoBehaviour {
 
-    public int id;
+    public Image image;
     public Color color;
     
-    public void Init(int id, Color color, Sprite item, int height)
+    public void Init(Ruleta.Item item,  int height)
     {
-        this.id = id;
-        GetComponent<Image>().color = color;
+        if (item.item>0)
+        {
+            image.sprite = Resources.Load("helmets/" + item.item, typeof(Sprite)) as Sprite;
+        }
+        else if (item.zone > 0)
+        {
+            image.sprite = Resources.Load("zones/" + item.zone, typeof(Sprite)) as Sprite;
+        }
+        GetComponent<Image>().color = item.color;
         GetComponent<LayoutElement>().minHeight = height;
     }
 }

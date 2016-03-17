@@ -9,6 +9,7 @@ public class SpecialItemsManager : MonoBehaviour {
         NONE,
         CASCO
     }
+    public int id;
 	void Start () {
         Events.OnSetSpecialItem += OnSetSpecialItem;
 	}
@@ -16,14 +17,16 @@ public class SpecialItemsManager : MonoBehaviour {
     {
         Events.OnSetSpecialItem -= OnSetSpecialItem;
     }
-    void OnSetSpecialItem(int id, bool active)
+    void OnSetSpecialItem(int _id, bool active)
     {
         if (active)
         {
             type = types.CASCO;
+            this.id = _id;
         } else
         {
             type = types.NONE;
+            this.id = 0;
         }
     }
 }

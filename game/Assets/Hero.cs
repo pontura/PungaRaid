@@ -77,15 +77,15 @@ public class Hero : MonoBehaviour {
     {
         state = states.RUN;
     }
-    public void OnHeroJump()
+    public void OnHeroJump(string animName)
     {
-        print("OnHeroJump Game.Instance.state " + Game.Instance.state + " state:" + state);
+      //  print("OnHeroJump Game.Instance.state " + Game.Instance.state + " state:" + state + " byPowerUp " + byPowerUp);
 
         if (Game.Instance.state != Game.states.PLAYING) return;
         if (state == states.JUMP) return;
         if (state == states.CRASH) return;
         state = states.JUMP;
-        animator.Play("pungaJump", 0, 0);
+        animator.Play(animName, 0, 0);
         Invoke("ResetJump", 1.4f);
         Events.OnVulnerability(true);
     }
@@ -124,6 +124,7 @@ public class Hero : MonoBehaviour {
             case states.JUMP:           Run();          break;
             case states.SORETE:         Run();          break;
             case states.DASH:           Run();          break;
+            case states.CRASH:          Run();          break;
             case states.CHUMBO_FIRE:    ChumboRun();    break;
         }
     }

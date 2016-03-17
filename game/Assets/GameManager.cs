@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
@@ -19,10 +20,11 @@ public class GameManager : MonoBehaviour {
     public float speed;
     public float realSpeed = 0;
 
+    public GameObject container;
     public CharacterManager characterManager;
     private LevelsManager levelsManager;
     public MainCamera camera;
-    public BackgroundScrolleable[] backgroundsScrolleable;
+    public List<BackgroundScrolleable> backgroundsScrolleable;
     public ParticleSystem explotion;
     private CombosManager combosManager;
 
@@ -32,13 +34,10 @@ public class GameManager : MonoBehaviour {
     
     public void Init()
     {
-
-        Data.Instance.errors = 0;
-       combosManager = Data.Instance.combosManager;
+        combosManager = Data.Instance.combosManager;
 
         Events.OnScoreAdd += OnScoreAdd;
         Events.OnHeroDie += OnHeroDie;
-        Events.OnHeroCrash += OnHeroCrash;
         Events.StartGame += StartGame;
         Events.OnExplotion += OnExplotion;
         Events.OnChangeSpeed += OnChangeSpeed;
@@ -49,6 +48,13 @@ public class GameManager : MonoBehaviour {
 
         levelsManager = GetComponent<LevelsManager>();
         levelsManager.Init();
+
+        GameObject mood = Instantiate(Data.Instance.moodsManager.GetCurrentMoodAsset());
+        mood.transform.SetParent(container.transform);
+        mood.transform.localPosition = Vector2.zero;
+
+        foreach (BackgroundScrolleable bg in mood.GetComponentsInChildren<BackgroundScrolleable>())
+            backgroundsScrolleable.Add(bg);
 
         Events.OnStartCountDown();
 
@@ -64,7 +70,6 @@ public class GameManager : MonoBehaviour {
     {
         Events.OnScoreAdd -= OnScoreAdd;
         Events.OnHeroDie -= OnHeroDie;
-        Events.OnHeroCrash -= OnHeroCrash;
         Events.StartGame -= StartGame;
         Events.OnExplotion -= OnExplotion;
         Events.OnChangeSpeed -= OnChangeSpeed;
@@ -110,12 +115,6 @@ public class GameManager : MonoBehaviour {
     void OnResetSpeed()
     {
         speed = DEFAULT_SPEED;
-    }
-    void OnHeroCrash()
-    {
-      //  Events.OnSoundFX("trip");
-       // state = states.INACTIVE;
-       // 
     }
     void goOn()
     {
