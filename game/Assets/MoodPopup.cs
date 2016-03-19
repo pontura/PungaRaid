@@ -6,6 +6,9 @@ public class MoodPopup : MonoBehaviour {
 
     public Text title;
     public Text desc;
+    public Text hiscore;
+
+    public RankingMood ranking;
 
     public GameObject panel;
 
@@ -22,6 +25,9 @@ public class MoodPopup : MonoBehaviour {
 
         title.text = data.title;
         desc.text = data.text;
+        hiscore.text = "Tu máxima choreada acá fue de $" + SocialManager.Instance.userHiscore.GetHiscore(data.id) + " guita";
+
+        ranking.Init(moodID);
     }
     public void Go()
     {

@@ -8,7 +8,15 @@ using System.Linq;
 public class Ranking : MonoBehaviour {
 
     public List<RankingData> data;
+    public List<LevelData> levels;
+
     private string TABLE = "Ranking";
+
+    [Serializable]
+    public class LevelData
+    {
+        public List<RankingData> data;
+    }
 
     [Serializable]
     public class RankingData
@@ -30,23 +38,24 @@ public class Ranking : MonoBehaviour {
     }
     public void OnFacebookFriends()
     {
-        LoadRanking();
-    }
-    public void LoadRanking()
-    {
         data.Clear();
-        string url = SocialManager.Instance.FIREBASE + "/scores.json?orderBy=\"score\"&limitToLast=30";
+
+        for (int a = 0; a < levels.Count; a++ )
+            LoadRanking(a+1);
+    }
+    public void LoadRanking(int levelID)
+    {
+        string url = SocialManager.Instance.FIREBASE + "/level" + levelID + ".json?orderBy=\"score\"&limitToLast=30";
         Debug.Log("LoadRanking: " + url);
         HTTP.Request someRequest = new HTTP.Request("get", url);
         someRequest.Send((request) =>
         {
             Hashtable decoded = (Hashtable)JSON.JsonDecode(request.response.Text);
-            if (decoded == null)
+            if (decoded == null || decoded.Count == 0)
             {
                 Debug.LogError("server returned null or     malformed response ):");
                 return;
             }
-
             foreach (DictionaryEntry json in decoded)
             {
                 Hashtable jsonObj = (Hashtable)json.Value;
@@ -55,13 +64,14 @@ public class Ranking : MonoBehaviour {
                 newData.playerName = (string)jsonObj["playerName"];
                 newData.score = (int)jsonObj["score"];
                 newData.facebookID = (string)jsonObj["facebookID"];
-                data.Add(newData);
+                levels[levelID - 1].data.Add(newData);
             }
+            levels[levelID - 1].data = OrderByScore(levels[levelID - 1].data);
         });
     }
     void OnRefreshRanking()
     {
-        int hiscore = SocialManager.Instance.userHiscore.hiscore;
+        int hiscore = SocialManager.Instance.userHiscore.GetHiscore();
 
         bool userExistsInRanking = false;
         foreach(RankingData rankingData in data)
@@ -82,11 +92,10 @@ public class Ranking : MonoBehaviour {
             rankingData.isYou = true;
             data.Add(rankingData);
         }
-        OrderByScore();
+        //OrderByScore();
     }
-    void OrderByScore()
+    List<RankingData> OrderByScore(List<RankingData> rankingData)
     {
-        print("OrderByScore");
-        data = data.OrderBy(go => go.score).Reverse().ToList();
+        return rankingData.OrderBy(go => go.score).Reverse().ToList();
     }
 }

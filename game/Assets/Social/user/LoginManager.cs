@@ -18,6 +18,8 @@ public class LoginManager : MonoBehaviour {
     {
         if (FB.IsLoggedIn) {
             Debug.Log ("FB is logged in");
+            FB.API("/me?fields=name", HttpMethod.GET, DisplayUsername);
+            SocialManager.Instance.facebookFriends.GetFriends();
         } else {
             Debug.Log ("FB is not logged in");
         }
@@ -46,10 +48,7 @@ public class LoginManager : MonoBehaviour {
         if (result.Error != null) {
             Debug.Log (result.Error);
         } else {
-            if (FB.IsLoggedIn) {
-                FB.API("/me?fields=name", HttpMethod.GET, DisplayUsername);
-                SocialManager.Instance.facebookFriends.GetFriends();
-            } 
+            SetInit();
         }
     }   
  

@@ -28,7 +28,6 @@ public class Zones : MonoBehaviour {
     }
     public void Clicked(int id)
     {
-        print("clicked" + id);
         Data.Instance.moodsManager.SetCurrentMood(id);
         GetComponent<MoodPopup>().Open();
     }

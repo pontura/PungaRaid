@@ -52,7 +52,7 @@ public class Summary : MonoBehaviour {
         panel.SetActive(true);
        // panel.GetComponent<Animator>().Play("PopupOn");
         score = Game.Instance.gameManager.score;
-        if (score > SocialManager.Instance.userHiscore.hiscore)
+        if (score > SocialManager.Instance.userHiscore.GetHiscore())
         {
             SendHiscore((int)score);
             hiscoreStaticField.text = "NUEVO RECORD! $" + score;
@@ -83,7 +83,6 @@ public class Summary : MonoBehaviour {
             total_from += resta;
             total_bar_from += resta;
             score -= resta;
-            print(score);
             if (score <= 1)
             {
                 state = states.READY;
