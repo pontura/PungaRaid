@@ -28,11 +28,13 @@ public class Ranking : MonoBehaviour {
     }
     void Start()
     {
+        SocialEvents.OnNewHiscore += OnNewHiscore;
         SocialEvents.OnFacebookFriends += OnFacebookFriends;
         SocialEvents.OnRefreshRanking += OnRefreshRanking;
     }
     void OnDestroy()
     {
+        SocialEvents.OnNewHiscore -= OnNewHiscore;
         SocialEvents.OnFacebookFriends -= OnFacebookFriends;
         SocialEvents.OnRefreshRanking -= OnRefreshRanking;
     }
@@ -97,5 +99,29 @@ public class Ranking : MonoBehaviour {
     List<RankingData> OrderByScore(List<RankingData> rankingData)
     {
         return rankingData.OrderBy(go => go.score).Reverse().ToList();
+    }
+    void OnNewHiscore(int score)
+    {
+        int levelID = Data.Instance.moodsManager.currentMood;
+
+        if (!SocialManager.Instance.userData.logged) return;
+
+        List<RankingData> currentLevelData = levels[levelID - 1].data;
+
+        foreach (RankingData rankingData in currentLevelData)
+        {
+            if (rankingData.facebookID == SocialManager.Instance.userData.facebookID)
+            {
+                rankingData.score = score;
+                return;
+            }
+        }
+        RankingData newData = new RankingData();
+        newData.facebookID = SocialManager.Instance.userData.facebookID;
+        newData.isYou = true;
+        newData.playerName = SocialManager.Instance.userData.username;
+        newData.score = score;
+        currentLevelData.Add(newData);
+        levels[levelID - 1].data = OrderByScore(currentLevelData);
     }
 }

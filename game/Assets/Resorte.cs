@@ -6,7 +6,6 @@ public class Resorte : Enemy
 
     public int money;
     public states state;
-    public Animator anim;
 
     public enum states
     {
