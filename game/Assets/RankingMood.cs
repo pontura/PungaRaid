@@ -18,9 +18,9 @@ public class RankingMood : MonoBehaviour {
         if (levelID < 1) return;
         if (loaded) return;
 
-        if (!SocialManager.Instance.userHiscore.isLoaded) return;
+        //if (!SocialManager.Instance.userHiscore.isLoaded) return;
 
-        if (SocialManager.Instance.facebookFriends.all.Count==0) return;
+        //if (SocialManager.Instance.facebookFriends.all.Count==0) return;
 
         if (SocialManager.Instance.ranking.levels[levelID-1].data.Count > 0)
         {

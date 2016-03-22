@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
     public ParticleSystem explotion;
     private CombosManager combosManager;
 
-    private float SPEED_ACCELERATION = 0.0075f;
+    private float SPEED_ACCELERATION = 0.008f;
     public float DEFAULT_SPEED = 0.09f;
 
     
@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour {
 
         camera.UpdatePosition(distance);
         characterManager.UpdatePosition(distance);
+
+        if (PlayerPrefs.GetString("tutorialReady") != "true")
+            DEFAULT_SPEED = 0.065f;
 
     }
     void OnDestroy()

@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour {
 	}
     public void OnSettings()
     {
+        if (Time.timeScale == 0) return;
         Events.OnSettings();
     }
 }

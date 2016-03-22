@@ -11,6 +11,19 @@ public class MoodsManager : MonoBehaviour {
     public GameObject mood1;
     public GameObject mood2;
 
+    void Start()
+    {
+        SocialEvents.ResetApp += ResetApp;
+    }
+    void OnDestroy()
+    {
+        SocialEvents.ResetApp -= ResetApp;
+    }
+    void ResetApp()
+    {
+        unblocked.Clear();
+        unblocked.Add(1);
+    }
 	public void Init () {
         for(int a=1; a<10; a++)
         {

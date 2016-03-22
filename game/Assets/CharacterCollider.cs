@@ -7,6 +7,7 @@ public class CharacterCollider : MonoBehaviour {
     public Character character;
     private BoxCollider2D collider2d;
     private Blocker lastBlocker;
+    private bool alarmOn;
 
     public enum types
     {
@@ -14,7 +15,8 @@ public class CharacterCollider : MonoBehaviour {
         TOP,
         BOTTOM,
         GUN,
-        GIL_POWERUP
+        GIL_POWERUP,
+        ALARM
     }
     void Start()
     {
@@ -73,9 +75,21 @@ public class CharacterCollider : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
-        if(!enemy) return;        
-
+        if(!enemy) return;
         Blocker blocker = enemy.GetComponent<Blocker>();
+
+        if (type == types.ALARM)
+        {
+
+            if (other.GetComponent<Rati>())
+            {
+                if (character.hero.state == Hero.states.JUMP) return;
+                if (character.powerupManager.type == PowerupManager.types.MOTO) return;
+                Debug.LogError("___________");
+                alarmOn = true;
+            }
+            return;
+        } else
         if (type == types.GIL_POWERUP)
         {
             Victim victim = other.GetComponent<Victim>();
@@ -86,7 +100,8 @@ public class CharacterCollider : MonoBehaviour {
         {
             enemy.Explote();
             return;
-        } else
+        }
+        else
         if (type == types.CENTER)
         {
             if (blocker)
@@ -123,6 +138,13 @@ public class CharacterCollider : MonoBehaviour {
         if (type == types.CENTER) return;
         if (type == types.GUN) return;
 
+        if (type == types.ALARM && alarmOn)
+        {
+            if (other.GetComponent<Rati>())
+            {
+                alarmOn = false;
+            }
+        } else
         if (type == types.GIL_POWERUP)
         {
             Victim victim = other.GetComponent<Victim>();

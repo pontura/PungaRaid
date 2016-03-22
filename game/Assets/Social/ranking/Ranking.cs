@@ -28,14 +28,15 @@ public class Ranking : MonoBehaviour {
     }
     void Start()
     {
+        OnFacebookFriends();
         SocialEvents.OnNewHiscore += OnNewHiscore;
-        SocialEvents.OnFacebookFriends += OnFacebookFriends;
+        //SocialEvents.OnFacebookFriends += OnFacebookFriends;
         SocialEvents.OnRefreshRanking += OnRefreshRanking;
     }
     void OnDestroy()
     {
         SocialEvents.OnNewHiscore -= OnNewHiscore;
-        SocialEvents.OnFacebookFriends -= OnFacebookFriends;
+       // SocialEvents.OnFacebookFriends -= OnFacebookFriends;
         SocialEvents.OnRefreshRanking -= OnRefreshRanking;
     }
     public void OnFacebookFriends()
