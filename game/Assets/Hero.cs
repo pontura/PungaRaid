@@ -6,6 +6,7 @@ public class Hero : MonoBehaviour {
     private Animator animator;
     public states state;
     public SpriteRenderer casco;
+    public GameObject oops;
 
     public enum states
     {
@@ -24,6 +25,7 @@ public class Hero : MonoBehaviour {
     }
     void Start()
     {
+        Events.OnOooops += OnOooops;
         Events.OnPowerUp += OnPowerUp;
         Events.StartGame += StartGame;
         Events.OnHeroCrash += OnHeroCrash;
@@ -32,9 +34,11 @@ public class Hero : MonoBehaviour {
         Events.OnHeroDie += OnHeroDie;
         Events.OnEndingShot += OnEndingShot;
         animator = GetComponent<Animator>();
+        Events.OnOooops(false);
     }
     void OnDestroy()
     {
+        Events.OnOooops -= OnOooops;
         Events.OnPowerUp -= OnPowerUp;
         Events.StartGame -= StartGame;
         Events.OnHeroCrash -= OnHeroCrash;
@@ -42,6 +46,10 @@ public class Hero : MonoBehaviour {
         Events.OnHeroCelebrate -= OnHeroCelebrate;
         Events.OnLevelComplete -= OnLevelComplete;
         Events.OnEndingShot -= OnEndingShot;
+    }
+    void OnOooops(bool show)
+    {
+        oops.SetActive(show);
     }
     void OnPowerUp(PowerupManager.types type)
     {
@@ -68,6 +76,7 @@ public class Hero : MonoBehaviour {
     void OnHeroDie()
     {
         if (state == states.DEAD) return;
+        oops.SetActive(false);
         state = states.DEAD;
         animator.SetBool(state.ToString(), true);
         print("OnHeroDie");

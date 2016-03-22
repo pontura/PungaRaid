@@ -80,14 +80,13 @@ public class CharacterCollider : MonoBehaviour {
 
         if (type == types.ALARM)
         {
-
-            if (other.GetComponent<Rati>())
-            {
-                if (character.hero.state == Hero.states.JUMP) return;
-                if (character.powerupManager.type == PowerupManager.types.MOTO) return;
-                Debug.LogError("___________");
-                alarmOn = true;
-            }
+            if (character.hero.state == Hero.states.JUMP) return;
+            if (character.powerupManager.type == PowerupManager.types.MOTO) return;
+            if (enemy.laneId != Game.Instance.gameManager.characterManager.lanes.laneActiveID) return;
+            if (other.GetComponent<Coins>()) return;
+            if (other.GetComponent<PowerUp>()) return;
+            Events.OnOooops(true);
+            alarmOn = true;
             return;
         } else
         if (type == types.GIL_POWERUP)
@@ -140,10 +139,8 @@ public class CharacterCollider : MonoBehaviour {
 
         if (type == types.ALARM && alarmOn)
         {
-            if (other.GetComponent<Rati>())
-            {
-                alarmOn = false;
-            }
+            alarmOn = false;
+            Events.OnOooops(false);
         } else
         if (type == types.GIL_POWERUP)
         {
