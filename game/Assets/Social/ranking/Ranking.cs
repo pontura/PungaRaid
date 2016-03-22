@@ -25,6 +25,7 @@ public class Ranking : MonoBehaviour {
         public string facebookID;
         public string playerName;
         public bool isYou;
+        public Sprite asset;
     }
     void Start()
     {
