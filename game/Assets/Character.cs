@@ -176,6 +176,11 @@ public class Character : MonoBehaviour {
                 Events.OnAddCoins(enemy.laneId, enemy.transform.localPosition.x, 1);
                 coins.Activate();
             }
+            else if (powerupManager.type == PowerupManager.types.MOTO)
+            {
+                enemy.Explote();
+                Events.OnSoundFX("Explosion");
+            }
             else if (enemy.GetComponent<Resorte>())
             {
                 Resorte asset = enemy.GetComponent<Resorte>();
@@ -198,12 +203,6 @@ public class Character : MonoBehaviour {
                 int rand = Random.Range(1, 3);
                 Events.OnSoundFX("Dashed" + rand);
                 enemy.Explote();
-            }
-            else if (powerupManager.type == PowerupManager.types.MOTO)
-            {
-               // Events.OnHeroCrash();
-                enemy.Explote();
-                Events.OnSoundFX("Explosion");
             }
             else if (powerupManager.type == PowerupManager.types.GIL || powerupManager.type == PowerupManager.types.CHUMBO)
             {

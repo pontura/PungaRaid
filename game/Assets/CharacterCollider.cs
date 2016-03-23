@@ -77,6 +77,7 @@ public class CharacterCollider : MonoBehaviour {
         Enemy enemy = other.GetComponent<Enemy>();
         if(!enemy) return;
         Blocker blocker = enemy.GetComponent<Blocker>();
+        Victim victim = other.GetComponent<Victim>();
 
         if (type == types.ALARM)
         {
@@ -91,11 +92,10 @@ public class CharacterCollider : MonoBehaviour {
         } else
         if (type == types.GIL_POWERUP)
         {
-            Victim victim = other.GetComponent<Victim>();
             if (victim && !victim.loopStealing)
                 victim.StealLoop_Gil();
         } else
-        if (type == types.GUN)
+        if (type == types.GUN && victim != null)
         {
             enemy.Explote();
             return;
@@ -126,7 +126,6 @@ public class CharacterCollider : MonoBehaviour {
         }
         else
         {
-            
             if (!blocker) return;
             lastBlocker = blocker;
             character.OnCollisionWithBlocker(blocker, type);

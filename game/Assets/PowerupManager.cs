@@ -95,9 +95,10 @@ public class PowerupManager : MonoBehaviour {
 
         Debug.Log("OnHeroPowerUpOff termino : " + type);
 
+        Events.OnSoundFX("PowerUpOff");
+
         if (type == types.MOTO)
         {
-            Events.OnSoundFX("PowerUpOff");
             Events.OnSoundFXLoop("");
             character.OnSetHeroState(true);
             if (powerUp != null)

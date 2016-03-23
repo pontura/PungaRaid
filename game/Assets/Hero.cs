@@ -49,7 +49,8 @@ public class Hero : MonoBehaviour {
     }
     void OnOooops(bool show)
     {
-        oops.SetActive(show);
+        if(state != states.DEAD)
+            oops.SetActive(show);
     }
     void OnPowerUp(PowerupManager.types type)
     {

@@ -56,9 +56,11 @@ public class Obstacle : Enemy
     {
         if (state == states.CRASHED) return;
         state = states.CRASHED;
+
+        Events.OnAddExplotion(laneId, (int)transform.localPosition.x);
+
         //anim.Play("crashed", 0, 0);
        // if (collider2d) collider2d.enabled = false;
-        print("Pool!!!!!!" + name);
         Pool();
         //Destroy(gameObject);
     }
