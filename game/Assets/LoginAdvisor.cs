@@ -45,6 +45,6 @@ public class LoginAdvisor : MonoBehaviour {
     void OnFacebookLoginCanceled()
     {
         Close();
-        Data.Instance.LoadLevel("02_MainMenu");
+        Data.Instance.LoadLevel("02_Intro");
     }
 }

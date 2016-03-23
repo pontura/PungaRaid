@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour {
         Events.OnLoginAdvisor();
     }
 	public void GotoGame () {
-        Data.Instance.LoadLevel("02_Map");
+        Data.Instance.LoadLevel("02_Main");
 	}
     public void OnSettings()
     {

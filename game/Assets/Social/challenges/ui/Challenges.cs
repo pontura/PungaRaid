@@ -36,11 +36,11 @@ public class Challenges : MonoBehaviour {
     public void Init()
     {
         gameObject.SetActive(true);
-        Time.timeScale = 0;
     }
     void Update()
     {
         if (infoLoaded) return;
+        if (SocialManager.Instance == null) return;
 
         if(type == types.RECEIVED && SocialManager.Instance.challengesManager.received.Count > 0)
             ChallengesReceived();
@@ -49,7 +49,6 @@ public class Challenges : MonoBehaviour {
     }
     public void Back()
     {
-        Time.timeScale = 1;
         gameObject.SetActive(false);
         Events.OnMusicVolumeChanged(1);
     }

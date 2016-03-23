@@ -110,7 +110,7 @@ public class Summary : MonoBehaviour {
     }
     public void Map()
     {
-        Data.Instance.LoadLevel("02_Map");
+        Data.Instance.LoadLevel("02_Main");
     }
     public void LoginAdvisor()
     {

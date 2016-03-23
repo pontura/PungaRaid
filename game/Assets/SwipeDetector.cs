@@ -53,7 +53,7 @@ public class SwipeDetector : MonoBehaviour
                 newTime += Time.deltaTime;
             }
 
-            if (newTime > 0.08f && touched)
+            if (newTime > 0.06f && touched && Mathf.Abs(touch.position.y - startPosY) > minSwipeDistY)
             {
                 Move(touch.position.x, touch.position.y);
                 movedByTime = true;                

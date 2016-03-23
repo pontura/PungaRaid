@@ -15,15 +15,7 @@ public class RuletaPopup : MonoBehaviour {
 	
 	public void Open (Ruleta.Item item) {
 
-
         Data.Instance.moodsManager.UnlockMood(2);
-
-
-
-
-
-
-
 
         if (item.item > 0)
         {
@@ -46,6 +38,6 @@ public class RuletaPopup : MonoBehaviour {
     }
     public void Map()
     {
-        Data.Instance.LoadLevel("02_Map");
+        Data.Instance.LoadLevel("02_Main");
     }
 }

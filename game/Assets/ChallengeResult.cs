@@ -63,6 +63,6 @@ public class ChallengeResult : MonoBehaviour {
     }
     public void Ready()
     {
-        Data.Instance.LoadLevel("05_Challenges");
+        Data.Instance.LoadLevel("02_Main");
     }
 }

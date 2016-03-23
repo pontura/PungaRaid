@@ -12,6 +12,6 @@ public class ConnectingScreen : MonoBehaviour {
     }
     void OnFacebookLogin()
     {
-        Data.Instance.LoadLevel("02_MainMenu");
+        Data.Instance.LoadLevel("02_Intro");
     }
 }

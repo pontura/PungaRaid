@@ -4,31 +4,18 @@ using System.Collections;
 
 public class Zones : MonoBehaviour {
 
-    public Text score;
-    public Text username;
-    public GameObject container;
-    public ProfilePicture profilePicture;
+    public GameObject container;    
 
-	void Start () {
-        Events.OnMusicChange("Raticity");
-        score.text = "$" + SocialManager.Instance.userHiscore.totalScore;
-
-        if (SocialManager.Instance.userData.logged)
-            profilePicture.setPicture(SocialManager.Instance.userData.facebookID);
-        else
-            profilePicture.gameObject.SetActive(false);
-
-        if (SocialManager.Instance.userData.logged)
-            username.text = SocialManager.Instance.userData.username;
-
+	public void Init() {
         int id = 1;
         foreach (ZoneButton button in container.GetComponentsInChildren<ZoneButton>())
         {
             bool unlocked = false;
             if(Data.Instance.moodsManager.IsMoodUnlocked( button.id))
                 unlocked = true;
-            
-            button.Init(unlocked);
+
+            string title = Data.Instance.texts.moods.GetDataById(button.id).title;
+            button.Init(unlocked, title);
             id++;
         }
     }
