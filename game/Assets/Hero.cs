@@ -6,6 +6,7 @@ public class Hero : MonoBehaviour {
     private Animator animator;
     public states state;
     public SpriteRenderer casco;
+    public SpriteRenderer transport;
     public GameObject oops;
 
     public enum states
@@ -146,7 +147,11 @@ public class Hero : MonoBehaviour {
     }
     public void Run()
     {
-
+        if (Data.Instance.specialItems.type == SpecialItemsManager.types.TRANSPORT)
+        {
+            state = states.RUN;
+            animator.Play("pungaSkate", 0, 0);
+        } else
         if (
             Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.NONE
             || Game.Instance.characterManager.character.powerupManager.type == PowerupManager.types.GIL

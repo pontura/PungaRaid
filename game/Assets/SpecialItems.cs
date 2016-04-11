@@ -19,13 +19,29 @@ public class SpecialItems : MonoBehaviour {
     }
     void OnSetSpecialItem(int id, bool active)
     {
+        if (id < 100) 
+            OnSpecialCasco(id, active);
+        else
+            OnSpecialTransport(id, active);
+    }
+    void OnSpecialCasco(int id, bool active)
+    {
         if (active)
         {
             hero.casco.gameObject.SetActive(true);
             hero.casco.sprite = Resources.Load("helmets/" + id, typeof(Sprite)) as Sprite;
-        } else
-        {
-            hero.casco.gameObject.SetActive(false);
         }
+        else
+            hero.casco.gameObject.SetActive(false);
+    }
+    void OnSpecialTransport(int id, bool active)
+    {
+        if (active)
+        {
+            hero.transport.gameObject.SetActive(true);
+            hero.transport.sprite = Resources.Load("transports/" + id, typeof(Sprite)) as Sprite;
+        }
+        else
+            hero.transport.gameObject.SetActive(false);
     }
 }

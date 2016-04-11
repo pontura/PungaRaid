@@ -77,14 +77,14 @@ public class Character : MonoBehaviour {
     {
         //SORETE:
         if (powerupManager.type == PowerupManager.types.MOTO) return;
-        Events.OnChangeSpeed(6, false);
+        Events.OnChangeSpeed(1.4f, false);
         hero.OnSorete();
         Invoke("ResetDash", 0.35f);
         
     }
     public void Jump(string animName)
     {
-        Events.OnChangeSpeed(6, false);
+        Events.OnChangeSpeed(1.4f, false);
         hero.OnHeroJump(animName);
         Invoke("ResetJump", 0.4f);
     }
@@ -99,7 +99,9 @@ public class Character : MonoBehaviour {
         } else 
             if (hero.state != Hero.states.DASH && powerupManager.type != PowerupManager.types.MOTO)
         {
-            Events.OnChangeSpeed(6, false);
+            if (Data.Instance.specialItems.type != SpecialItemsManager.types.TRANSPORT)
+                Events.OnChangeSpeed(1.4f, false);
+
             hero.OnHeroDash();
             Invoke("ResetDash", 0.5f);
             Events.OnSoundFX("Dash");
@@ -113,10 +115,12 @@ public class Character : MonoBehaviour {
     {
       //  print("ResetDash");
         if (hero.state == Hero.states.JUMP) return;
-        if (powerupManager.type == PowerupManager.types.MOTO) return;
+        if (powerupManager.type == PowerupManager.types.MOTO) return;        
 
         hero.EndAnimation();
         hero.ResetAnimation();
+
+        if (Data.Instance.specialItems.type == SpecialItemsManager.types.TRANSPORT) return;
         Events.OnResetSpeed();
     }
 	public void MoveUP()
@@ -204,12 +208,23 @@ public class Character : MonoBehaviour {
                 Events.OnSoundFX("Dashed" + rand);
                 enemy.Explote();
             }
+            else if (hero.state == Hero.states.DASH && enemy.GetComponent<Runner>())
+            {
+                int rand = Random.Range(1, 3);
+                Events.OnSoundFX("Dashed" + rand);
+                enemy.Crashed();
+                if (Data.Instance.specialItems.type != SpecialItemsManager.types.TRANSPORT)
+                {
+                    Events.OnSetSpecialItem(101, true);
+                    Events.OnChangeSpeed(1.4f, true);
+                }
+            }
             else if (powerupManager.type == PowerupManager.types.GIL || powerupManager.type == PowerupManager.types.CHUMBO)
             {
                 //Debug.Log("con powerup choco: " + powerupManager.type);
                 Events.OnHeroPowerUpOff();
             }
-            else if (Data.Instance.specialItems.type == SpecialItemsManager.types.CASCO)
+            else if (Data.Instance.specialItems.type == SpecialItemsManager.types.CASCO || Data.Instance.specialItems.type == SpecialItemsManager.types.TRANSPORT)
             {
                 Events.OnSpecialItemOff();
                 Events.OnSetSpecialItem(Data.Instance.specialItems.id, false);
@@ -226,7 +241,7 @@ public class Character : MonoBehaviour {
             if (enemy.GetComponent<Victim>())
             {
                 Events.OnCombo(enemy.transform.localPosition.x);
-                enemy.GetComponent<Victim>().Steal();                
+                enemy.GetComponent<Victim>().Steal();
             }
         }
     }

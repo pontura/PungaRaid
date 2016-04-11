@@ -7,7 +7,8 @@ public class SpecialItemsManager : MonoBehaviour {
     public enum types
     {
         NONE,
-        CASCO
+        CASCO,
+        TRANSPORT
     }
     public int id;
 	void Start () {
@@ -21,10 +22,14 @@ public class SpecialItemsManager : MonoBehaviour {
     {
         if (active)
         {
-            type = types.CASCO;
+            if (_id < 100)
+                type = types.CASCO;
+            else
+                type = types.TRANSPORT;
             this.id = _id;
         } else
         {
+            Events.OnResetSpeed();
             type = types.NONE;
             this.id = 0;
         }

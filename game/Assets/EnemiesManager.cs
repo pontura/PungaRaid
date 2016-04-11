@@ -73,6 +73,10 @@ public class EnemiesManager : MonoBehaviour {
             {
                 switch (type)
                 {
+                    case "Skate":
+                        if (enemy.GetComponent<Runner>())
+                            return enemy;
+                        break;
                     case "ObstacleGeneric":
                         if (enemy.GetComponent<Obstacle>())
                             return enemy;

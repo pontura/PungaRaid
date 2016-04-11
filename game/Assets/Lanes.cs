@@ -113,6 +113,9 @@ public class Lanes : MonoBehaviour {
                 enemy.GetComponent<CoinsParticles>().particles.Emit(settings.qty);
                 enemy.GetComponent<CoinsParticles>().InitParticles();
                 break;
+            case "Skate":
+                enemy = Data.Instance.enemiesManager.GetEnemy("Skate");
+                break;
             case "ObstacleGeneric":
                 enemy = Data.Instance.enemiesManager.GetEnemy("ObstacleGeneric");
                 break;
